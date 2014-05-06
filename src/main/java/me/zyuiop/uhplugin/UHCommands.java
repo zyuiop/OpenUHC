@@ -63,6 +63,10 @@ public class UHCommands implements CommandExecutor {
 					p.sendMessage(ChatColor.RED+"La partie est dèjà en cours.");
 					return true;
 				}
+				if(pl.getServer().getPlayers().length >= 2) {
+					p.sendMessage(ChatColor.RED + "Il doit y avoir au moins 2 joueurs !");
+					return true;
+				}
 				pl.startGame();
 				return true;
 			} else if (command.getName().equalsIgnoreCase("retrecir")) {
@@ -90,7 +94,7 @@ public class UHCommands implements CommandExecutor {
 
 			
 		} else {
-			sender.sendMessage("Erreur : seuls les joueurs peuvent utiliser les commandes.");
+			sender.sendMessage(ChatColor.RED + "Erreur : seuls les joueurs peuvent utiliser les commandes.");
 			return true;
 		}
 		
