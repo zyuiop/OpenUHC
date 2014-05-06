@@ -16,7 +16,7 @@ public class UHCommands implements CommandExecutor {
 		pl = p;
 	}
 	
-	@Override
+	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		
 		if (sender instanceof Player) {

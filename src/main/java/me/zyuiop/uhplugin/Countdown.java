@@ -2,7 +2,6 @@ package me.zyuiop.uhplugin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
      
     public class Countdown extends BukkitRunnable {
@@ -23,7 +22,7 @@ import org.bukkit.scheduler.BukkitRunnable;
             }
         }
      
-        @Override
+        
         public void run() {
             // What you want to schedule goes here
             if (counter > 0) { 
