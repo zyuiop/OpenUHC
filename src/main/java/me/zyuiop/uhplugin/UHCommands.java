@@ -63,7 +63,7 @@ public class UHCommands implements CommandExecutor {
 					p.sendMessage(ChatColor.RED+"La partie est dèjà en cours.");
 					return true;
 				}
-				if(pl.getServer().getOnlinePlayers().length >= 2) {
+				if(pl.getServer().getOnlinePlayers().length < 2) {
 					p.sendMessage(ChatColor.RED + "Il doit y avoir au moins 2 joueurs !");
 					return true;
 				}
