@@ -36,8 +36,8 @@ public class UHPlugin extends JavaPlugin {
 	private boolean pvp = false;
 	private boolean degats = false;
 	
-	private Scoreboard sb = Bukkit.getScoreboardManager().getNewScoreboard();
-	private Objective right = sb.registerNewObjective("right", "dummy");
+	private Scoreboard sb;
+	private Objective right;
 	
 	private ArrayList<Integer> limits = new ArrayList<Integer>();
 	public static Integer XLIMITN = 0;
@@ -53,6 +53,8 @@ public class UHPlugin extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		sb = Bukkit.getScoreboardManager().getNewScoreboard();
+		right = sb.registerNewObjective(sbname, "dummy");
 		UHCommands c = new UHCommands(this);
 		getCommand("teams").setExecutor(c);
 		getCommand("players").setExecutor(c);
