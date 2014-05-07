@@ -4,9 +4,9 @@
   http://maven.apache.org/maven-v4_0_0.xsd">
    <modelVersion>4.0.0</modelVersion>
    <groupId>me.zyuiop.uhplugin</groupId>
-   <artifactId>UHPlugin</artifactId>
-   <version>1.0</version>
-   <name>UHPlugin</name>
+   <artifactId>OpenUHC</artifactId>
+   <version>SNAPSHOT-0.9</version>
+   <name>OpenUHC</name>
    <repositories>
         <repository>
           <id>bukkit-repo</id>
