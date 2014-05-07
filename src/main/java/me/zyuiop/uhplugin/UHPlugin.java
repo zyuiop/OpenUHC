@@ -278,7 +278,7 @@ public class UHPlugin extends JavaPlugin {
 				Bukkit.getServer().broadcastMessage(ChatColor.GOLD+"L'équipe "+teams.keySet().toArray()[0]+" a gagné la partie !");
 				finishGame(teams.keySet().toArray()[0]+"");
 			}
-		} else if (solo == true && joueurs.size() == 1) {
+		} else if (solo == true && joueurs.size() <= 1) {
 			if (c != null) {
 				c.stop();
 				Bukkit.getServer().broadcastMessage(ChatColor.GOLD+"Le joueur "+joueurs.get(0)+" a gagné la partie !");

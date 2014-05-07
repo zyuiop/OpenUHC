@@ -21,6 +21,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -95,13 +96,11 @@ public class UHEvents implements Listener {
 	}
 	
 	@EventHandler
-	public void playerDeath(EntityDeathEvent death) {
-		if (death.getEntity() instanceof Player) {
+	public void playerDeath(PlayerDeathEvent death) {
 			Player p = (Player) death.getEntity();
 			String n = p.getName();
 			pl.deletePlayer(n);
 			p.kickPlayer("Vous êtes mort !");
-		}
 		
 		
 	}
@@ -177,8 +176,7 @@ public class UHEvents implements Listener {
 	@EventHandler
 	public void blockPlace(BlockPlaceEvent e)
 	{
-		if (!pl.getStarted())
-			e.setCancelled(true);
+		e.setCancelled(!pl.getStarted());
 		if (!pl.isIngame(e.getPlayer().getName()))
 			e.setCancelled(true);
 	}
@@ -186,14 +184,12 @@ public class UHEvents implements Listener {
 	@EventHandler
 	public void blockSpread(BlockSpreadEvent e)
 	{
-		if (!pl.getStarted())
-			e.setCancelled(true);
+		e.setCancelled(!pl.getStarted());
 	}
 
 	@EventHandler
 	public void blockBurn(BlockBurnEvent e)
 	{
-		if (!pl.getStarted())
-			e.setCancelled(true);
+		e.setCancelled(!pl.getStarted());
 	}
 }
