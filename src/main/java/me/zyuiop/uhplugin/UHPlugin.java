@@ -1,5 +1,7 @@
 package me.zyuiop.uhplugin;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -11,6 +13,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
@@ -20,6 +23,7 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+
 
 
 public class UHPlugin extends JavaPlugin {
@@ -73,6 +77,14 @@ public class UHPlugin extends JavaPlugin {
 		goldenMelon.addIngredient(1, Material.GOLD_BLOCK);
 		goldenMelon.addIngredient(1, Material.MELON);
 		this.getServer().addRecipe(goldenMelon);
+		if (getConfig().getBoolean("delete_world")) {
+			try {
+	            Runtime.getRuntime().addShutdownHook(new WorldDeleter(getWorld().getName()));
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+		}
+		
 	}
 	
 	
@@ -551,5 +563,6 @@ public class UHPlugin extends JavaPlugin {
 		 int randomNumber =  (int)(fraction + aStart);    
 		 return randomNumber;
 	}
+	
 }
 
