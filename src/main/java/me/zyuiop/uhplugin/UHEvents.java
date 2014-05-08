@@ -22,6 +22,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -105,6 +106,10 @@ public class UHEvents implements Listener {
 			p.kickPlayer("Vous êtes mort !");
 		
 		
+	}
+	@EventHandler
+	public void foodLevelChange(FoodLevelChangeEvent e) {
+		e.setCancelled(!pl.getStarted());
 	}
 	@EventHandler
 	public void interact(PlayerInteractEvent e) {
