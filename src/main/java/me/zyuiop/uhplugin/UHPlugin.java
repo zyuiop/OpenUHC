@@ -300,9 +300,24 @@ public class UHPlugin extends JavaPlugin {
 		this.winner = winner;
 		this.isWon = true;
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			p.getInventory().clear();
-			p.setGameMode(GameMode.CREATIVE);
-			p.getInventory().addItem(new ItemStack(Material.FIREWORK, 1));
+			for (String cmd : getConfig().getStringList("commands.everyone")) {
+				getServer().dispatchCommand(getServer().getConsoleSender(), cmd.replace("{PLAYER}", p.getName()));
+			}
+		}
+		if (solo == true) {
+			for (String wcmd : getConfig().getStringList("commands.winner")) {
+				getServer().dispatchCommand(getServer().getConsoleSender(), wcmd.replace("{PLAYER}", winner));
+			}
+		}
+		else {
+			for(String wcmd : getConfig().getStringList("commands.winner")) {
+				for (String player : teams.get(winner)) {
+					getServer().dispatchCommand(getServer().getConsoleSender(), wcmd.replace("{PLAYER}", player));
+				}
+			}
+		}
+		for (String fcmd : getConfig().getStringList("commands.final")) {
+			getServer().getScheduler().runTaskLater(this, new RunCommandTask(this, fcmd), getConfig().getLong("delay_before_final") * 20);
 		}
 	}
 	
