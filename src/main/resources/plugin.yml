@@ -4,27 +4,27 @@ version: 1.0
 authors: [zyuiop, Gnomino]
 commands:
     teams:
-        description: Commandes d'équipes
-        usage: /teams <ajouter|supprimer|lister> [nomteam]
+        description: Teams management command
+        usage: /teams add [teamname]
         permission: uhpl.gameadmin
-        permission-message: Permission manquante
+        permission-message: Missing permission
     players:
-        description: Commandes de joueurs
-        usage: /players <ajouter|supprimer> [nomteam] [nomjoueur]
+        description: Players management commands
+        usage: /players <add|delete> [nomteam] [nomjoueur]
         permission: uhpl.gameadmin
-        permission-message: Permission manquante
+        permission-message: Missing permission
     gamestart:
-        description: Démarre la partie UHC
+        description: Startup the game
         usage: /gamestart
         permission: uhpl.gameadmin
-        permission-message: Permission manquante
-    retrecir:
-        description: Rétrecissement de la map de [taille]
-        usage: /retrecir [taille]
+        permission-message: Missing permission
+    shrink:
+        description: Reduce the size of the map by <size>
+        usage: /shrink <size>
         permission: uhpl.gameadmin
-        permission-message: Permission manquante
-    limites:
-        description: Affiche les limites de la map
+        permission-message: Missing permission
+    limits:
+        description: Shows mao limits
         usage: /limites
         permission: uhpl.joueur
         permission-message: Permission manquante
