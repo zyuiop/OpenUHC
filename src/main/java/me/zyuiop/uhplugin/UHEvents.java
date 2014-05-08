@@ -16,6 +16,7 @@ import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -23,6 +24,7 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
@@ -104,7 +106,14 @@ public class UHEvents implements Listener {
 		
 		
 	}
-	
+	@EventHandler
+	public void interact(PlayerInteractEvent e) {
+		e.setCancelled(!pl.getStarted());
+	}
+	@EventHandler
+	public void creatureSpawn(CreatureSpawnEvent e) {
+		e.setCancelled(!pl.getStarted());
+	}
 	@EventHandler
 	public void takeDamage(EntityDamageEvent e) {
 		if (!pl.getStarted())
@@ -133,14 +142,6 @@ public class UHEvents implements Listener {
 		} catch (Exception e) {
 			Bukkit.getLogger().warning(ChatColor.RED+"Erreur dans le craft");
 			e.printStackTrace();
-		}
-	}
-	
-	@EventHandler
-	public void regainHealth(EntityRegainHealthEvent e) {
-		if (e.getEntity() instanceof Player) {
-			if (e.getRegainReason().equals(RegainReason.SATIATED))
-				e.setCancelled(true);
 		}
 	}
 	
@@ -192,4 +193,5 @@ public class UHEvents implements Listener {
 	{
 		e.setCancelled(!pl.getStarted());
 	}
+	
 }

@@ -1,7 +1,5 @@
 package me.zyuiop.uhplugin;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -13,7 +11,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
@@ -397,6 +394,7 @@ public class UHPlugin extends JavaPlugin {
 	public void startGame() {
 		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Préparation du jeu...");
 		getWorld().setGameRuleValue("doDaylightCycle", this.getConfig().getString("daylight-cycle", "true"));
+		getWorld().setGameRuleValue("naturalRegeneration", "false");
 		getWorld().setTime(this.getConfig().getLong("begin-time", 6000L));
 		getWorld().setStorm(this.getConfig().getBoolean("begin-storm", false));
 		getWorld().setDifficulty(Difficulty.HARD);
