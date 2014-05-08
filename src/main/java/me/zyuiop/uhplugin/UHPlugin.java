@@ -59,8 +59,8 @@ public class UHPlugin extends JavaPlugin {
 		getCommand("teams").setExecutor(c);
 		getCommand("players").setExecutor(c);
 		getCommand("gamestart").setExecutor(c);
-		getCommand("retrecir").setExecutor(c);
-		getCommand("limites").setExecutor(c);
+		getCommand("shrink").setExecutor(c);
+		getCommand("limits").setExecutor(c);
 		
 		getServer().getPluginManager().registerEvents(new UHEvents(this), this);
 		

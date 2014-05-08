@@ -29,7 +29,7 @@ public class UHCommands implements CommandExecutor {
 				if (args.length < 1) {
 					return false;
 				}
-				if (args[0].equalsIgnoreCase("ajouter") && args.length == 2) {
+				if (args[0].equalsIgnoreCase("add") && args.length == 2) {
 					if (!pl.addTeam(args[1]))
 						p.sendMessage(ChatColor.RED+"Cette équipe existe déjà.");
 					else
@@ -44,14 +44,14 @@ public class UHCommands implements CommandExecutor {
 				if (args.length < 1) {
 					return false;
 				}
-				if (args[0].equalsIgnoreCase("ajouter") && args.length == 3) {
+				if (args[0].equalsIgnoreCase("add") && args.length == 3) {
 					if (!pl.addPlayer(args[1], args[2]))
 						p.sendMessage(ChatColor.RED+"Le joueur n'a pas été ajouté : il est déjà ajouté a une équipe ou la team n'existe pas.");
 					else
 						p.sendMessage(ChatColor.GREEN+"Le joueur a bien été ajouté.");
 					return true;
 				}
-				if (args[0].equalsIgnoreCase("supprimer") && args.length == 3) {
+				if (args[0].equalsIgnoreCase("delete") && args.length == 3) {
 					if (!pl.delFromTeam(args[2], args[1]))
 						p.sendMessage(ChatColor.RED+"Le joueur n'a pas été supprimé de l'équipe car il n'en fait pas partie");
 					else
@@ -69,7 +69,7 @@ public class UHCommands implements CommandExecutor {
 				}
 				pl.startGame();
 				return true;
-			} else if (command.getName().equalsIgnoreCase("retrecir")) {
+			} else if (command.getName().equalsIgnoreCase("shrink")) {
 				if (args.length < 1) {
 					return false;
 				}
@@ -82,7 +82,7 @@ public class UHCommands implements CommandExecutor {
 				}
 				pl.retrecirCount(size);
 				return true;
-			} else if (command.getName().equalsIgnoreCase("limites")) {
+			} else if (command.getName().equalsIgnoreCase("limits")) {
 				if (!pl.getStarted()) {
 					p.sendMessage(ChatColor.RED+"La partie n'a pas démarré.");
 					return true;
