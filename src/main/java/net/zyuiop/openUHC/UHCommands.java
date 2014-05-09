@@ -30,7 +30,7 @@ public class UHCommands implements CommandExecutor {
 					return false;
 				}
 				if (args[0].equalsIgnoreCase("add") && args.length == 2) {
-					if (!pl.addTeam(args[1]))
+					if (!pl.teamManager().registerTeam(args[1]))
 						p.sendMessage(ChatColor.RED+"Cette équipe existe déjà.");
 					else
 						p.sendMessage(ChatColor.GREEN+"L'équipe a bien été créée.");

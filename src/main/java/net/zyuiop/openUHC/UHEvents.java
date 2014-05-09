@@ -76,7 +76,7 @@ public class UHEvents implements Listener {
 			if (pl.isSolo()) {
 				e.setMotd(ChatColor.GREEN+"Partie gagnée par "+ChatColor.AQUA+pl.getWinner());
 			} else {
-				e.setMotd(ChatColor.GREEN+"Partie gagnée par l'équipe "+pl.getTeamColor(pl.getWinner())+pl.getWinner());
+				e.setMotd(ChatColor.GREEN+"Partie gagnée par l'équipe "+pl.teamManager().getTeam(pl.getWinner()).getColorizedName());
 			}
 		} else {
 			e.setMotd(ChatColor.RED+"Partie en cours");

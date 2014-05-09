@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import net.zyuiop.openUHC.teams.UHTeam;
+import net.zyuiop.openUHC.teams.UHTeamManager;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
@@ -26,8 +29,7 @@ public class OpenUHC extends JavaPlugin {
 
 	private boolean gameStarted = false;
 	
-	private HashMap<String, ArrayList<String>> teams = new HashMap<String, ArrayList<String>>();
-	private HashMap<String, ChatColor> teamsColors = new HashMap<String, ChatColor>();
+	private UHTeamManager teams = new UHTeamManager();
 	private ArrayList<String> joueurs = new ArrayList<String>(); // Répertorie joueurs online
 	
 	private boolean solo = true;
@@ -83,6 +85,9 @@ public class OpenUHC extends JavaPlugin {
 		
 	}
 	
+	public UHTeamManager teamManager() {
+		return teams;
+	}
 	
 	public void generateWalls() {
 		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs...");
@@ -181,23 +186,24 @@ public class OpenUHC extends JavaPlugin {
 		}
 	}
 	
-	public ChatColor getTeamColor(String team) {
-		return this.teamsColors.get(team);
-	}
-	
 	public World getWorld() {
 		return Bukkit.getWorld(this.getConfig().getString("world","world"));
 	}
 	
+	/***
+	 * @author zyuiop
+	 * Initialise le scoreboard au début de la partie, appelée par startGame
+	 * 
+	 */
 	public void setupScoreboards() {
 		sb.registerNewObjective("vie", "health").setDisplaySlot(DisplaySlot.PLAYER_LIST);
 		if (solo == false) {
 			int c = 0;
-			for (String t : teams.keySet()) {
+			for (String t : teams.getTeamsMap().keySet()) {
 				Team te = sb.registerNewTeam(t);
-				for (String pl : teams.get(t)) {
+				for (String pl : teams.getTeam(t).getPlayers()) {
 					te.addPlayer(Bukkit.getOfflinePlayer(pl));
-					this.teamsColors.put(t, getCol(c));
+					this.teams.getTeam(t).setColor(getCol(c));
 					try {
 						Player p = Bukkit.getPlayer(pl);
 						p.setDisplayName(getCol(c)+p.getName());
@@ -213,39 +219,41 @@ public class OpenUHC extends JavaPlugin {
 					c=0;
 			}
 		}
-		
-		/*right.setDisplayName("UHC Games");
-		right.setDisplaySlot(DisplaySlot.SIDEBAR);
-		if (solo == false)
-			right.getScore(Bukkit.getOfflinePlayer("Equipes : "+ChatColor.AQUA+teams.size())).setScore(2);
-		right.getScore(Bukkit.getOfflinePlayer("Joueurs : "+ChatColor.AQUA+joueurs.size())).setScore(1);
-		*/
+
 		scoreboard();
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			p.setScoreboard(sb);
 		}
 	}
 	
+
+	/***
+	 * @author zyuiop
+	 * Supprime un joueur du jeu
+	 * 
+	 */
 	public void deletePlayer(String n) {
-		int team = teams.size();
-		int play = joueurs.size();
 		
-		if (joueurs.contains(n)) {
+		if (getStarted() && joueurs.contains(n)) {
 			joueurs.remove(n);
 		}
 		
-		String remove = null;
+		if (solo == true)
+			return;
 		
-		for (String t: teams.keySet()) {
-			if (teams.get(t).contains(n))
+		UHTeam remove = null;
+		
+		for (UHTeam t : teams.getTeamsList()) {
+			if (t.isContained(n))
 			{
-				teams.get(t).remove(n);
-				if (teams.get(t).size() == 0)
+				t.deletePlayer(n);
+				if (t.getPlayers().size() == 0)
 					remove = t;
 			}
 		}
 		if (remove != null) {
-			teams.remove(remove);
+			Bukkit.broadcastMessage(ChatColor.GOLD+"L'équipe "+remove.getColorizedName()+ChatColor.GOLD+" a été éliminée.");
+			teams.deleteTeam(remove.getName());
 		}
 	}
 	
@@ -283,8 +291,8 @@ public class OpenUHC extends JavaPlugin {
 		{
 			if (c != null) {
 				c.stop();
-				Bukkit.getServer().broadcastMessage(ChatColor.GOLD+"L'équipe "+teams.keySet().toArray()[0]+" a gagné la partie !");
-				finishGame(teams.keySet().toArray()[0]+"");
+				Bukkit.getServer().broadcastMessage(ChatColor.GOLD+"L'équipe "+teams.getTeamsList().get(0).getColorizedName()+ChatColor.GOLD+" a gagné la partie !");
+				finishGame(teams.getTeamsList().get(0).getName());
 			}
 		} else if (solo == true && joueurs.size() <= 1) {
 			if (c != null) {
@@ -310,7 +318,7 @@ public class OpenUHC extends JavaPlugin {
 		}
 		else {
 			for(String wcmd : getConfig().getStringList("commands.winner")) {
-				for (String player : teams.get(winner)) {
+				for (String player : teams.getTeam(winner).getPlayers()) {
 					getServer().dispatchCommand(getServer().getConsoleSender(), wcmd.replace("{PLAYER}", player));
 				}
 			}
@@ -336,9 +344,9 @@ public class OpenUHC extends JavaPlugin {
 	private boolean isWon = false;
 	private String winner = null;
 	
-	public String getTeam(String player) {
-		for (String t: teams.keySet()) {
-			if (teams.get(t).contains(player))
+	public UHTeam getTeam(String player) {
+		for (UHTeam t : teams.getTeamsList()) {
+			if (t.isContained(player))
 			{
 				return t;
 			}
@@ -347,11 +355,11 @@ public class OpenUHC extends JavaPlugin {
 	}
 	
 	public boolean delFromTeam(String player, String team) {
-		if (teams.get(team) == null)
+		if (teams.getTeam(team) == null)
 			return false;
-		if (!teams.get(team).contains(player))
+		if (!teams.getTeam(team).isContained(player))
 			return false;
-		teams.get(team).remove(player);
+		teams.getTeam(team).deletePlayer(player);
 		return true;
 	}
 	
@@ -435,10 +443,10 @@ public class OpenUHC extends JavaPlugin {
 			}
 		}
 		else {
-			for (String t : teams.keySet()) {
+			for (UHTeam t : teams.getTeamsList()) {
 				Location l = getRandLoc();
 				w.getChunkAt(l).load(true);
-				for (String p : teams.get(t)) {
+				for (String p : t.getPlayers()) {
 					posTp.put(p, l);
 				}
 			}
@@ -497,24 +505,15 @@ public class OpenUHC extends JavaPlugin {
 		return pvp;
 	}
 	
-	public boolean addTeam(String teamName) {
-		if (teams.containsKey(teamName))
-			return false;
-		teams.put(teamName, new ArrayList<String>());
-		return true;
-	}
 	
 	public boolean addPlayer(String teamName, String playerName) {
 		if (getTeam(playerName) != null)
 			return false;
 		
-		if (!teams.containsKey(teamName))
+		if (!teams.teamExists(teamName))
 			return false;
 		
-		if (teams.get(playerName) != null && teams.get(playerName).contains(playerName))
-			return false;
-		
-		teams.get(teamName).add(playerName);
+		teams.getTeam(teamName).addPlayer(playerName);
 		return true;
 	}
 	
