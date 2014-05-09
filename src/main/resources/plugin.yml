@@ -1,6 +1,6 @@
 name: OpenUHC
 main: net.zyuiop.openUHC.OpenUHC
-version: 0.9.1-SNAPSHOT
+version: 0.9.1
 authors: [zyuiop, Gnomino]
 commands:
     teams:

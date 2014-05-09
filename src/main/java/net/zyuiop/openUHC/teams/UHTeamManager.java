@@ -1,7 +1,9 @@
 package net.zyuiop.openUHC.teams;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 
@@ -48,8 +50,8 @@ public class UHTeamManager {
 		return teams;
 	}
 	
-	public ArrayList<UHTeam> getTeamsList() {
-		return (ArrayList<UHTeam>) teams.values();
+	public List<UHTeam> getTeamsList() {
+		return (List<UHTeam>) teams.values();
 	}
 	
 	public int size() {
