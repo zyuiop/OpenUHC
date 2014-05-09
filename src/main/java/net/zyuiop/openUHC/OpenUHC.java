@@ -1,4 +1,4 @@
-package me.zyuiop.uhplugin;
+package net.zyuiop.openUHC;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,8 +22,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 
-
-public class UHPlugin extends JavaPlugin {
+public class OpenUHC extends JavaPlugin {
 
 	private boolean gameStarted = false;
 	

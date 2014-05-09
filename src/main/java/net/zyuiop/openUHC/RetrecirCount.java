@@ -1,4 +1,4 @@
-package me.zyuiop.uhplugin;
+package net.zyuiop.openUHC;
 
 import java.util.ArrayList;
 
@@ -10,15 +10,15 @@ import org.bukkit.scheduler.BukkitRunnable;
      
 public class RetrecirCount extends BukkitRunnable {
      
-        private final UHPlugin plugin;
+        private final OpenUHC plugin;
      
         private int counter;
         
         
         private ArrayList<Integer> nlimits;
      
-        public RetrecirCount(UHPlugin plugin, int counter, ArrayList<Integer> nlimits) {
-            this.plugin = plugin;
+        public RetrecirCount(OpenUHC openUHC, int counter, ArrayList<Integer> nlimits) {
+            this.plugin = openUHC;
             this.nlimits = nlimits;
             
             if (counter < 1) {

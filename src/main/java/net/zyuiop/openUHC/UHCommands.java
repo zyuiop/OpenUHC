@@ -1,4 +1,4 @@
-package me.zyuiop.uhplugin;
+package net.zyuiop.openUHC;
 
 import java.util.ArrayList;
 
@@ -10,10 +10,10 @@ import org.bukkit.entity.Player;
 
 public class UHCommands implements CommandExecutor {
 
-	private UHPlugin pl = null;
+	private OpenUHC pl = null;
 	
-	public UHCommands(UHPlugin p) {
-		pl = p;
+	public UHCommands(OpenUHC openUHC) {
+		pl = openUHC;
 	}
 	
 	

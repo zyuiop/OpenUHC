@@ -1,4 +1,4 @@
-package me.zyuiop.uhplugin;
+package net.zyuiop.openUHC;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -6,14 +6,14 @@ import org.bukkit.scheduler.BukkitRunnable;
      
     public class Countdown extends BukkitRunnable {
      
-        private final UHPlugin plugin;
+        private final OpenUHC plugin;
      
         private int counter;
         
         private String callback;
      
-        public Countdown(UHPlugin plugin, int counter, String callback) {
-            this.plugin = plugin;
+        public Countdown(OpenUHC openUHC, int counter, String callback) {
+            this.plugin = openUHC;
             this.callback = callback;
             if (counter < 1) {
                 throw new IllegalArgumentException("counter must be greater than 1");

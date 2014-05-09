@@ -1,4 +1,4 @@
-package me.zyuiop.uhplugin;
+package net.zyuiop.openUHC;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +38,10 @@ import org.bukkit.inventory.ShapelessRecipe;
 
 public class UHEvents implements Listener {
 
-	private UHPlugin pl = null;
+	private OpenUHC pl = null;
 	
-	public UHEvents(UHPlugin uhPlugin) {
-		pl = uhPlugin;
+	public UHEvents(OpenUHC openUHC) {
+		pl = openUHC;
 	}
 	
 	@EventHandler

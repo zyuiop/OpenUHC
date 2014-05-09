@@ -3,9 +3,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
   http://maven.apache.org/maven-v4_0_0.xsd">
    <modelVersion>4.0.0</modelVersion>
-   <groupId>me.zyuiop.uhplugin</groupId>
+   <groupId>net.zyuiop.openUHC</groupId>
    <artifactId>OpenUHC</artifactId>
-   <version>SNAPSHOT-0.9</version>
+   <version>SNAPSHOT-0.9.1</version>
    <name>OpenUHC</name>
    <repositories>
         <repository>
@@ -21,4 +21,7 @@
             <version>1.6.4-R2.0</version>
         </dependency>
    </dependencies>
+   <issueManagement>
+   	<system>GitHub</system>
+   </issueManagement>
 </project>

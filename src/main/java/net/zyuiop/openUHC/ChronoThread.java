@@ -1,10 +1,10 @@
-package me.zyuiop.uhplugin;
+package net.zyuiop.openUHC;
 
 public class ChronoThread extends Thread {
-  private UHPlugin pl;
+  private OpenUHC pl;
  
-  public ChronoThread(UHPlugin plugin) {
-    this.pl = plugin;
+  public ChronoThread(OpenUHC openUHC) {
+    this.pl = openUHC;
   }
   public void run() {
 	long time = 0;

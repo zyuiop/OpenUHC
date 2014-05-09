@@ -1,12 +1,12 @@
-package me.zyuiop.uhplugin;
+package net.zyuiop.openUHC;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class RunCommandTask extends BukkitRunnable {
-	private final UHPlugin pl;
+	private final OpenUHC pl;
 	private final String cmd;
-	public RunCommandTask(UHPlugin pl, String cmd) {
-		this.pl = pl;
+	public RunCommandTask(OpenUHC openUHC, String cmd) {
+		this.pl = openUHC;
 		this.cmd = cmd;
 	}
 	public void run() {
