@@ -1,7 +1,6 @@
 package net.zyuiop.openUHC;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 import net.zyuiop.openUHC.commands.CommandGamestart;
@@ -9,6 +8,12 @@ import net.zyuiop.openUHC.commands.CommandLimits;
 import net.zyuiop.openUHC.commands.CommandPlayers;
 import net.zyuiop.openUHC.commands.CommandShrink;
 import net.zyuiop.openUHC.commands.CommandTeams;
+import net.zyuiop.openUHC.events.BlockEvents;
+import net.zyuiop.openUHC.events.CraftEvents;
+import net.zyuiop.openUHC.events.EntityEvents;
+import net.zyuiop.openUHC.events.MiscEvents;
+import net.zyuiop.openUHC.events.NetworkEvents;
+import net.zyuiop.openUHC.events.PlayerEvents;
 import net.zyuiop.openUHC.teams.UHTeam;
 import net.zyuiop.openUHC.teams.UHTeamManager;
 import net.zyuiop.openUHC.timers.ChronoThread;
@@ -18,8 +23,6 @@ import net.zyuiop.openUHC.utils.UHUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Difficulty;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -27,7 +30,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -49,6 +51,8 @@ public class OpenUHC extends JavaPlugin {
 	
 	protected Scoreboard sb;
 	protected Objective right;
+	
+	protected Game game = new Game(this);
 	
 	protected ArrayList<Integer> limits = new ArrayList<Integer>();
 	public static Integer XLIMITN = 0;
@@ -72,7 +76,12 @@ public class OpenUHC extends JavaPlugin {
 		getCommand("shrink").setExecutor(new CommandShrink(this));
 		getCommand("limits").setExecutor(new CommandLimits(this));
 		
-		getServer().getPluginManager().registerEvents(new UHEvents(this), this);
+		getServer().getPluginManager().registerEvents(new BlockEvents(this), this);
+		getServer().getPluginManager().registerEvents(new CraftEvents(), this);
+		getServer().getPluginManager().registerEvents(new EntityEvents(this), this);
+		getServer().getPluginManager().registerEvents(new MiscEvents(this), this);
+		getServer().getPluginManager().registerEvents(new NetworkEvents(this), this);
+		getServer().getPluginManager().registerEvents(new PlayerEvents(this), this);
 		
 		this.saveDefaultConfig();
 		
@@ -91,6 +100,10 @@ public class OpenUHC extends JavaPlugin {
 	        }
 		}
 		
+	}
+	
+	public Game getGame() {
+		return game;
 	}
 	
 	public UHTeamManager teamManager() {
@@ -222,6 +235,7 @@ public class OpenUHC extends JavaPlugin {
 	public int minutes = 0;
 	public int seconds = 0;
 	
+	@SuppressWarnings("deprecation")
 	public void scoreboard() {
 		Objective obj = null;
 		try {
@@ -252,39 +266,14 @@ public class OpenUHC extends JavaPlugin {
 			if (c != null) {
 				c.stop();
 				Bukkit.getServer().broadcastMessage(ChatColor.GOLD+"L'équipe "+teams.getTeamsList().get(0).getColorizedName()+ChatColor.GOLD+" a gagné la partie !");
-				finishGame(teams.getTeamsList().get(0).getName());
+				game.finish(teams.getTeamsList().get(0).getName());
 			}
 		} else if (solo == true && joueurs.size() <= 1) {
 			if (c != null) {
 				c.stop();
 				Bukkit.getServer().broadcastMessage(ChatColor.GOLD+"Le joueur "+joueurs.get(0)+" a gagné la partie !");
-				finishGame(joueurs.get(0));
+				game.finish(joueurs.get(0));
 			}
-		}
-	}
-	
-	public void finishGame(String winner) {
-		this.winner = winner;
-		this.isWon = true;
-		for (Player p : Bukkit.getOnlinePlayers()) {
-			for (String cmd : getConfig().getStringList("commands.everyone")) {
-				getServer().dispatchCommand(getServer().getConsoleSender(), cmd.replace("{PLAYER}", p.getName()));
-			}
-		}
-		if (solo == true) {
-			for (String wcmd : getConfig().getStringList("commands.winner")) {
-				getServer().dispatchCommand(getServer().getConsoleSender(), wcmd.replace("{PLAYER}", winner));
-			}
-		}
-		else {
-			for(String wcmd : getConfig().getStringList("commands.winner")) {
-				for (String player : teams.getTeam(winner).getPlayers()) {
-					getServer().dispatchCommand(getServer().getConsoleSender(), wcmd.replace("{PLAYER}", player));
-				}
-			}
-		}
-		for (String fcmd : getConfig().getStringList("commands.final")) {
-			getServer().getScheduler().runTaskLater(this, new RunCommandTask(this, fcmd), getConfig().getLong("delay_before_final") * 20);
 		}
 	}
 	
@@ -373,63 +362,6 @@ public class OpenUHC extends JavaPlugin {
 		return canJoin;
 	}
 	
-	public void startGame() {
-		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Préparation du jeu...");
-		getWorld().setGameRuleValue("doDaylightCycle", this.getConfig().getString("daylight-cycle", "true"));
-		getWorld().setGameRuleValue("naturalRegeneration", "false");
-		getWorld().setTime(this.getConfig().getLong("begin-time", 6000L));
-		getWorld().setStorm(this.getConfig().getBoolean("begin-storm", false));
-		getWorld().setDifficulty(Difficulty.HARD);
-		canJoin = false;
-		if (teams.size() >= 2)
-			solo = false;
-		else {	
-			solo = true;
-			for (Player p : Bukkit.getOnlinePlayers())
-				joueurs.add(p.getName());
-		}
-		setupScoreboards();
-		mapSize = getConfig().getInt("map-size");
-		setLimits();
-		generateWalls();
-		World w = getWorld();
-		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des chunks de spawn... ");
-		HashMap<String, Location> posTp = new HashMap<String, Location>();
-		if (solo) {
-			for (String p : joueurs) {
-				Location l = getRandLoc();
-				posTp.put(p, l);
-				w.getChunkAt(l).load(true);
-			}
-		}
-		else {
-			for (UHTeam t : teams.getTeamsList()) {
-				Location l = getRandLoc();
-				w.getChunkAt(l).load(true);
-				for (String p : t.getPlayers()) {
-					posTp.put(p, l);
-				}
-			}
-		}
-		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des chunks de spawn terminée.");
-		for (String p : posTp.keySet()) {
-			Player pl = Bukkit.getPlayer(p);
-			pl.setGameMode(GameMode.SURVIVAL);
-			pl.getInventory().clear();
-			pl.setHealth(20);
-			pl.setFoodLevel(20);
-			pl.setFlying(false);
-			pl.teleport(posTp.get(p));
-		}
-		
-		// gen tp chunks
-		
-		// start
-		gameStarted = true;
-		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Début du jeu !");
-		BukkitTask task = new Countdown(this, this.getConfig().getInt("damage-disable", 30), "degats").runTaskTimer(this, 0, 20);
-	}
-
 	
 	 
 	
@@ -446,15 +378,14 @@ public class OpenUHC extends JavaPlugin {
 	
 	public void enableDegats() {
 		degats = true;
-		BukkitTask task = new Countdown(this, this.getConfig().getInt("pvp-disable", 120), "pvp").runTaskTimer(this, 0, 20);
+		new Countdown(this, this.getConfig().getInt("pvp-disable", 120), "pvp").runTaskTimer(this, 0, 20);
 	}
 
 	public void retrecirCount(int amount) {
 		ArrayList<Integer> nc = getLimits(mapSize-amount);
 		mapSize = mapSize-amount;
-		
-		
-		BukkitTask task = new RetrecirCount(this, 120, nc).runTaskTimer(this, 0, 20);
+
+		new RetrecirCount(this, 120, nc).runTaskTimer(this, 0, 20);
 	}
 	
 	public boolean canTakeDamage() {

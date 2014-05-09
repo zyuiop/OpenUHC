@@ -12,7 +12,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
 
 public class Game {
 	private OpenUHC pl;
@@ -74,7 +73,32 @@ public class Game {
 		// start
 		pl.gameStarted = true;
 		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Début du jeu !");
-		BukkitTask task = new Countdown(pl, pl.getConfig().getInt("damage-disable", 30), "degats").runTaskTimer(pl, 0, 20);
+		new Countdown(pl, pl.getConfig().getInt("damage-disable", 30), "degats").runTaskTimer(pl, 0, 20);
 
+	}
+	
+	public void finish(String winner) {
+		pl.winner = winner;
+		pl.isWon = true;
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			for (String cmd : pl.getConfig().getStringList("commands.everyone")) {
+				pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), cmd.replace("{PLAYER}", p.getName()));
+			}
+		}
+		if (pl.solo == true) {
+			for (String wcmd : pl.getConfig().getStringList("commands.winner")) {
+				pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), wcmd.replace("{PLAYER}", winner));
+			}
+		}
+		else {
+			for(String wcmd : pl.getConfig().getStringList("commands.winner")) {
+				for (String player : pl.teams.getTeam(winner).getPlayers()) {
+					pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), wcmd.replace("{PLAYER}", player));
+				}
+			}
+		}
+		for (String fcmd : pl.getConfig().getStringList("commands.final")) {
+			pl.getServer().getScheduler().runTaskLater(pl, new RunCommandTask(pl, fcmd), pl.getConfig().getLong("delay_before_final") * 20);
+		}
 	}
 }

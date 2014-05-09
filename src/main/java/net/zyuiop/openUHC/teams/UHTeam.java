@@ -3,9 +3,6 @@ package net.zyuiop.openUHC.teams;
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 
 public class UHTeam {
 	private ArrayList<String> players;

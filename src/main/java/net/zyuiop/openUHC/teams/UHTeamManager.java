@@ -1,9 +1,7 @@
 package net.zyuiop.openUHC.teams;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Hashtable;
-import java.util.List;
 
 import org.bukkit.ChatColor;
 

@@ -8,8 +8,7 @@ public class ChronoThread extends Thread {
   public ChronoThread(OpenUHC openUHC) {
     this.pl = openUHC;
   }
-  public void run() {
-	long time = 0;
+  public void run(long time) {
     while (true) {
     	try {
 			this.sleep(1000);
@@ -21,5 +20,9 @@ public class ChronoThread extends Thread {
 			e.printStackTrace();
 		}
     }
+  }
+  
+  public void run() {
+	  run(0);
   }
 }

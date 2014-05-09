@@ -62,15 +62,11 @@ import org.bukkit.scheduler.BukkitRunnable;
                 
                 counter--;
             } else {
-            	String evname = "";
-            	String evnamechat = "";
             	if (callback == "degats") {
-            		evname = "Invincibilité";
-            		Bukkit.broadcastMessage("Fin de la période d'invincibilité !");
+            		Bukkit.broadcastMessage(ChatColor.GOLD+"Fin de la période d'invincibilité !");
             		plugin.enableDegats();
             	} else if (callback == "pvp") {
-            		evname = "No-PvP";
-            		Bukkit.broadcastMessage("Le PvP est activé !");
+            		Bukkit.broadcastMessage(ChatColor.RED+"Le PvP est activé !");
             		plugin.enablePVP();
             	}
             	plugin.hours = 0;

@@ -1,5 +1,6 @@
 package net.zyuiop.openUHC.commands;
 
+import net.zyuiop.openUHC.Game;
 import net.zyuiop.openUHC.OpenUHC;
 
 import org.bukkit.ChatColor;
@@ -23,7 +24,7 @@ public class CommandGamestart implements CommandExecutor {
 			sender.sendMessage(ChatColor.RED + "Il doit y avoir au moins 2 joueurs !");
 			return true;
 		}
-		pl.startGame();
+		pl.getGame().start();
 		return true;
 	}
 
