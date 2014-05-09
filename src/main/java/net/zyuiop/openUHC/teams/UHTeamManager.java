@@ -58,6 +58,14 @@ public class UHTeamManager {
 		return ret;
 	}
 	
+	public ArrayList<String> getTeamsNames() {
+		ArrayList<String> ret = new ArrayList<String>();
+		for (String t : teams.keySet()) {
+			ret.add(t);
+		}
+		return ret;
+	}
+	
 	public int size() {
 		return teams.size();
 	}

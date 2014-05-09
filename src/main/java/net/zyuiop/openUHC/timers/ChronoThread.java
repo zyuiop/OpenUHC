@@ -1,4 +1,6 @@
-package net.zyuiop.openUHC;
+package net.zyuiop.openUHC.timers;
+
+import net.zyuiop.openUHC.OpenUHC;
 
 public class ChronoThread extends Thread {
   private OpenUHC pl;

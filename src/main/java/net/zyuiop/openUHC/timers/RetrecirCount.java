@@ -1,6 +1,8 @@
-package net.zyuiop.openUHC;
+package net.zyuiop.openUHC.timers;
 
 import java.util.ArrayList;
+
+import net.zyuiop.openUHC.OpenUHC;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

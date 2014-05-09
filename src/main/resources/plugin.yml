@@ -1,11 +1,11 @@
 name: OpenUHC
 main: net.zyuiop.openUHC.OpenUHC
-version: 0.9.1
+version: 0.9.2
 authors: [zyuiop, Gnomino]
 commands:
     teams:
         description: Teams management command
-        usage: /teams add [teamname]
+        usage: /teams <add|delete|list> [teamname]
         permission: uhpl.gameadmin
         permission-message: Missing permission
     players:

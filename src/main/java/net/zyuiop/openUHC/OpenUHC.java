@@ -4,8 +4,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import net.zyuiop.openUHC.commands.CommandGamestart;
+import net.zyuiop.openUHC.commands.CommandLimits;
+import net.zyuiop.openUHC.commands.CommandPlayers;
+import net.zyuiop.openUHC.commands.CommandShrink;
+import net.zyuiop.openUHC.commands.CommandTeams;
 import net.zyuiop.openUHC.teams.UHTeam;
 import net.zyuiop.openUHC.teams.UHTeamManager;
+import net.zyuiop.openUHC.timers.ChronoThread;
+import net.zyuiop.openUHC.timers.Countdown;
+import net.zyuiop.openUHC.timers.RetrecirCount;
+import net.zyuiop.openUHC.utils.UHUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -27,21 +36,21 @@ import org.bukkit.scoreboard.Team;
 
 public class OpenUHC extends JavaPlugin {
 
-	private boolean gameStarted = false;
+	protected boolean gameStarted = false;
 	
-	private UHTeamManager teams = new UHTeamManager();
-	private ArrayList<String> joueurs = new ArrayList<String>(); // Répertorie joueurs online
+	protected UHTeamManager teams = new UHTeamManager();
+	protected ArrayList<String> joueurs = new ArrayList<String>(); // Répertorie joueurs online
 	
-	private boolean solo = true;
-	private boolean canJoin = true;
+	protected boolean solo = true;
+	protected boolean canJoin = true;
 	
-	private boolean pvp = false;
-	private boolean degats = false;
+	protected boolean pvp = false;
+	protected boolean degats = false;
 	
-	private Scoreboard sb;
-	private Objective right;
+	protected Scoreboard sb;
+	protected Objective right;
 	
-	private ArrayList<Integer> limits = new ArrayList<Integer>();
+	protected ArrayList<Integer> limits = new ArrayList<Integer>();
 	public static Integer XLIMITN = 0;
 	public static Integer XLIMITP = 1;
 	public static Integer ZLIMITN = 2;
@@ -57,12 +66,11 @@ public class OpenUHC extends JavaPlugin {
 	public void onEnable() {
 		sb = Bukkit.getScoreboardManager().getNewScoreboard();
 		right = sb.registerNewObjective(sbname, "dummy");
-		UHCommands c = new UHCommands(this);
-		getCommand("teams").setExecutor(c);
-		getCommand("players").setExecutor(c);
-		getCommand("gamestart").setExecutor(c);
-		getCommand("shrink").setExecutor(c);
-		getCommand("limits").setExecutor(c);
+		getCommand("teams").setExecutor(new CommandTeams(this));
+		getCommand("players").setExecutor(new CommandPlayers(this));
+		getCommand("gamestart").setExecutor(new CommandGamestart(this));
+		getCommand("shrink").setExecutor(new CommandShrink(this));
+		getCommand("limits").setExecutor(new CommandLimits(this));
 		
 		getServer().getPluginManager().registerEvents(new UHEvents(this), this);
 		
@@ -104,9 +112,9 @@ public class OpenUHC extends JavaPlugin {
 				
 				y++;
 				done++;
-				showProgress(done,work);
+				UHUtils.showProgress(done,work);
 				done++;
-				showProgress(done,work);
+				UHUtils.showProgress(done,work);
 			}
 			x++;
 		}
@@ -120,9 +128,9 @@ public class OpenUHC extends JavaPlugin {
 				
 				y++;
 				done++;
-				showProgress(done,work);
+				UHUtils.showProgress(done,work);
 				done++;
-				showProgress(done,work);
+				UHUtils.showProgress(done,work);
 			}
 			z++;
 		}
@@ -130,62 +138,14 @@ public class OpenUHC extends JavaPlugin {
 
 	}
 	
-	public void showProgress(double done, double work) {
-		if ((done/work) == 0.1)
-			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 10%");
-		if ((done/work) == 0.2)
-			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 20%");
-		if ((done/work) == 0.3)
-			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 30%");
-		if ((done/work) == 0.4)
-			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 40%");
-		if ((done/work) == 0.5)
-			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 50%");
-		if ((done/work) == 0.6)
-			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 60%");
-		if ((done/work) == 0.7)
-			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 70%");
-		if ((done/work) == 0.8)
-			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 80%");
-		if ((done/work) == 0.9)
-			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 90%");
-	}
-	
 	public boolean isIngame(String pseudo) {
 		return joueurs.contains(pseudo);
 	}
-	
-	public ChatColor getCol(int num) {
-		switch (num) {
-		case 5:
-			return ChatColor.DARK_BLUE;
-		case 6:
-			return ChatColor.DARK_GREEN;
-		case 7:
-			return ChatColor.DARK_RED;
-		case 8:
-			return ChatColor.DARK_AQUA;
-		case 9:
-			return ChatColor.DARK_PURPLE;
-		case 1:
-			return ChatColor.GOLD;
-		case 2:
-			return ChatColor.BLUE;
-		case 3:
-			return ChatColor.GREEN;
-		case 0:
-			return ChatColor.AQUA;
-		case 4:
-			return ChatColor.RED;
-		case 10:
-			return ChatColor.LIGHT_PURPLE;
-		case 11:
-			return ChatColor.GRAY;
-		default:
-			return ChatColor.WHITE;
-		}
-	}
-	
+
+	/***
+	 * This method returns the world
+	 * @return The map the game is running on
+	 */
 	public World getWorld() {
 		return Bukkit.getWorld(this.getConfig().getString("world","world"));
 	}
@@ -203,17 +163,17 @@ public class OpenUHC extends JavaPlugin {
 				Team te = sb.registerNewTeam(t);
 				for (String pl : teams.getTeam(t).getPlayers()) {
 					te.addPlayer(Bukkit.getOfflinePlayer(pl));
-					this.teams.getTeam(t).setColor(getCol(c));
+					this.teams.getTeam(t).setColor(UHUtils.getCol(c));
 					try {
 						Player p = Bukkit.getPlayer(pl);
-						p.setDisplayName(getCol(c)+p.getName());
-				        p.sendMessage("Vous avez rejoint l'équipe "+getCol(c)+t);
+						p.setDisplayName(UHUtils.getCol(c)+p.getName());
+				        p.sendMessage("Vous avez rejoint l'équipe "+UHUtils.getCol(c)+t);
 					} catch(Exception e) {
 						
 					}
 					joueurs.add(pl);
 				}
-				te.setPrefix(getCol(c)+"");
+				te.setPrefix(UHUtils.getCol(c)+"");
 				c++;
 				if (c > 11)
 					c=0;
@@ -341,8 +301,8 @@ public class OpenUHC extends JavaPlugin {
 	}
 	
 	
-	private boolean isWon = false;
-	private String winner = null;
+	protected boolean isWon = false;
+	protected String winner = null;
 	
 	public UHTeam getTeam(String player) {
 		for (UHTeam t : teams.getTeamsList()) {
@@ -552,8 +512,8 @@ public class OpenUHC extends JavaPlugin {
 	public Location getRandLoc() {
 		World w = getWorld();
 		while (true) {
-			int tpx = randomInt(limits.get(XLIMITN),limits.get(XLIMITP));
-			int tpz = randomInt(limits.get(ZLIMITN),limits.get(ZLIMITP));
+			int tpx = UHUtils.randomInt(limits.get(XLIMITN),limits.get(XLIMITP));
+			int tpz = UHUtils.randomInt(limits.get(ZLIMITN),limits.get(ZLIMITP));
 			int tpy = 250;
 			while (w.getBlockAt(tpx, tpy, tpz).getType().equals(Material.AIR))
 				tpy--;
@@ -562,18 +522,7 @@ public class OpenUHC extends JavaPlugin {
 		}
 	}
 	
-	private static int randomInt(int aStart, int aEnd){
-		 Random aRandom = new Random();
-		 if (aStart > aEnd) {
-		    throw new IllegalArgumentException("Start cannot exceed End.");
-		 }
-		 //get the range, casting to long to avoid overflow problems
-		 long range = (long)aEnd - (long)aStart + 1;
-		 // compute a fraction of the range, 0 <= frac < range
-		 long fraction = (long)(range * aRandom.nextDouble());
-		 int randomNumber =  (int)(fraction + aStart);    
-		 return randomNumber;
-	}
+	
 	
 }
 
