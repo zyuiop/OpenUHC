@@ -50,8 +50,12 @@ public class UHTeamManager {
 		return teams;
 	}
 	
-	public List<UHTeam> getTeamsList() {
-		return (List<UHTeam>) teams.values();
+	public ArrayList<UHTeam> getTeamsList() {
+		ArrayList<UHTeam> ret = new ArrayList<UHTeam>();
+		for (String t : teams.keySet()) {
+			ret.add(teams.get(t));
+		}
+		return ret;
 	}
 	
 	public int size() {
