@@ -102,15 +102,23 @@ public class OpenUHC extends JavaPlugin {
 		
 	}
 	
+	/**
+	 * 
+	 * @return The game representation object
+	 */
 	public Game getGame() {
 		return game;
 	}
 	
+	/**
+	 * 
+	 * @return The teams manager object
+	 */
 	public UHTeamManager teamManager() {
 		return teams;
 	}
 	
-	public void generateWalls() {
+	protected void generateWalls() {
 		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs...");
 		World w = getWorld();
 		double work = (mapSize*4)*255;
@@ -151,6 +159,11 @@ public class OpenUHC extends JavaPlugin {
 
 	}
 	
+	/**
+	 * 
+	 * @param pseudo
+	 * @return true if "pseudo" is in game
+	 */
 	public boolean isIngame(String pseudo) {
 		return joueurs.contains(pseudo);
 	}
