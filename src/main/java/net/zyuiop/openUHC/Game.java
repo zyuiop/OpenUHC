@@ -3,6 +3,7 @@ package net.zyuiop.openUHC;
 import java.util.HashMap;
 
 import net.zyuiop.openUHC.teams.UHTeam;
+import net.zyuiop.openUHC.timers.ChronoThread;
 import net.zyuiop.openUHC.timers.Countdown;
 
 import org.bukkit.Bukkit;
@@ -15,6 +16,13 @@ import org.bukkit.entity.Player;
 
 public class Game {
 	private OpenUHC pl;
+	protected boolean isWon = false;
+	protected String winner = null;
+	protected boolean solo = true;	
+	protected boolean canJoin = true;
+	protected boolean pvp = false;
+	protected boolean degats = false;
+	
 	public Game(OpenUHC pl) {
 		this.pl = pl;
 	}
@@ -26,22 +34,22 @@ public class Game {
 		pl.getWorld().setTime(pl.getConfig().getLong("begin-time", 6000L));
 		pl.getWorld().setStorm(pl.getConfig().getBoolean("begin-storm", false));
 		pl.getWorld().setDifficulty(Difficulty.HARD);
-		pl.canJoin = false;
+		this.canJoin = false;
 		if (pl.teams.size() >= 2)
-			pl.solo = false;
+			this.solo = false;
 		else {	
-			pl.solo = true;
+			this.solo = true;
 			for (Player p : Bukkit.getOnlinePlayers())
 				pl.joueurs.add(p.getName());
 		}
-		pl.setupScoreboards();
+		pl.sbmanager.init();
 		pl.mapSize = pl.getConfig().getInt("map-size");
 		pl.setLimits();
 		pl.generateWalls();
 		World w = pl.getWorld();
 		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des chunks de spawn... ");
 		HashMap<String, Location> posTp = new HashMap<String, Location>();
-		if (pl.solo) {
+		if (this.solo) {
 			for (String p : pl.joueurs) {
 				Location l = pl.getRandLoc();
 				posTp.put(p, l);
@@ -78,14 +86,14 @@ public class Game {
 	}
 	
 	public void finish(String winner) {
-		pl.winner = winner;
-		pl.isWon = true;
+		this.winner = winner;
+		this.isWon = true;
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			for (String cmd : pl.getConfig().getStringList("commands.everyone")) {
 				pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), cmd.replace("{PLAYER}", p.getName()));
 			}
 		}
-		if (pl.solo == true) {
+		if (this.solo == true) {
 			for (String wcmd : pl.getConfig().getStringList("commands.winner")) {
 				pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), wcmd.replace("{PLAYER}", winner));
 			}
@@ -101,4 +109,45 @@ public class Game {
 			pl.getServer().getScheduler().runTaskLater(pl, new RunCommandTask(pl, fcmd), pl.getConfig().getLong("delay_before_final") * 20);
 		}
 	}
+	
+
+	public boolean isSolo() {
+		return this.solo;
+	}
+	
+	public String getWinner() {
+		return winner;
+	}
+	
+	public boolean isFinished() {
+		return isWon;
+	}
+	
+	public boolean canJoin() {
+		return canJoin;
+	}
+	
+	public void enablePVP() {
+		pvp = true;
+	}
+	
+	public void runGame() {
+		pl.sbmanager.setPhase("Partie en cours");
+		pl.startChrono();
+	}
+
+	public void enableDegats() {
+		degats = true;
+		new Countdown(pl, pl.getConfig().getInt("pvp-disable", 120), "pvp").runTaskTimer(pl, 0, 20);
+	}
+	
+
+	public boolean canTakeDamage() {
+		return degats;
+	}
+	
+	public boolean canPvP() {
+		return pvp;
+	}
+	
 }

@@ -22,7 +22,7 @@ public class PlayerEvents implements Listener {
 	
 	@EventHandler
 	public void joinEvent(PlayerLoginEvent e) {
-		if (!pl.canJoin() && !e.getPlayer().hasPermission("uhpl.join") && !pl.isIngame(e.getPlayer().getName())) {
+		if (!pl.getGame().canJoin() && !e.getPlayer().hasPermission("uhpl.join") && !pl.isIngame(e.getPlayer().getName())) {
 			e.disallow(Result.KICK_OTHER, "Le jeu est dèjà lancé.");
 			e.setResult(Result.KICK_OTHER);
 			e.setKickMessage("Le jeu est dèjà lancé.");
@@ -33,7 +33,7 @@ public class PlayerEvents implements Listener {
 	
 	@EventHandler
 	public void join(PlayerJoinEvent e) {
-		e.getPlayer().setScoreboard(pl.getSb());
+		e.getPlayer().setScoreboard(pl.getSbManager().getMainScoreboard());
 		if (pl.isIngame(e.getPlayer().getName())) {
 			e.getPlayer().sendMessage(ChatColor.GOLD+"Re !");
 			Location l = e.getPlayer().getLocation();

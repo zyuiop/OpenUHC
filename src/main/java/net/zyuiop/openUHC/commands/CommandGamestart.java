@@ -16,7 +16,7 @@ public class CommandGamestart implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (pl.canJoin() == false) {
+		if (pl.getGame().canJoin() == false) {
 			sender.sendMessage(ChatColor.RED+"La partie est dèjà en cours.");
 			return true;
 		}

@@ -37,9 +37,9 @@ import org.bukkit.scheduler.BukkitRunnable;
             		evname = "No-PvP";
             		evnamechat = ChatColor.RED+"Activation du PvP";
             	} 
-            	plugin.phase = evname;
-            	plugin.formatTime(counter);
-            	plugin.scoreboard();
+            	plugin.getSbManager().setPhase(evname);
+            	plugin.getSbManager().formatTime(counter);
+            	plugin.getSbManager().refresh();
             	
                 switch (counter) {
                 case 120:
@@ -62,18 +62,16 @@ import org.bukkit.scheduler.BukkitRunnable;
                 
                 counter--;
             } else {
+            	plugin.getSbManager().formatTime(0);
+            	plugin.getSbManager().refresh();
             	if (callback == "degats") {
             		Bukkit.broadcastMessage(ChatColor.GOLD+"Fin de la période d'invincibilité !");
-            		plugin.enableDegats();
+            		plugin.getGame().enableDegats();
             	} else if (callback == "pvp") {
             		Bukkit.broadcastMessage(ChatColor.RED+"Le PvP est activé !");
-            		plugin.enablePVP();
+            		plugin.getGame().enablePVP();
+            		plugin.getGame().runGame();
             	}
-            	plugin.hours = 0;
-            	plugin.minutes = 0;
-            	plugin.seconds = 0;
-            	plugin.scoreboard();
-            	
                 this.cancel();
             }
         }

@@ -4,17 +4,23 @@ import net.zyuiop.openUHC.OpenUHC;
 
 public class ChronoThread extends Thread {
   private OpenUHC pl;
+  private long time;
  
-  public ChronoThread(OpenUHC openUHC) {
-    this.pl = openUHC;
+  public ChronoThread(OpenUHC openUHC, long time) {
+	  	this.time = time;
+	  	this.pl = openUHC;
   }
-  public void run(long time) {
+  
+  public ChronoThread(OpenUHC openUHC) {
+	    this(openUHC, 0);
+  }
+  public void run() {
     while (true) {
     	try {
 			this.sleep(1000);
 			time++;
-			pl.formatTime(time);
-			pl.scoreboard();
+			pl.getSbManager().formatTime(time);
+			pl.getSbManager().refresh();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -22,7 +28,4 @@ public class ChronoThread extends Thread {
     }
   }
   
-  public void run() {
-	  run(0);
-  }
 }

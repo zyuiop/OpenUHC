@@ -43,16 +43,8 @@ public class OpenUHC extends JavaPlugin {
 	protected UHTeamManager teams = new UHTeamManager();
 	protected ArrayList<String> joueurs = new ArrayList<String>(); // Répertorie joueurs online
 	
-	protected boolean solo = true;
-	protected boolean canJoin = true;
-	
-	protected boolean pvp = false;
-	protected boolean degats = false;
-	
-	protected Scoreboard sb;
-	protected Objective right;
-	
 	protected Game game = new Game(this);
+	protected ScoreboardManager sbmanager;
 	
 	protected ArrayList<Integer> limits = new ArrayList<Integer>();
 	public static Integer XLIMITN = 0;
@@ -60,16 +52,14 @@ public class OpenUHC extends JavaPlugin {
 	public static Integer ZLIMITN = 2;
 	public static Integer ZLIMITP = 3;
 	
-	public String sbname = "right";
-	
+
 	public ChronoThread c = null;
 	
 	public int mapSize;
 	
 	@Override
 	public void onEnable() {
-		sb = Bukkit.getScoreboardManager().getNewScoreboard();
-		right = sb.registerNewObjective(sbname, "dummy");
+		sbmanager = new ScoreboardManager(this);
 		getCommand("teams").setExecutor(new CommandTeams(this));
 		getCommand("players").setExecutor(new CommandPlayers(this));
 		getCommand("gamestart").setExecutor(new CommandGamestart(this));
@@ -108,6 +98,14 @@ public class OpenUHC extends JavaPlugin {
 	 */
 	public Game getGame() {
 		return game;
+	}
+	
+	/**
+	 * 
+	 * @return The scoreboard manager
+	 */
+	public ScoreboardManager getSbManager() {
+		return sbmanager;
 	}
 	
 	/**
@@ -175,42 +173,7 @@ public class OpenUHC extends JavaPlugin {
 	public World getWorld() {
 		return Bukkit.getWorld(this.getConfig().getString("world","world"));
 	}
-	
-	/***
-	 * @author zyuiop
-	 * Initialise le scoreboard au début de la partie, appelée par startGame
-	 * 
-	 */
-	public void setupScoreboards() {
-		sb.registerNewObjective("vie", "health").setDisplaySlot(DisplaySlot.PLAYER_LIST);
-		if (solo == false) {
-			int c = 0;
-			for (String t : teams.getTeamsMap().keySet()) {
-				Team te = sb.registerNewTeam(t);
-				for (String pl : teams.getTeam(t).getPlayers()) {
-					te.addPlayer(Bukkit.getOfflinePlayer(pl));
-					this.teams.getTeam(t).setColor(UHUtils.getCol(c));
-					try {
-						Player p = Bukkit.getPlayer(pl);
-						p.setDisplayName(UHUtils.getCol(c)+p.getName());
-				        p.sendMessage("Vous avez rejoint l'équipe "+UHUtils.getCol(c)+t);
-					} catch(Exception e) {
-						
-					}
-					joueurs.add(pl);
-				}
-				te.setPrefix(UHUtils.getCol(c)+"");
-				c++;
-				if (c > 11)
-					c=0;
-			}
-		}
 
-		scoreboard();
-		for (Player p : Bukkit.getOnlinePlayers()) {
-			p.setScoreboard(sb);
-		}
-	}
 	
 
 	/***
@@ -224,7 +187,7 @@ public class OpenUHC extends JavaPlugin {
 			joueurs.remove(n);
 		}
 		
-		if (solo == true)
+		if (getGame().solo == true)
 			return;
 		
 		UHTeam remove = null;
@@ -243,69 +206,8 @@ public class OpenUHC extends JavaPlugin {
 		}
 	}
 	
-	public String phase = "Invincibilité";
-	public int hours = 0;
-	public int minutes = 0;
-	public int seconds = 0;
 	
-	@SuppressWarnings("deprecation")
-	public void scoreboard() {
-		Objective obj = null;
-		try {
-			obj = sb.getObjective(sbname);
-			obj.setDisplaySlot(null);
-			obj.unregister();
-		} catch (Exception e) {
-
-		}
-		Random r = new Random();
-		sbname = "right"+r.nextInt(10000000);
-		obj = sb.registerNewObjective(sbname, "dummy");
-		obj = sb.getObjective(sbname);
-		this.right = obj;
-
-		right.setDisplayName(ChatColor.DARK_AQUA+"== UHC Games ==");
-		right.setDisplaySlot(DisplaySlot.SIDEBAR);
-		right.getScore(Bukkit.getOfflinePlayer(" ")).setScore(6);
-		right.getScore(Bukkit.getOfflinePlayer(this.phase)).setScore(5);
-		right.getScore(Bukkit.getOfflinePlayer(((hours > 0) ? hours+"h " : "")+((minutes > 0) ? minutes+"m " : "")+seconds+"s")).setScore(4);
-		right.getScore(Bukkit.getOfflinePlayer(" ")).setScore(3);
-		if (solo == false)
-			right.getScore(Bukkit.getOfflinePlayer("Equipes : "+ChatColor.AQUA+teams.size())).setScore(2);
-		right.getScore(Bukkit.getOfflinePlayer("Joueurs : "+ChatColor.AQUA+joueurs.size())).setScore(1);
 		
-		if (solo == false && teams.size() == 1)
-		{
-			if (c != null) {
-				c.stop();
-				Bukkit.getServer().broadcastMessage(ChatColor.GOLD+"L'équipe "+teams.getTeamsList().get(0).getColorizedName()+ChatColor.GOLD+" a gagné la partie !");
-				game.finish(teams.getTeamsList().get(0).getName());
-			}
-		} else if (solo == true && joueurs.size() <= 1) {
-			if (c != null) {
-				c.stop();
-				Bukkit.getServer().broadcastMessage(ChatColor.GOLD+"Le joueur "+joueurs.get(0)+" a gagné la partie !");
-				game.finish(joueurs.get(0));
-			}
-		}
-	}
-	
-	public boolean isSolo() {
-		return solo;
-	}
-	
-	public String getWinner() {
-		return winner;
-	}
-	
-	public boolean isFinished() {
-		return isWon;
-	}
-	
-	
-	protected boolean isWon = false;
-	protected String winner = null;
-	
 	public UHTeam getTeam(String player) {
 		for (UHTeam t : teams.getTeamsList()) {
 			if (t.isContained(player))
@@ -371,28 +273,7 @@ public class OpenUHC extends JavaPlugin {
 		setLimits(size);
 	}
 	
-	public boolean canJoin() {
-		return canJoin;
-	}
 	
-	
-	 
-	
-	public void enablePVP() {
-		pvp = true;
-		runGame();
-	}
-	
-	public void runGame() {
-		phase = "Partie en cours";
-		c = new ChronoThread(this);
-		c.start();
-	}
-	
-	public void enableDegats() {
-		degats = true;
-		new Countdown(this, this.getConfig().getInt("pvp-disable", 120), "pvp").runTaskTimer(this, 0, 20);
-	}
 
 	public void retrecirCount(int amount) {
 		ArrayList<Integer> nc = getLimits(mapSize-amount);
@@ -401,13 +282,6 @@ public class OpenUHC extends JavaPlugin {
 		new RetrecirCount(this, 120, nc).runTaskTimer(this, 0, 20);
 	}
 	
-	public boolean canTakeDamage() {
-		return degats;
-	}
-	
-	public boolean canPvP() {
-		return pvp;
-	}
 	
 	
 	public boolean addPlayer(String teamName, String playerName) {
@@ -421,29 +295,11 @@ public class OpenUHC extends JavaPlugin {
 		return true;
 	}
 	
-	public void formatTime(long seconds) {
-		int hours = (int) seconds / 3600;
-	    int remainder = (int) seconds - hours * 3600;
-	    int mins = remainder / 60;
-	    remainder = remainder - mins * 60;
-	    int secs = remainder;
-
-	    this.hours = hours;
-	    this.minutes = mins;
-	    this.seconds = secs;
-	}
+	
 	
 	//////////////
 	// GETTERS  //
 	//////////////
-	
-	public Scoreboard getSb() {
-		return sb;
-	}
-	
-	public Objective getRight() {
-		return right;
-	}
 	
 	public boolean getStarted() {
 		return gameStarted;
@@ -466,7 +322,10 @@ public class OpenUHC extends JavaPlugin {
 		}
 	}
 	
-	
+	public void startChrono() {
+		c = new ChronoThread(this, this.getConfig().getInt("damage-disable")+this.getConfig().getInt("pvp-disable"));
+		c.start();
+	}
 	
 }
 
