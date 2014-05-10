@@ -1,6 +1,5 @@
 package net.zyuiop.openUHC.commands;
 
-import net.zyuiop.openUHC.Game;
 import net.zyuiop.openUHC.OpenUHC;
 
 import org.bukkit.ChatColor;

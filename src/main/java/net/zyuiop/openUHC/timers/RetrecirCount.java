@@ -7,7 +7,6 @@ import net.zyuiop.openUHC.OpenUHC;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
      
 public class RetrecirCount extends BukkitRunnable {
@@ -36,7 +35,6 @@ public class RetrecirCount extends BukkitRunnable {
             	
             	String evnamechat = "Rétrecissement de la map";
             	String time = null;
-            	boolean avert = false;
                 switch (counter) {
                 case 120:
                 	time = "dans 2 minutes";

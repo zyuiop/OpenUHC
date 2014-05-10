@@ -14,7 +14,8 @@ public class ChronoThread extends Thread {
   public ChronoThread(OpenUHC openUHC) {
 	    this(openUHC, 0);
   }
-  public void run() {
+  @SuppressWarnings("static-access")
+public void run() {
     while (true) {
     	try {
 			this.sleep(1000);

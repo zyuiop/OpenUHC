@@ -3,7 +3,6 @@ package net.zyuiop.openUHC;
 import java.util.HashMap;
 
 import net.zyuiop.openUHC.teams.UHTeam;
-import net.zyuiop.openUHC.timers.ChronoThread;
 import net.zyuiop.openUHC.timers.Countdown;
 
 import org.bukkit.Bukkit;

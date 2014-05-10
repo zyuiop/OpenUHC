@@ -1,8 +1,6 @@
 package net.zyuiop.openUHC;
 
 import java.util.ArrayList;
-import java.util.Random;
-
 import net.zyuiop.openUHC.commands.CommandGamestart;
 import net.zyuiop.openUHC.commands.CommandLimits;
 import net.zyuiop.openUHC.commands.CommandPlayers;
@@ -17,7 +15,6 @@ import net.zyuiop.openUHC.events.PlayerEvents;
 import net.zyuiop.openUHC.teams.UHTeam;
 import net.zyuiop.openUHC.teams.UHTeamManager;
 import net.zyuiop.openUHC.timers.ChronoThread;
-import net.zyuiop.openUHC.timers.Countdown;
 import net.zyuiop.openUHC.timers.RetrecirCount;
 import net.zyuiop.openUHC.utils.UHUtils;
 
@@ -30,10 +27,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 
 public class OpenUHC extends JavaPlugin {
 
