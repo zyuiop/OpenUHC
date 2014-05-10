@@ -33,6 +33,8 @@ public class UHTeam {
 	}
 	
 	public String getColorizedName() {
+		if (getColor() == null)
+			return getName();
 		return getColor()+getName();
 	}
 	
