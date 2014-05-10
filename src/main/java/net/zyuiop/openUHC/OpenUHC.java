@@ -1,6 +1,7 @@
 package net.zyuiop.openUHC;
 
 import java.util.ArrayList;
+
 import net.zyuiop.openUHC.commands.CommandGamestart;
 import net.zyuiop.openUHC.commands.CommandLimits;
 import net.zyuiop.openUHC.commands.CommandPlayers;
@@ -23,8 +24,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -59,21 +63,13 @@ public class OpenUHC extends JavaPlugin {
 		getCommand("limits").setExecutor(new CommandLimits(this));
 		
 		getServer().getPluginManager().registerEvents(new BlockEvents(this), this);
-		getServer().getPluginManager().registerEvents(new CraftEvents(), this);
+		getServer().getPluginManager().registerEvents(new CraftEvents(this), this);
 		getServer().getPluginManager().registerEvents(new EntityEvents(this), this);
 		getServer().getPluginManager().registerEvents(new MiscEvents(this), this);
 		getServer().getPluginManager().registerEvents(new NetworkEvents(this), this);
 		getServer().getPluginManager().registerEvents(new PlayerEvents(this), this);
 		
 		this.saveDefaultConfig();
-		
-		
-		
-		// Set craft //
-		ShapelessRecipe goldenMelon = new ShapelessRecipe(new ItemStack(Material.SPECKLED_MELON));
-		goldenMelon.addIngredient(1, Material.GOLD_BLOCK);
-		goldenMelon.addIngredient(1, Material.MELON);
-		this.getServer().addRecipe(goldenMelon);
 		if (getConfig().getBoolean("delete_world")) {
 			try {
 	            Runtime.getRuntime().addShutdownHook(new WorldDeleter(getWorld().getName()));
@@ -81,7 +77,55 @@ public class OpenUHC extends JavaPlugin {
 	            e.printStackTrace();
 	        }
 		}
+	}
+	
+	private void setCustomCrafts() {
+		/* Melon */
+		this.getServer().addRecipe(getMelonRecipe());
 		
+		/* Compass */
+		if (isCompassEnabled()) {
+			this.getServer().addRecipe(getCompassRecipe());
+		}
+	}
+	
+	public boolean isCompassEnabled() {
+		return this.getConfig().getBoolean("compass.enabled", true);
+	}
+	
+	public boolean isCompassHarder() {
+		if (!isCompassEnabled())
+			return false;
+		return this.getConfig().getBoolean("compass.harder", false);
+	}
+	
+	
+	public ShapedRecipe getCompassRecipe() {
+		if (!isCompassEnabled()) return null;
+		
+		ShapedRecipe compass = new ShapedRecipe(new ItemStack(Material.COMPASS));
+		compass.shape(new String[] {"CIE", "IRI", "BIF"});
+		compass.setIngredient('I', Material.IRON_INGOT);
+		compass.setIngredient('R', Material.REDSTONE);
+		if (isCompassHarder()) {
+			compass.setIngredient('C', Material.SLIME_BALL);
+			compass.setIngredient('E', Material.SADDLE);
+			compass.setIngredient('B', Material.BLAZE_ROD);
+			compass.setIngredient('F', Material.ENDER_PEARL);
+		} else {
+			compass.setIngredient('C', Material.SULPHUR);
+			compass.setIngredient('E', Material.SPIDER_EYE);
+			compass.setIngredient('B', Material.BONE);
+			compass.setIngredient('F', Material.ROTTEN_FLESH);
+		}
+		return compass;
+	}
+	
+	public ShapelessRecipe getMelonRecipe() {
+		ShapelessRecipe goldenMelon = new ShapelessRecipe(new ItemStack(Material.SPECKLED_MELON));
+		goldenMelon.addIngredient(1, Material.GOLD_BLOCK);
+		goldenMelon.addIngredient(1, Material.MELON);
+		return goldenMelon;
 	}
 	
 	/**

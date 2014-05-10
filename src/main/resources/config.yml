@@ -32,3 +32,8 @@ commands:
     - restart # Spigot specific
 
 delay_before_final: 120 # the delay ( in seconds ) before the final commands are executed
+
+
+compass:
+  enabled: true
+  harder: false #harder recipe and harder use
