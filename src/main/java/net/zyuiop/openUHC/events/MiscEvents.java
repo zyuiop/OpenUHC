@@ -17,12 +17,12 @@ public class MiscEvents implements Listener {
 	
 	@EventHandler
 	public void foodLevelChange(FoodLevelChangeEvent e) {
-		e.setCancelled(!pl.getStarted());
+		e.setCancelled(!pl.getGame().getStarted());
 	}
 	
 	@EventHandler
 	public void creatureSpawn(CreatureSpawnEvent e) {
-		e.setCancelled(!pl.getStarted());
+		e.setCancelled(!pl.getGame().getStarted());
 	}
 	
 }

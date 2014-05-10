@@ -71,6 +71,6 @@ public class PlayerEvents implements Listener {
 	
 	@EventHandler
 	public void interact(PlayerInteractEvent e) {
-		e.setCancelled(!pl.getStarted());
+		e.setCancelled(!pl.getGame().getStarted());
 	}
 }

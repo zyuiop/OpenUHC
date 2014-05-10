@@ -23,7 +23,7 @@ public class EntityEvents implements Listener {
 	
 	@EventHandler
 	public void takeDamage(EntityDamageEvent e) {
-		if (!pl.getStarted())
+		if (!pl.getGame().getStarted())
 			e.setCancelled(true);
 		else {
 			if (e.getEntity() instanceof Player && !pl.getGame().canTakeDamage()) {

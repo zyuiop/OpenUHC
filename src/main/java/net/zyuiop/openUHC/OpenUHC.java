@@ -35,10 +35,9 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-
 public class OpenUHC extends JavaPlugin {
 
-	protected boolean gameStarted = false;
+	
 	
 	protected UHTeamManager teams = new UHTeamManager();
 	protected ArrayList<String> joueurs = new ArrayList<String>(); // Répertorie joueurs online
@@ -93,7 +92,6 @@ public class OpenUHC extends JavaPlugin {
 	}
 	
 	/**
-	 * 
 	 * @return The game representation object
 	 */
 	public Game getGame() {
@@ -101,7 +99,6 @@ public class OpenUHC extends JavaPlugin {
 	}
 	
 	/**
-	 * 
 	 * @return The scoreboard manager
 	 */
 	public ScoreboardManager getSbManager() {
@@ -109,13 +106,15 @@ public class OpenUHC extends JavaPlugin {
 	}
 	
 	/**
-	 * 
 	 * @return The teams manager object
 	 */
 	public UHTeamManager teamManager() {
 		return teams;
 	}
 	
+	/**
+	 * Protected method, called automatically when you shrink the map or when you start the game.
+	 */
 	protected void generateWalls() {
 		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs...");
 		World w = getWorld();
@@ -158,12 +157,11 @@ public class OpenUHC extends JavaPlugin {
 	}
 	
 	/**
-	 * 
-	 * @param pseudo
-	 * @return true if "pseudo" is in game
+	 * @param player the name of the player
+	 * @return true if the player is in game
 	 */
-	public boolean isIngame(String pseudo) {
-		return joueurs.contains(pseudo);
+	public boolean isIngame(String player) {
+		return joueurs.contains(player);
 	}
 
 	/***
@@ -174,16 +172,13 @@ public class OpenUHC extends JavaPlugin {
 		return Bukkit.getWorld(this.getConfig().getString("world","world"));
 	}
 
-	
-
 	/***
-	 * @author zyuiop
-	 * Supprime un joueur du jeu
-	 * 
+	 * Delete a player from the game
+	 * @param n The name of the player
 	 */
 	public void deletePlayer(String n) {
 		
-		if (getStarted() && joueurs.contains(n)) {
+		if (game.getStarted() && joueurs.contains(n)) {
 			joueurs.remove(n);
 		}
 		
@@ -206,8 +201,11 @@ public class OpenUHC extends JavaPlugin {
 		}
 	}
 	
-	
-		
+	/**
+	 * Get the team of a player		
+	 * @param player The nickname of the target player
+	 * @return the team of the player, represented by an UHTeam object
+	 */
 	public UHTeam getTeam(String player) {
 		for (UHTeam t : teams.getTeamsList()) {
 			if (t.isContained(player))
@@ -218,6 +216,12 @@ public class OpenUHC extends JavaPlugin {
 		return null;
 	}
 	
+	/**
+	 * Deletes a player from a team
+	 * @param player The nickname of the player
+	 * @param team The name of the team
+	 * @return true if the player has been successfully removed, false if the team doesn't exist or if the player isn't in the team
+	 */
 	public boolean delFromTeam(String player, String team) {
 		if (teams.getTeam(team) == null)
 			return false;
@@ -227,6 +231,10 @@ public class OpenUHC extends JavaPlugin {
 		return true;
 	}
 	
+	/**
+	 * Reduces the size of the map and generates a new wall
+	 * @param l The new limits of the map
+	 */
 	public void reduceSize(ArrayList<Integer> l) {
 		setLimits(l);
 		for (String j : joueurs) {
@@ -239,12 +247,22 @@ public class OpenUHC extends JavaPlugin {
 		generateWalls();
 	}
 	
+	/**
+	 * Allow to know if (x,z) is into the limits of the map
+	 * @param x
+	 * @param z
+	 * @return true if (x,z) is in limits, false else
+	 */
 	public boolean isInLimits(int x, int z) {
 		if (x > limits.get(XLIMITN) && x < limits.get(XLIMITP) && z > limits.get(ZLIMITN) && z < limits.get(ZLIMITP))
 			return true;
 		return false;
 	}
 	
+	/**
+	 * Gets an array representing the world limits
+	 * @return
+	 */
 	public ArrayList<Integer> getLimits() {
 		return limits;
 	}
@@ -301,9 +319,7 @@ public class OpenUHC extends JavaPlugin {
 	// GETTERS  //
 	//////////////
 	
-	public boolean getStarted() {
-		return gameStarted;
-	}
+	
 	
 	//////////////
 	// UTILS    //

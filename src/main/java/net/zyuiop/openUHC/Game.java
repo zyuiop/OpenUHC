@@ -22,11 +22,15 @@ public class Game {
 	protected boolean canJoin = true;
 	protected boolean pvp = false;
 	protected boolean degats = false;
+	protected boolean gameStarted = false;
 	
 	public Game(OpenUHC pl) {
 		this.pl = pl;
 	}
 	
+	/**
+	 * Use this method to start the game. This method shall only be used ONCE.
+	 */
 	public void start() {
 		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Préparation du jeu...");
 		pl.getWorld().setGameRuleValue("doDaylightCycle", pl.getConfig().getString("daylight-cycle", "true"));
@@ -79,12 +83,17 @@ public class Game {
 		// gen tp chunks
 		
 		// start
-		pl.gameStarted = true;
+		gameStarted = true;
 		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Début du jeu !");
 		new Countdown(pl, pl.getConfig().getInt("damage-disable", 30), "degats").runTaskTimer(pl, 0, 20);
 
 	}
 	
+	/**
+	 * Finish the game
+	 * This method doesn't need to be called as it's automatically called when a team or a player wins
+	 * @param winner The name of the winner (Player or team)
+	 */
 	public void finish(String winner) {
 		this.winner = winner;
 		this.isWon = true;
@@ -110,42 +119,80 @@ public class Game {
 		}
 	}
 	
-
+	
+	/**
+	 * Get the type of the game
+	 * @return true if it's a single player game, false if it's a teams game
+	 */
 	public boolean isSolo() {
 		return this.solo;
 	}
 	
+	/**
+	 * Get the winner of the game
+	 * @return the name of the winner or null if the game isn't finished
+	 */
 	public String getWinner() {
 		return winner;
 	}
 	
+	/**
+	 * Get the state of the game
+	 * @return true if the game is finished, false if the game is still running OR if the game isn't started yet
+	 */
 	public boolean isFinished() {
 		return isWon;
 	}
 	
+	/**
+	 * Allow to know if players can join the game
+	 * @return true if it's allowed to join the game, false else
+	 */
 	public boolean canJoin() {
 		return canJoin;
 	}
 	
+	/**
+	 * Returns the state of the game
+	 * @return true if the game is started, false else
+	 */
+	public boolean getStarted() {
+		return gameStarted;
+	}
+	
+	/**
+	 * Enable PvP (automatically called)
+	 */
 	public void enablePVP() {
 		pvp = true;
 	}
 	
+	/**
+	 * Called automatically when the pvp is enabled, it finishes the init phase of the game.
+	 */
 	public void runGame() {
 		pl.sbmanager.setPhase("Partie en cours");
 		pl.startChrono();
 	}
 
+	/**
+	 * Enable damages, called automatically after a countdown
+	 */
 	public void enableDegats() {
 		degats = true;
 		new Countdown(pl, pl.getConfig().getInt("pvp-disable", 120), "pvp").runTaskTimer(pl, 0, 20);
 	}
 	
-
+	/**
+	 * @return true if damages are enabled, false else
+	 */
 	public boolean canTakeDamage() {
 		return degats;
 	}
 	
+	/**
+	 * @return true if PvP is enabled, false else
+	 */
 	public boolean canPvP() {
 		return pvp;
 	}

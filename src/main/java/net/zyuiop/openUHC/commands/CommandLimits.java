@@ -17,7 +17,7 @@ public class CommandLimits implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (!pl.getStarted()) {
+		if (!pl.getGame().getStarted()) {
 			sender.sendMessage(ChatColor.RED+"La partie n'a pas démarré.");
 			return true;
 		}
