@@ -77,6 +77,7 @@ public class OpenUHC extends JavaPlugin {
 	            e.printStackTrace();
 	        }
 		}
+		setCustomCrafts();
 	}
 	
 	private void setCustomCrafts() {
