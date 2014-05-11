@@ -42,8 +42,9 @@ public class Game {
 			this.solo = false;
 		else {	
 			this.solo = true;
-			for (Player p : Bukkit.getOnlinePlayers())
-				pl.joueurs.add(p.getName());
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				pl.joueurs.add(p);
+			}
 		}
 		pl.sbmanager.init();
 		pl.mapSize = pl.getConfig().getInt("map-size");
@@ -51,9 +52,9 @@ public class Game {
 		pl.generateWalls();
 		World w = pl.getWorld();
 		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des chunks de spawn... ");
-		HashMap<String, Location> posTp = new HashMap<String, Location>();
+		HashMap<Player, Location> posTp = new HashMap<Player, Location>();
 		if (this.solo) {
-			for (String p : pl.joueurs) {
+			for (Player p : pl.joueurs) {
 				Location l = pl.getRandLoc();
 				posTp.put(p, l);
 				w.getChunkAt(l).load(true);
@@ -63,20 +64,19 @@ public class Game {
 			for (UHTeam t : pl.teams.getTeamsList()) {
 				Location l = pl.getRandLoc();
 				w.getChunkAt(l).load(true);
-				for (String p : t.getPlayers()) {
+				for (Player p : t.getPlayers()) {
 					posTp.put(p, l);
 				}
 			}
 		}
 		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des chunks de spawn terminée.");
-		for (String p : posTp.keySet()) {
-			Player pl = Bukkit.getPlayer(p);
+		for (Player pl : posTp.keySet()) {
 			pl.setGameMode(GameMode.SURVIVAL);
 			pl.getInventory().clear();
 			pl.setHealth(20);
 			pl.setFoodLevel(20);
 			pl.setFlying(false);
-			pl.teleport(posTp.get(p));
+			pl.teleport(posTp.get(pl));
 		}
 		
 		// gen tp chunks
@@ -108,8 +108,8 @@ public class Game {
 		}
 		else {
 			for(String wcmd : pl.getConfig().getStringList("commands.winner")) {
-				for (String player : pl.teams.getTeam(winner).getPlayers()) {
-					pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), wcmd.replace("{PLAYER}", player));
+				for (Player player : pl.teams.getTeam(winner).getPlayers()) {
+					pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), wcmd.replace("{PLAYER}", player.getName()));
 				}
 			}
 		}

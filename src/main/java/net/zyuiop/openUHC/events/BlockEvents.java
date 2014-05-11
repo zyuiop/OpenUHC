@@ -18,9 +18,11 @@ public class BlockEvents implements Listener {
 	@EventHandler
 	public void blockBreak(BlockBreakEvent e)
 	{
-		if (!pl.getGame().getStarted())
+		if (!pl.getGame().getStarted()) {
 			e.setCancelled(true);
-		if (!pl.isIngame(e.getPlayer().getName()))
+			
+		}
+		if (!pl.isIngame(e.getPlayer()))
 			e.setCancelled(true);
 	}
 
@@ -28,7 +30,7 @@ public class BlockEvents implements Listener {
 	public void blockPlace(BlockPlaceEvent e)
 	{
 		e.setCancelled(!pl.getGame().getStarted());
-		if (!pl.isIngame(e.getPlayer().getName()))
+		if (!pl.isIngame(e.getPlayer()))
 			e.setCancelled(true);
 	}
 	
