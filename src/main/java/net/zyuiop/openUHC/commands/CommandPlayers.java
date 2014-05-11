@@ -23,14 +23,14 @@ public class CommandPlayers implements CommandExecutor {
 			return false;
 		}
 		if (args[0].equalsIgnoreCase("add") && args.length == 3) {
-			if (!pl.addPlayer(args[1], args[2]))
+			if (!pl.addPlayer(args[1], pl.getServer().getPlayer(args[2])))
 				sender.sendMessage(ChatColor.RED+"Le joueur n'a pas été ajouté : il est déjà ajouté a une équipe ou la team n'existe pas.");
 			else
 				sender.sendMessage(ChatColor.GREEN+"Le joueur a bien été ajouté.");
 			return true;
 		}
 		if (args[0].equalsIgnoreCase("delete") && args.length == 3) {
-			if (!pl.delFromTeam(args[2], args[1]))
+			if (!pl.delFromTeam(pl.getServer().getPlayer(args[2]), args[1]))
 				sender.sendMessage(ChatColor.RED+"Le joueur n'a pas été supprimé de l'équipe car il n'en fait pas partie");
 			else
 				sender.sendMessage(ChatColor.GREEN+"Le joueur a bien été supprimé de l'équipe.");

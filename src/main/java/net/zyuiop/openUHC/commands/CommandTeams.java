@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class CommandTeams implements CommandExecutor {
 	
@@ -42,12 +43,12 @@ public class CommandTeams implements CommandExecutor {
 				
 				String joueurs = "";
 				boolean f = true;
-				for (String j : pl.teamManager().getTeam(args[1]).getPlayers()) {
+				for (Player j : pl.teamManager().getTeam(args[1]).getPlayers()) {
 					if (f == true) {
-						joueurs=ChatColor.AQUA+j;
+						joueurs=ChatColor.AQUA+j.getDisplayName();
 						f = false;
 					} else
-						joueurs+=ChatColor.WHITE+", "+ChatColor.AQUA+j;
+						joueurs+=ChatColor.WHITE+", "+ChatColor.AQUA+j.getDisplayName();
 				}
 				sender.sendMessage(ChatColor.GOLD+"Voici les joueurs de l'équipe "+pl.teamManager().getTeam(args[1]).getColorizedName()+ChatColor.GOLD+" : "+joueurs);
 				return true;
@@ -56,12 +57,12 @@ public class CommandTeams implements CommandExecutor {
 				for (UHTeam t : pl.teamManager().getTeamsList()) {
 					String joueurs = "";
 					boolean f = true;
-					for (String j : t.getPlayers()) {
+					for (Player j : t.getPlayers()) {
 						if (f == true) {
-							joueurs=ChatColor.AQUA+j;
+							joueurs=ChatColor.AQUA+j.getDisplayName();
 							f = false;
 						} else
-							joueurs+=ChatColor.WHITE+", "+ChatColor.AQUA+j;
+							joueurs+=ChatColor.WHITE+", "+ChatColor.AQUA+j.getDisplayName();
 					}
 					sender.sendMessage(ChatColor.GOLD+"- "+t.getColorizedName()+ChatColor.WHITE+", contenant les joueurs suivants : "+joueurs);
 				}

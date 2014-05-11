@@ -67,7 +67,7 @@ public class ScoreboardManager implements org.bukkit.scoreboard.ScoreboardManage
 			if (plugin.c != null) {
 				plugin.c.stop();
 				Bukkit.getServer().broadcastMessage(ChatColor.GOLD+"Le joueur "+plugin.joueurs.get(0)+" a gagné la partie !");
-				plugin.game.finish(plugin.joueurs.get(0));
+				plugin.game.finish(plugin.joueurs.get(0).getDisplayName());
 			}
 		}
 	}
@@ -78,13 +78,12 @@ public class ScoreboardManager implements org.bukkit.scoreboard.ScoreboardManage
 			int c = 0;
 			for (String t : plugin.teams.getTeamsMap().keySet()) {
 				Team te = sb.registerNewTeam(t);
-				for (String pl : plugin.teams.getTeam(t).getPlayers()) {
-					te.addPlayer(Bukkit.getOfflinePlayer(pl));
+				for (Player pl : plugin.teams.getTeam(t).getPlayers()) {
+					te.addPlayer(Bukkit.getOfflinePlayer(pl.getName()));
 					plugin.teams.getTeam(t).setColor(UHUtils.getCol(c));
 					try {
-						Player p = Bukkit.getPlayer(pl);
-						p.setDisplayName(UHUtils.getCol(c)+p.getName());
-				        p.sendMessage("Vous avez rejoint l'équipe "+UHUtils.getCol(c)+t);
+						pl.setDisplayName(UHUtils.getCol(c)+pl.getName());
+				        pl.sendMessage("Vous avez rejoint l'équipe "+UHUtils.getCol(c)+t);
 					} catch(Exception e) {
 						
 					}

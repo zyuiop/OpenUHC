@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class EntityEvents implements Listener {
@@ -26,14 +27,20 @@ public class EntityEvents implements Listener {
 		if (!pl.getGame().getStarted())
 			e.setCancelled(true);
 		else {
-			if (e.getEntity() instanceof Player && !pl.getGame().canTakeDamage()) {
-				e.setCancelled(true);
+			if (e.getEntity() instanceof Player) {
+				Player p = (Player) e.getEntity();
+				if(!pl.getGame().canTakeDamage() || !pl.isIngame(p))
+					e.setCancelled(true);
 			}
 			if (e instanceof EntityDamageByEntityEvent)
 			{
 				EntityDamageByEntityEvent ev = (EntityDamageByEntityEvent) e;
 				if (ev.getDamager() instanceof Player && ev.getEntity() instanceof Player && !pl.getGame().canPvP())
-					e.setCancelled(true);
+					ev.setCancelled(true);
+				else if(ev.getDamager() instanceof Player) {
+					Player damager = (Player) ev.getDamager();
+					e.setCancelled(!pl.isIngame(damager));
+				}
 			}
 		}
 	}
@@ -52,6 +59,13 @@ public class EntityEvents implements Listener {
 					ev.getDrops().add(i);
 				}
 			}
+		}
+	}
+	
+	@EventHandler
+	public void onEntityTarget(EntityTargetLivingEntityEvent event) {
+		if (event.getTarget() instanceof Player) {
+			event.setCancelled(!pl.isIngame((Player) event.getTarget()));
 		}
 	}
 }

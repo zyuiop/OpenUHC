@@ -13,6 +13,7 @@ import net.zyuiop.openUHC.events.EntityEvents;
 import net.zyuiop.openUHC.events.MiscEvents;
 import net.zyuiop.openUHC.events.NetworkEvents;
 import net.zyuiop.openUHC.events.PlayerEvents;
+import net.zyuiop.openUHC.spectators.SpectatorManager;
 import net.zyuiop.openUHC.teams.UHTeam;
 import net.zyuiop.openUHC.teams.UHTeamManager;
 import net.zyuiop.openUHC.timers.ChronoThread;
@@ -37,8 +38,8 @@ public class OpenUHC extends JavaPlugin {
 	
 	
 	protected UHTeamManager teams = new UHTeamManager();
-	protected ArrayList<String> joueurs = new ArrayList<String>(); // Répertorie joueurs online
-	
+	protected ArrayList<Player> joueurs = new ArrayList<Player>(); // Répertorie joueurs online
+	protected SpectatorManager spectatorManager = null;
 	protected Game game = new Game(this);
 	protected ScoreboardManager sbmanager;
 	
@@ -56,6 +57,7 @@ public class OpenUHC extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		sbmanager = new ScoreboardManager(this);
+		spectatorManager = new SpectatorManager(this);
 		getCommand("teams").setExecutor(new CommandTeams(this));
 		getCommand("players").setExecutor(new CommandPlayers(this));
 		getCommand("gamestart").setExecutor(new CommandGamestart(this));
@@ -200,7 +202,7 @@ public class OpenUHC extends JavaPlugin {
 	 * @param player the name of the player
 	 * @return true if the player is in game
 	 */
-	public boolean isIngame(String player) {
+	public boolean isIngame(Player player) {
 		return joueurs.contains(player);
 	}
 
@@ -216,7 +218,7 @@ public class OpenUHC extends JavaPlugin {
 	 * Delete a player from the game
 	 * @param n The name of the player
 	 */
-	public void deletePlayer(String n) {
+	public void deletePlayer(Player n) {
 		
 		if (game.getStarted() && joueurs.contains(n)) {
 			joueurs.remove(n);
@@ -246,7 +248,7 @@ public class OpenUHC extends JavaPlugin {
 	 * @param player The nickname of the target player
 	 * @return the team of the player, represented by an UHTeam object
 	 */
-	public UHTeam getTeam(String player) {
+	public UHTeam getTeam(Player player) {
 		for (UHTeam t : teams.getTeamsList()) {
 			if (t.isContained(player))
 			{
@@ -262,7 +264,7 @@ public class OpenUHC extends JavaPlugin {
 	 * @param team The name of the team
 	 * @return true if the player has been successfully removed, false if the team doesn't exist or if the player isn't in the team
 	 */
-	public boolean delFromTeam(String player, String team) {
+	public boolean delFromTeam(Player player, String team) {
 		if (teams.getTeam(team) == null)
 			return false;
 		if (!teams.getTeam(team).isContained(player))
@@ -277,8 +279,7 @@ public class OpenUHC extends JavaPlugin {
 	 */
 	public void reduceSize(ArrayList<Integer> l) {
 		setLimits(l);
-		for (String j : joueurs) {
-			Player p = Bukkit.getOfflinePlayer(j).getPlayer();
+		for (Player p : joueurs) {
 			if (p != null) {
 				if (!isInLimits(p.getLocation().getBlockX(), p.getLocation().getBlockZ()))
 					p.teleport(getRandLoc());
@@ -342,14 +343,14 @@ public class OpenUHC extends JavaPlugin {
 	
 	
 	
-	public boolean addPlayer(String teamName, String playerName) {
-		if (getTeam(playerName) != null)
+	public boolean addPlayer(String teamName, Player player) {
+		if (getTeam(player) != null)
 			return false;
 		
 		if (!teams.teamExists(teamName))
 			return false;
 		
-		teams.getTeam(teamName).addPlayer(playerName);
+		teams.getTeam(teamName).addPlayer(player);
 		return true;
 	}
 	
@@ -359,7 +360,9 @@ public class OpenUHC extends JavaPlugin {
 	// GETTERS  //
 	//////////////
 	
-	
+	public SpectatorManager getSpectatorManager() {
+		return spectatorManager;
+	}
 	
 	//////////////
 	// UTILS    //
