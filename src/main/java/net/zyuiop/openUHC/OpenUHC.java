@@ -80,6 +80,8 @@ public class OpenUHC extends JavaPlugin {
 		setCustomCrafts();
 	}
 	
+	
+	
 	private void setCustomCrafts() {
 		/* Melon */
 		this.getServer().addRecipe(getMelonRecipe());
