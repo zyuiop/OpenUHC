@@ -95,30 +95,32 @@ public class Game {
 	 */
 	@SuppressWarnings("deprecation")
 	public void finish(String winner) {
-		this.winner = winner;
-		this.isWon = true;
-		for (Player p : Bukkit.getOnlinePlayers()) {
-			for (String cmd : pl.getConfig().getStringList("commands.everyone")) {
-				pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), cmd.replace("{PLAYER}", p.getName()));
-			}
-		}
-		if (this.solo == true) {
-			for (String wcmd : pl.getConfig().getStringList("commands.winner")) {
-				pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), wcmd.replace("{PLAYER}", winner));
-			}
-		}
-		else {
-			for(String wcmd : pl.getConfig().getStringList("commands.winner")) {
-				for (Player player : pl.teams.getTeam(winner).getPlayers()) {
-					pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), wcmd.replace("{PLAYER}", player.getName()));
+		if (!this.isWon) {
+			this.winner = winner;
+			this.isWon = true;
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				for (String cmd : pl.getConfig().getStringList("commands.everyone")) {
+					pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), cmd.replace("{PLAYER}", p.getName()));
 				}
 			}
-		}
-		for (String fcmd : pl.getConfig().getStringList("commands.final")) {
-			pl.getServer().getScheduler().runTaskLater(pl, new RunCommandTask(pl, fcmd), pl.getConfig().getLong("delay_before_final") * 20);
-		}
-		if (pl.c != null) {
-			pl.c.stop();
+			if (this.solo == true) {
+				for (String wcmd : pl.getConfig().getStringList("commands.winner")) {
+					pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), wcmd.replace("{PLAYER}", winner));
+				}
+			}
+			else {
+				for(String wcmd : pl.getConfig().getStringList("commands.winner")) {
+					for (Player player : pl.teams.getTeam(winner).getPlayers()) {
+						pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), wcmd.replace("{PLAYER}", player.getName()));
+					}
+				}
+			}
+			for (String fcmd : pl.getConfig().getStringList("commands.final")) {
+				pl.getServer().getScheduler().runTaskLater(pl, new RunCommandTask(pl, fcmd), pl.getConfig().getLong("delay_before_final") * 20);
+			}
+			if (pl.c != null) {
+				pl.c.stop();
+			}
 		}
 	}
 	
