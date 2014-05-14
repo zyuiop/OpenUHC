@@ -60,10 +60,14 @@ public class ScoreboardManager implements org.bukkit.scoreboard.ScoreboardManage
 		{
 			Bukkit.getServer().broadcastMessage(ChatColor.GOLD+"L'équipe "+plugin.teams.getTeamsList().get(0).getColorizedName()+ChatColor.GOLD+" a gagné la partie !");
 			plugin.game.finish(plugin.teams.getTeamsList().get(0).getName());
-		} else if (plugin.getGame().solo == true && plugin.joueurs.size() <= 1) {
-			if (!plugin.game.isWon) {
+		} else if (plugin.getGame().solo == true && plugin.joueurs.size() == 1) {
+			if (!plugin.getGame().isWon) {
 				Bukkit.getServer().broadcastMessage(ChatColor.GOLD+"Le joueur "+plugin.joueurs.get(0).getDisplayName() +" a gagné la partie !");
 				plugin.game.finish(plugin.joueurs.get(0).getDisplayName());
+			}
+			else if (plugin.getGame().solo && plugin.joueurs.size() == 0) {
+				Bukkit.getServer().broadcastMessage(ChatColor.GOLD + "Égalité, personne ne gagne !");
+				plugin.getGame().finish("");
 			}
 		}
 	}
