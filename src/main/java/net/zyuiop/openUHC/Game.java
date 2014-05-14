@@ -93,6 +93,7 @@ public class Game {
 	 * This method doesn't need to be called as it's automatically called when a team or a player wins
 	 * @param winner The name of the winner (Player or team)
 	 */
+	@SuppressWarnings("deprecation")
 	public void finish(String winner) {
 		this.winner = winner;
 		this.isWon = true;
@@ -115,6 +116,9 @@ public class Game {
 		}
 		for (String fcmd : pl.getConfig().getStringList("commands.final")) {
 			pl.getServer().getScheduler().runTaskLater(pl, new RunCommandTask(pl, fcmd), pl.getConfig().getLong("delay_before_final") * 20);
+		}
+		if (pl.c != null) {
+			pl.c.stop();
 		}
 	}
 	

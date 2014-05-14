@@ -66,9 +66,9 @@ public class ScoreboardManager implements org.bukkit.scoreboard.ScoreboardManage
 		} else if (plugin.getGame().solo == true && plugin.joueurs.size() <= 1) {
 			if (plugin.c != null) {
 				plugin.c.stop();
-				Bukkit.getServer().broadcastMessage(ChatColor.GOLD+"Le joueur "+plugin.joueurs.get(0)+" a gagné la partie !");
-				plugin.game.finish(plugin.joueurs.get(0).getDisplayName());
 			}
+			Bukkit.getServer().broadcastMessage(ChatColor.GOLD+"Le joueur "+plugin.joueurs.get(0)+" a gagné la partie !");
+			plugin.game.finish(plugin.joueurs.get(0).getDisplayName());
 		}
 	}
 	
