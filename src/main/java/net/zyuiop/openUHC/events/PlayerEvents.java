@@ -5,9 +5,11 @@ import net.zyuiop.openUHC.OpenUHC;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -16,6 +18,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class PlayerEvents implements Listener {
 	private OpenUHC pl;
@@ -96,4 +99,48 @@ public class PlayerEvents implements Listener {
 		e.setCancelled(!pl.getGame().getStarted() || !pl.isIngame(e.getPlayer()));
 	}
 	
+	@SuppressWarnings("deprecation")
+	@EventHandler
+	public void onPlayerInteract(PlayerInteractEvent ev) {
+		if ((ev.getAction() == Action.RIGHT_CLICK_AIR || ev.getAction() == Action.RIGHT_CLICK_BLOCK) && ev.getPlayer().getItemInHand().getType() == Material.COMPASS && pl.isCompassEnabled()) {
+			Player p = ev.getPlayer();
+			Boolean foundItem = false;
+			Material mat = Material.ROTTEN_FLESH;
+			String item = "rotten flesh";
+			if (pl.isCompassHarder()) {
+				mat = Material.SULPHUR;
+				item = "gunpowder";
+			}
+			for (ItemStack is : p.getInventory().getContents()) {
+				if (is != null && is.getType() == mat) {
+					if (is.getAmount() != 1) is.setAmount(is.getAmount()-1);
+					else { p.getInventory().removeItem(is); }
+					p.updateInventory();
+					foundItem = true;
+					break;
+				}
+			}
+			if (!foundItem) {
+				p.sendMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Vous n'avez pas de "+item);
+				return;
+			}
+			Player nearest = null;
+			Double distance = 99999D;
+			for (Player pl2 : p.getServer().getOnlinePlayers()) {
+				try {	
+					Double calc = p.getLocation().distance(pl2.getLocation());
+					if (calc > 1 && calc < distance) {
+							distance = calc;
+							if (pl2 != p && pl.getTeam(pl2) != pl.getTeam(p)) nearest = pl2.getPlayer();
+					}
+				} catch (Exception e) {}
+			}
+			if (nearest == null) {
+				p.sendMessage(ChatColor.RED+""+ChatColor.ITALIC+"Aucune joueur trouvé");
+				return;
+			}
+				p.sendMessage(ChatColor.GREEN+"La boussole pointe sur le joueur le plus proche.");
+				p.setCompassTarget(nearest.getLocation());
+		}
+	}
 }
