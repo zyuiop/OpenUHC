@@ -1,31 +1,30 @@
 package net.zyuiop.openUHC.utils;
 
 import java.util.Random;
-import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 public class UHUtils {
-	public static void showProgress(double done, double work, Logger log) {
+	public static void showProgress(double done, double work) {
 		if ((done/work) == 0.1)
-			log.info(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 10%");
+			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 10%");
 		if ((done/work) == 0.2)
-			log.info(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 20%");
+			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 20%");
 		if ((done/work) == 0.3)
-			log.info(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 30%");
+			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 30%");
 		if ((done/work) == 0.4)
-			log.info(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 40%");
+			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 40%");
 		if ((done/work) == 0.5)
-			log.info(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 50%");
+			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 50%");
 		if ((done/work) == 0.6)
-			log.info(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 60%");
+			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 60%");
 		if ((done/work) == 0.7)
-			log.info(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 70%");
+			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 70%");
 		if ((done/work) == 0.8)
-			log.info(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 80%");
+			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 80%");
 		if ((done/work) == 0.9)
-			log.info(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 90%");
+			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 90%");
 	}
 	
 

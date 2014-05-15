@@ -80,9 +80,6 @@ public class OpenUHC extends JavaPlugin {
 	        }
 		}
 		setCustomCrafts();
-		mapSize = getConfig().getInt("map-size");
-		setLimits();
-		generateWalls();
 	}
 	
 	
@@ -161,7 +158,7 @@ public class OpenUHC extends JavaPlugin {
 	 * Protected method, called automatically when you shrink the map or when you start the game.
 	 */
 	protected void generateWalls() {
-		getLogger().info(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs...");
+		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs...");
 		World w = getWorld();
 		double work = (mapSize*4)*255;
 		double done = 0;
@@ -175,9 +172,9 @@ public class OpenUHC extends JavaPlugin {
 				
 				y++;
 				done++;
-				UHUtils.showProgress(done,work, getLogger());
+				UHUtils.showProgress(done,work);
 				done++;
-				UHUtils.showProgress(done,work, getLogger());
+				UHUtils.showProgress(done,work);
 			}
 			x++;
 		}
@@ -191,13 +188,13 @@ public class OpenUHC extends JavaPlugin {
 				
 				y++;
 				done++;
-				UHUtils.showProgress(done,work,getLogger());
+				UHUtils.showProgress(done,work);
 				done++;
-				UHUtils.showProgress(done,work,getLogger());
+				UHUtils.showProgress(done,work);
 			}
 			z++;
 		}
-		getLogger().info(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs terminée !");
+		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs terminée !");
 
 	}
 	
