@@ -17,20 +17,24 @@ public class CommandTeams implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (pl.getGame().canJoin() == false) {
-			sender.sendMessage(ChatColor.RED+"La partie est dèjà en cours.");
-			return true;
-		}
 		if (args.length < 1) {
 			return false;
 		}
 		if (args[0].equalsIgnoreCase("add") && args.length == 2) {
+			if (pl.getGame().canJoin() == false) {
+				sender.sendMessage(ChatColor.RED+"La partie est dèjà en cours.");
+				return true;
+			}
 			if (!pl.teamManager().registerTeam(args[1]))
 				sender.sendMessage(ChatColor.RED+"Cette équipe existe déjà.");
 			else
 				sender.sendMessage(ChatColor.GREEN+"L'équipe a bien été créée.");
 			return true;
 		} else if (args[0].equalsIgnoreCase("delete") && args.length == 2) {
+			if (pl.getGame().canJoin() == false) {
+				sender.sendMessage(ChatColor.RED+"La partie est dèjà en cours.");
+				return true;
+			}
 			if (!pl.teamManager().deleteTeam(args[1]))
 				sender.sendMessage(ChatColor.RED+"L'équipe n'a pas pu être supprimée, elle n'existe probablement pas.");
 			else
