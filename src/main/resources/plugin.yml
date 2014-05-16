@@ -30,12 +30,17 @@ commands:
         permission-message: Permission manquante
     tp:
        description: Teleport to another player
-       usage: /<command>
+       usage: /<command> <player>
        aliases: [teleport]
 permissions:
+    uhpl.cheat.telport:
+      description: Allows teleporting to another player while in game
+      default: op
     uhpl.gameadmin:
         default: op
         description: Permission de gestion de game
+        children:
+          - uhpl.cheat.teleport
     uhpl.join:
         default: op
         description: Autorise le join si le jeu est lance
