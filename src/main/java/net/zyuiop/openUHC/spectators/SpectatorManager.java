@@ -36,9 +36,6 @@ public class SpectatorManager {
 		if (!isSpectator(p))
 			spectators.add(p);
 		p.setGameMode(GameMode.CREATIVE);
-		p.setAllowFlight(true);
-		p.setHealth(p.getMaxHealth());
-		p.setFoodLevel(20);
 		for (Player player : pl.getServer().getOnlinePlayers()) {
 			if (!isSpectator(player)) {
 				player.hidePlayer(p);
@@ -56,7 +53,7 @@ public class SpectatorManager {
 	}
 	
 	public void playersInventory(Player destination) {
-		Inventory inv = this.pl.getServer().createInventory(destination, Bukkit.getServer().getMaxPlayers()+1, "- Joueurs -");
+		Inventory inv = this.pl.getServer().createInventory(destination, Bukkit.getServer().getMaxPlayers()+1, pl.getConfig().getString("players_inventory_name", "Joueurs en jeu"));
 		Integer slot = 0;
 		ItemStack is = null;
 		for (Player p : pl.getPlayers()) {

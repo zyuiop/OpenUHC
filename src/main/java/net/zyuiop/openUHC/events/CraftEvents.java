@@ -12,10 +12,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.inventory.meta.SkullMeta;
 
 public class CraftEvents implements Listener {
 
@@ -41,6 +43,30 @@ public class CraftEvents implements Listener {
 		} catch (Exception e) {
 			Bukkit.getLogger().warning(ChatColor.RED+"Une erreur s'est produite durant l'analyse du craft");
 			e.printStackTrace();
+		}
+	}
+	
+	@EventHandler
+	public void onInventoryClick(InventoryClickEvent e) {
+		if (e.getInventory().getName() == pl.getConfig().getString("players_inventory_name", "Joueurs en jeu")) {
+			Player p = (Player) e.getWhoClicked();
+			e.setCancelled(true);
+			if (e.getCurrentItem().getType() == Material.IRON_DOOR) {
+				p.closeInventory();
+			} else if (e.getCurrentItem().getType() == Material.SKULL) {
+				p.closeInventory();
+				SkullMeta meta = (SkullMeta) e.getCurrentItem().getItemMeta();
+				if (pl.isIngame((Player) Bukkit.getOfflinePlayer(meta.getOwner()))) {
+					Player dest = Bukkit.getPlayer(meta.getOwner());
+					if (dest == null) {
+						p.sendMessage(ChatColor.RED+"Le joueur n'est pas connecté.");
+					} else {
+						p.teleport(dest);
+					}
+				} else {
+					p.sendMessage(ChatColor.RED+"Le joueur n'est plus en jeu.");
+				}
+			}
 		}
 	}
 }
