@@ -73,7 +73,7 @@ public class SpectatorManager {
 		ItemMeta meta = close.getItemMeta();
 		meta.setDisplayName(ChatColor.RED+"Fermer");
 		close.setItemMeta(meta);
-		inv.setItem(inv.getSize(), close);
+		inv.setItem(inv.getSize()-1, close);
 		destination.openInventory(inv);
 		
 	}
