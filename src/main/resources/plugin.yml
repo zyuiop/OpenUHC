@@ -30,7 +30,7 @@ commands:
         permission-message: Permission manquante
     tp:
        description: Teleport to another player
-       usage: /<command>
+       usage: /<command> <player>
        aliases: [teleport]
 permissions:
     uhpl.cheat.telport:
