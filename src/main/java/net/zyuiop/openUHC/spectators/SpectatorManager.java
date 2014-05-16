@@ -37,6 +37,12 @@ public class SpectatorManager {
 		if (!isSpectator(p))
 			spectators.add(p);
 		p.setGameMode(GameMode.CREATIVE);
+		p.getInventory().clear();
+		ItemStack playersItem = new ItemStack(Material.COMPASS, 1);
+		ItemMeta meta = playersItem.getItemMeta();
+		meta.setDisplayName(ChatColor.GOLD+"Téléportation aux joueurs");
+		playersItem.setItemMeta(meta);
+		p.getInventory().setItemInHand(playersItem);
 		for (Player player : pl.getServer().getOnlinePlayers()) {
 			if (!isSpectator(player)) {
 				player.hidePlayer(p);
@@ -58,6 +64,8 @@ public class SpectatorManager {
 		Integer slot = 0;
 		ItemStack is = null;
 		for (Player p : pl.getPlayers()) {
+			if (p == destination)
+				continue;
 			ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
 	        SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
 	        skullMeta.setOwner(p.getName());
@@ -77,4 +85,6 @@ public class SpectatorManager {
 		destination.openInventory(inv);
 		
 	}
+	
+	
 }
