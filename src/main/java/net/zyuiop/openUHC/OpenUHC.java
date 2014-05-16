@@ -8,12 +8,12 @@ import net.zyuiop.openUHC.commands.CommandPlayers;
 import net.zyuiop.openUHC.commands.CommandShrink;
 import net.zyuiop.openUHC.commands.CommandTeams;
 import net.zyuiop.openUHC.commands.CommandTeleport;
-import net.zyuiop.openUHC.events.BlockEvents;
-import net.zyuiop.openUHC.events.CraftEvents;
-import net.zyuiop.openUHC.events.EntityEvents;
-import net.zyuiop.openUHC.events.MiscEvents;
-import net.zyuiop.openUHC.events.NetworkEvents;
-import net.zyuiop.openUHC.events.PlayerEvents;
+import net.zyuiop.openUHC.listeners.BlockEvents;
+import net.zyuiop.openUHC.listeners.InventoryEvents;
+import net.zyuiop.openUHC.listeners.EntityEvents;
+import net.zyuiop.openUHC.listeners.MiscEvents;
+import net.zyuiop.openUHC.listeners.NetworkEvents;
+import net.zyuiop.openUHC.listeners.PlayerEvents;
 import net.zyuiop.openUHC.spectators.SpectatorManager;
 import net.zyuiop.openUHC.teams.UHTeam;
 import net.zyuiop.openUHC.teams.UHTeamManager;
@@ -67,7 +67,7 @@ public class OpenUHC extends JavaPlugin {
 		getCommand("limits").setExecutor(new CommandLimits(this));
 		
 		getServer().getPluginManager().registerEvents(new BlockEvents(this), this);
-		getServer().getPluginManager().registerEvents(new CraftEvents(this), this);
+		getServer().getPluginManager().registerEvents(new InventoryEvents(this), this);
 		getServer().getPluginManager().registerEvents(new EntityEvents(this), this);
 		getServer().getPluginManager().registerEvents(new MiscEvents(this), this);
 		getServer().getPluginManager().registerEvents(new NetworkEvents(this), this);

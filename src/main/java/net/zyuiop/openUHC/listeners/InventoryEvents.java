@@ -1,4 +1,4 @@
-package net.zyuiop.openUHC.events;
+package net.zyuiop.openUHC.listeners;
 
 
 import java.util.Map;
@@ -19,10 +19,10 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.SkullMeta;
 
-public class CraftEvents implements Listener {
+public class InventoryEvents implements Listener {
 
 	private OpenUHC pl;
-	public CraftEvents(OpenUHC pl) {
+	public InventoryEvents(OpenUHC pl) {
 		this.pl = pl;
 	}
 	

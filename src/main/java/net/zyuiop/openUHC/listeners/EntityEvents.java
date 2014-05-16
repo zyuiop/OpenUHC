@@ -1,4 +1,4 @@
-package net.zyuiop.openUHC.events;
+package net.zyuiop.openUHC.listeners;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package net.zyuiop.openUHC.events;
+package net.zyuiop.openUHC.listeners;
 
 import net.zyuiop.openUHC.OpenUHC;
 
