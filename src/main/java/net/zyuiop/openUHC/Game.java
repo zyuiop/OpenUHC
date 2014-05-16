@@ -3,6 +3,7 @@ package net.zyuiop.openUHC;
 import java.util.HashMap;
 
 import net.zyuiop.openUHC.events.UHCGameEnded;
+import net.zyuiop.openUHC.events.UHCGameStartEvent;
 import net.zyuiop.openUHC.teams.UHTeam;
 import net.zyuiop.openUHC.timers.Countdown;
 
@@ -103,7 +104,7 @@ public class Game {
 		gameStarted = true;
 		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Début du jeu !");
 		new Countdown(pl, pl.getConfig().getInt("damage-disable", 60)).runTaskTimer(pl, 0, 20);
-
+		Bukkit.getServer().getPluginManager().callEvent(new UHCGameStartEvent(this));
 	}
 	
 	/**
