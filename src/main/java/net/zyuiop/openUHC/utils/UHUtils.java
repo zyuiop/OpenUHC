@@ -85,6 +85,6 @@ public class UHUtils {
 		if (size%9 == 0)
 			return size;
 		else
-			return size + (size%9);
+			return (int) (Math.ceil(size/9)*9);
 	}
 }
