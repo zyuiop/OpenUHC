@@ -14,7 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
         
         private String callback;
      
-        public Countdown(OpenUHC openUHC, int counter, String callback) {
+        public Countdown(OpenUHC openUHC, int counter) {
             this.plugin = openUHC;
             this.callback = callback;
             if (counter < 1) {
@@ -28,15 +28,9 @@ import org.bukkit.scheduler.BukkitRunnable;
         public void run() {
             // What you want to schedule goes here
             if (counter > 0) { 
-            	String evname = "";
-            	String evnamechat = "";
-            	if (callback == "degats") {
-            		evname = "Invincibilité";
-            		evnamechat = ChatColor.GOLD+"Fin d'invincibilité";
-            	} else if (callback == "pvp") {
-            		evname = "No-PvP";
-            		evnamechat = ChatColor.RED+"Activation du PvP";
-            	} 
+            	String evname = "Invincibilité";
+            	String evnamechat = ChatColor.GOLD+"Fin d'invincibilité";
+            	
             	plugin.getSbManager().setPhase(evname);
             	plugin.getSbManager().formatTime(counter);
             	plugin.getSbManager().refresh();
@@ -64,14 +58,10 @@ import org.bukkit.scheduler.BukkitRunnable;
             } else {
             	plugin.getSbManager().formatTime(0);
             	plugin.getSbManager().refresh();
-            	if (callback == "degats") {
-            		Bukkit.broadcastMessage(ChatColor.GOLD+"Fin de la période d'invincibilité !");
-            		plugin.getGame().enableDegats();
-            	} else if (callback == "pvp") {
-            		Bukkit.broadcastMessage(ChatColor.RED+"Le PvP est activé !");
-            		plugin.getGame().enablePVP();
-            		plugin.getGame().runGame();
-            	}
+            	Bukkit.broadcastMessage(ChatColor.GOLD+"Fin de la période d'invincibilité !");
+            	plugin.getGame().enableDegats();
+            	plugin.getGame().runGame();
+            	
                 this.cancel();
             }
         }

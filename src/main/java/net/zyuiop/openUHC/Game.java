@@ -19,7 +19,6 @@ public class Game {
 	protected String winner = null;
 	protected boolean solo = true;	
 	protected boolean canJoin = true;
-	protected boolean pvp = false;
 	protected boolean degats = false;
 	protected boolean gameStarted = false;
 	
@@ -89,7 +88,7 @@ public class Game {
 		// start
 		gameStarted = true;
 		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Début du jeu !");
-		new Countdown(pl, pl.getConfig().getInt("damage-disable", 30), "degats").runTaskTimer(pl, 0, 20);
+		new Countdown(pl, pl.getConfig().getInt("damage-disable", 60)).runTaskTimer(pl, 0, 20);
 
 	}
 	
@@ -169,13 +168,6 @@ public class Game {
 	}
 	
 	/**
-	 * Enable PvP (automatically called)
-	 */
-	public void enablePVP() {
-		pvp = true;
-	}
-	
-	/**
 	 * Called automatically when the pvp is enabled, it finishes the init phase of the game.
 	 */
 	public void runGame() {
@@ -188,7 +180,7 @@ public class Game {
 	 */
 	public void enableDegats() {
 		degats = true;
-		new Countdown(pl, pl.getConfig().getInt("pvp-disable", 120), "pvp").runTaskTimer(pl, 0, 20);
+		
 	}
 	
 	/**
@@ -201,8 +193,9 @@ public class Game {
 	/**
 	 * @return true if PvP is enabled, false else
 	 */
+	@Deprecated
 	public boolean canPvP() {
-		return pvp;
+		return degats;
 	}
 	
 }
