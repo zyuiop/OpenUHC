@@ -53,7 +53,7 @@ public class CraftEvents implements Listener {
 			e.setCancelled(true);
 			if (e.getCurrentItem().getType() == Material.IRON_DOOR) {
 				p.closeInventory();
-			} else if (e.getCurrentItem().getType() == Material.SKULL) {
+			} else if (e.getCurrentItem().getType() != null) {
 				p.closeInventory();
 				SkullMeta meta = (SkullMeta) e.getCurrentItem().getItemMeta();
 				if (pl.isIngame((Player) Bukkit.getOfflinePlayer(meta.getOwner()))) {
