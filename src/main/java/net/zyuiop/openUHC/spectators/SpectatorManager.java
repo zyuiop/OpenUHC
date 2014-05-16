@@ -6,7 +6,11 @@ import java.util.List;
 import net.zyuiop.openUHC.OpenUHC;
 
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class SpectatorManager {
 	protected final OpenUHC pl;
@@ -26,7 +30,7 @@ public class SpectatorManager {
 	public void addPlayer(Player p) {
 		if (!isSpectator(p))
 			spectators.add(p);
-		p.setGameMode(GameMode.ADVENTURE);
+		p.setGameMode(GameMode.CREATIVE);
 		p.setAllowFlight(true);
 		p.setHealth(p.getMaxHealth());
 		p.setFoodLevel(20);
@@ -44,5 +48,19 @@ public class SpectatorManager {
 	 */
 	public boolean isSpectator(Player p) {
 		return spectators.contains(p);
+	}
+	
+	public void playersInventory(Player destination) {
+		Inventory inv = this.pl.getServer().createInventory(destination, 54, "- Joueurs -");
+		Integer slot = 0;
+		ItemStack is = null;
+		for (Player p : pl.getPlayers()) {
+			is = new ItemStack(Material.SKULL);
+			ItemMeta im = is.getItemMeta();
+			im.setDisplayName(p.getName());
+			is.setItemMeta(im);
+			inv.setItem(slot, is);
+			slot++;
+		}
 	}
 }

@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class CommandPlayers implements CommandExecutor {
 	
@@ -21,6 +22,11 @@ public class CommandPlayers implements CommandExecutor {
 		}
 		if (args.length < 1) {
 			return false;
+		}
+		/* Test command only */
+		if (args[0].equals("inv")) {
+			pl.getSpectatorManager().playersInventory((Player) sender);
+			return true;
 		}
 		if (args[0].equalsIgnoreCase("add") && args.length == 3) {
 			if (!pl.addPlayer(args[1], pl.getServer().getPlayer(args[2])))

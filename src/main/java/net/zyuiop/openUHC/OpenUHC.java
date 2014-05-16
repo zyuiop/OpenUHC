@@ -386,5 +386,13 @@ public class OpenUHC extends JavaPlugin {
 		c.start();
 	}
 	
+	/**
+	 * Get ingame players
+	 * @return a list of ingame players
+	 */
+	public ArrayList<Player> getPlayers() {
+		return this.joueurs;
+	}
+	
 }
 
