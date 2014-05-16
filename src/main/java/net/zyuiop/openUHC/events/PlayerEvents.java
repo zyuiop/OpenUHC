@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -142,5 +143,9 @@ public class PlayerEvents implements Listener {
 				p.sendMessage(ChatColor.GREEN+"La boussole pointe sur le joueur le plus proche.");
 				p.setCompassTarget(nearest.getLocation());
 		}
+	}
+	@EventHandler
+	public void itemDrop(PlayerDropItemEvent e) {
+		e.setCancelled(!pl.isIngame(e.getPlayer()) || !pl.getGame().getStarted());
 	}
 }
