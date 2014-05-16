@@ -7,10 +7,13 @@ import net.zyuiop.openUHC.OpenUHC;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.material.Skull;
 
 public class SpectatorManager {
 	protected final OpenUHC pl;
@@ -55,12 +58,14 @@ public class SpectatorManager {
 		Integer slot = 0;
 		ItemStack is = null;
 		for (Player p : pl.getPlayers()) {
-			is = new ItemStack(Material.SKULL);
-			ItemMeta im = is.getItemMeta();
-			im.setDisplayName(p.getName());
-			is.setItemMeta(im);
-			inv.setItem(slot, is);
+			ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
+	        SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
+	        skullMeta.setOwner(p.getName());
+	        skullMeta.setDisplayName(p.getName());
+	        skull.setItemMeta(skullMeta);
+	        inv.addItem(skull);
 			slot++;
 		}
+		destination.openInventory(inv);
 	}
 }

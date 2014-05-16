@@ -16,6 +16,10 @@ public class CommandPlayers implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		if (args.length < 1) {
+			return false;
+		}
+		
 		if (args[0].equals("inv")) {
 			pl.getSpectatorManager().playersInventory((Player) sender);
 			return true;
@@ -25,9 +29,7 @@ public class CommandPlayers implements CommandExecutor {
 			sender.sendMessage(ChatColor.RED+"La partie est dèjà en cours.");
 			return true;
 		}
-		if (args.length < 1) {
-			return false;
-		}
+		
 		if (args[0].equalsIgnoreCase("add") && args.length == 3) {
 			if (!pl.addPlayer(args[1], pl.getServer().getPlayer(args[2])))
 				sender.sendMessage(ChatColor.RED+"Le joueur n'a pas été ajouté : il est déjà ajouté a une équipe ou la team n'existe pas.");
