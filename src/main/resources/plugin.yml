@@ -6,25 +6,25 @@ commands:
     teams:
         description: Teams management command
         usage: /<command> <add|delete|list> [teamname]
-        permission: uhpl.gameadmin
+        permission: uhpl.admin.teams
         permission-message: Missing permission
     players:
         description: Players management commands
-        usage: /<command> <add|delete|list> [nomteam] [nomjoueur]
-        permission: uhpl.gameadmin
+        usage: /<command> <add|delete|list> [team] [player]
+        permission: uhpl.admin.players
         permission-message: Missing permission
     gamestart:
         description: Startup the game
         usage: /<command>
-        permission: uhpl.gameadmin
+        permission: uhpl.admin.gamestart
         permission-message: Missing permission
     shrink:
         description: Reduce the size of the map by <size>
         usage: /<command> <size>
-        permission: uhpl.gameadmin
+        permission: uhpl.admin.shrink
         permission-message: Missing permission
     limits:
-        description: Shows mao limits
+        description: Shows map limits
         usage: /<command>
         permission: uhpl.joueur
         permission-message: Permission manquante
@@ -36,11 +36,27 @@ permissions:
     uhpl.cheat.telport:
       description: Allows teleporting to another player while in game
       default: op
+    uhpl.admin.teams:
+      description: Allows managing the teams
+      default: op
+    uhpl.admin.players:
+      description: Allows managing players
+      default: op
+    uhpl.admin.gamestart:
+      description: Allows starting the game
+      default: op
+    uhpl.admin.shrink:
+      description: Allows shrinking the map
+      default: op
     uhpl.gameadmin:
         default: op
         description: Permission de gestion de game
         children:
           - uhpl.cheat.teleport
+          - uhpl.admin.teams
+          - uhpl.admin.players
+          - uhpl.admin.gamestart
+          - uhpl.admin.shrink
     uhpl.join:
         default: op
         description: Autorise le join si le jeu est lance
