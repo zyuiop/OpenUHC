@@ -16,17 +16,17 @@ public class CommandPlayers implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		if (args[0].equals("inv")) {
+			pl.getSpectatorManager().playersInventory((Player) sender);
+			return true;
+		}
+		
 		if (pl.getGame().canJoin() == false) {
 			sender.sendMessage(ChatColor.RED+"La partie est dèjà en cours.");
 			return true;
 		}
 		if (args.length < 1) {
 			return false;
-		}
-		/* Test command only */
-		if (args[0].equals("inv")) {
-			pl.getSpectatorManager().playersInventory((Player) sender);
-			return true;
 		}
 		if (args[0].equalsIgnoreCase("add") && args.length == 3) {
 			if (!pl.addPlayer(args[1], pl.getServer().getPlayer(args[2])))
