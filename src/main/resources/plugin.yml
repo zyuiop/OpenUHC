@@ -10,7 +10,7 @@ commands:
         permission-message: Missing permission
     players:
         description: Players management commands
-        usage: /<command> <add|delete> [nomteam] [nomjoueur]
+        usage: /<command> <add|delete|list> [nomteam] [nomjoueur]
         permission: uhpl.gameadmin
         permission-message: Missing permission
     gamestart:
