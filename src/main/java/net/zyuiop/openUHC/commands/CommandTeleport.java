@@ -20,7 +20,7 @@ public class CommandTeleport implements CommandExecutor {
 			return true;
 		}
 		Player p = (Player) sender;
-		if (!pl.getSpectatorManager().isSpectator(p)) {
+		if (!pl.getSpectatorManager().isSpectator(p) && !p.hasPermission("uhpl.cheat.teleport")) {
 			sender.sendMessage(ChatColor.RED + "You must be a spectator");
 			return true;
 		}
