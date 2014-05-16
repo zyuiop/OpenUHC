@@ -7,6 +7,7 @@ import net.zyuiop.openUHC.commands.CommandLimits;
 import net.zyuiop.openUHC.commands.CommandPlayers;
 import net.zyuiop.openUHC.commands.CommandShrink;
 import net.zyuiop.openUHC.commands.CommandTeams;
+import net.zyuiop.openUHC.commands.CommandTeleport;
 import net.zyuiop.openUHC.events.BlockEvents;
 import net.zyuiop.openUHC.events.CraftEvents;
 import net.zyuiop.openUHC.events.EntityEvents;
