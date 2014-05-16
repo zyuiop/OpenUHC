@@ -21,7 +21,11 @@ public class CommandPlayers implements CommandExecutor {
 		}
 		
 		if (sender instanceof Player && args[0].equals("list")) {
-			pl.getSpectatorManager().playersInventory((Player) sender);
+			Player p = (Player) sender;
+			if (!pl.isIngame(p))
+				pl.getSpectatorManager().playersInventory((Player) sender);
+			else
+				sender.sendMessage(ChatColor.RED + "You're not a spectator !");
 			return true;
 		}
 		

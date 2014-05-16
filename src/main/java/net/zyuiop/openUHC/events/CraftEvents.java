@@ -49,22 +49,26 @@ public class CraftEvents implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
 		if (e.getInventory().getName() == pl.getConfig().getString("players_inventory_name", "Joueurs en jeu")) {
-			Player p = (Player) e.getWhoClicked();
-			e.setCancelled(true);
-			if (e.getCurrentItem().getType() == Material.IRON_DOOR) {
-				p.closeInventory();
-			} else if (e.getCurrentItem().getType() != null) {
-				p.closeInventory();
-				SkullMeta meta = (SkullMeta) e.getCurrentItem().getItemMeta();
-				if (pl.isIngame(meta.getOwner())) {
-					Player dest = Bukkit.getPlayer(meta.getOwner());
-					if (dest == null) {
-						p.sendMessage(ChatColor.RED+"Le joueur n'est pas connecté.");
-					} else {
-						p.teleport(dest);
+			if (e.getWhoClicked() instanceof Player) {
+				Player p = (Player) e.getWhoClicked();
+				if (pl.getSpectatorManager().isSpectator(p)) {
+					e.setCancelled(true);
+					if (e.getCurrentItem().getType() == Material.IRON_DOOR) {
+						p.closeInventory();
+					} else if (e.getCurrentItem().getType() != null) {
+						p.closeInventory();
+						SkullMeta meta = (SkullMeta) e.getCurrentItem().getItemMeta();
+						if (pl.isIngame(meta.getOwner())) {
+							Player dest = Bukkit.getPlayer(meta.getOwner());
+							if (dest == null) {
+								p.sendMessage(ChatColor.RED+"Le joueur n'est pas connecté.");
+							} else {
+								p.teleport(dest);
+							}
+						} else {
+							p.sendMessage(ChatColor.RED+"Le joueur n'est plus en jeu.");
+						}
 					}
-				} else {
-					p.sendMessage(ChatColor.RED+"Le joueur n'est plus en jeu.");
 				}
 			}
 		}
