@@ -205,7 +205,7 @@ public class OpenUHC extends JavaPlugin {
 	 * @return true if the player is in game
 	 */
 	public boolean isIngame(Player player) {
-		return joueurs.contains(player);
+		return isIngame(player.getName());
 	}
 	
 	/**

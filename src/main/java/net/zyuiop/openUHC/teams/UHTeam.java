@@ -52,7 +52,9 @@ public class UHTeam {
 	}
 	
 	public boolean isContained(Player player) {
-		return this.players.contains(player);
+		for (Player p : players)
+			if (p.getName().equals(player.getName())) return true;
+		return false;
 	}
 	
 	public ArrayList<Player> getPlayers() {
