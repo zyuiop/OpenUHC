@@ -80,4 +80,11 @@ public class UHUtils {
 		
 		return c.replaceAll("(?i)&([a-f0-9])", "\u00A7$1");
 	}
+	
+	public static int getClosestChestSize(int size) {
+		if (size%9 == 0)
+			return size;
+		else
+			return size + (size%9);
+	}
 }

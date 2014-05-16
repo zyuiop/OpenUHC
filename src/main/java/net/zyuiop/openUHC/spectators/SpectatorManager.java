@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.zyuiop.openUHC.OpenUHC;
+import net.zyuiop.openUHC.utils.UHUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -53,7 +54,7 @@ public class SpectatorManager {
 	}
 	
 	public void playersInventory(Player destination) {
-		Inventory inv = this.pl.getServer().createInventory(destination, Bukkit.getServer().getMaxPlayers()+1, pl.getConfig().getString("players_inventory_name", "Joueurs en jeu"));
+		Inventory inv = this.pl.getServer().createInventory(destination, UHUtils.getClosestChestSize(Bukkit.getServer().getMaxPlayers()+1), pl.getConfig().getString("players_inventory_name", "Joueurs en jeu"));
 		Integer slot = 0;
 		ItemStack is = null;
 		for (Player p : pl.getPlayers()) {
@@ -74,5 +75,6 @@ public class SpectatorManager {
 		close.setItemMeta(meta);
 		inv.setItem(inv.getSize(), close);
 		destination.openInventory(inv);
+		
 	}
 }
