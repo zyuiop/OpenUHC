@@ -92,6 +92,12 @@ public class PlayerEvents implements Listener {
 	}
 	@EventHandler
 	public void interact(PlayerInteractEvent e) {
+		if (pl.getSpectatorManager().isSpectator(e.getPlayer())) {
+			if ((e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) && e.getPlayer().getItemInHand().getType() == Material.COMPASS) {
+				pl.getSpectatorManager().playersInventory(e.getPlayer());
+			}
+		}
+		
 		e.setCancelled(!pl.getGame().getStarted() || !pl.isIngame(e.getPlayer()));
 	}
 	
@@ -103,7 +109,7 @@ public class PlayerEvents implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent ev) {
-		if ((ev.getAction() == Action.RIGHT_CLICK_AIR || ev.getAction() == Action.RIGHT_CLICK_BLOCK) && ev.getPlayer().getItemInHand().getType() == Material.COMPASS && pl.isCompassEnabled()) {
+		if (pl.isIngame(ev.getPlayer()) && (ev.getAction() == Action.RIGHT_CLICK_AIR || ev.getAction() == Action.RIGHT_CLICK_BLOCK) && ev.getPlayer().getItemInHand().getType() == Material.COMPASS && pl.isCompassEnabled()) {
 			Player p = ev.getPlayer();
 			Boolean foundItem = false;
 			Material mat = Material.ROTTEN_FLESH;

@@ -20,7 +20,7 @@ public class CommandPlayers implements CommandExecutor {
 			return false;
 		}
 		
-		if (args[0].equals("inv")) {
+		if (sender instanceof Player && args[0].equals("list")) {
 			pl.getSpectatorManager().playersInventory((Player) sender);
 			return true;
 		}
