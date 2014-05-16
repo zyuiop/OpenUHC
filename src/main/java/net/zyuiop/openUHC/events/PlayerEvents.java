@@ -29,15 +29,16 @@ public class PlayerEvents implements Listener {
 	
 	@EventHandler
 	public void joinEvent(PlayerLoginEvent e) {
+		if (!pl.getGame().isFinished() && !e.getPlayer().hasPermission("uhpl.join")) {
+			e.disallow(Result.KICK_OTHER, "La partie est finie !");
+		}
 		if (!pl.getGame().canJoin() && !e.getPlayer().hasPermission("uhpl.join") && !pl.isIngame(e.getPlayer())) {
 			if(pl.getConfig().getBoolean("allow_spectators")) {
 				pl.getSpectatorManager().addPlayer(e.getPlayer());
 				e.getPlayer().sendMessage(ChatColor.GREEN + "Vous rejoignez le jeu en tant que spectateur");
 				return;
 			}
-			e.disallow(Result.KICK_OTHER, "Le jeu est dèjà lancé.");
-			e.setResult(Result.KICK_OTHER);
-			e.setKickMessage("Le jeu est dèjà lancé.");
+			e.disallow(Result.KICK_OTHER, "Le jeu est déjà lancé.");
 			return;
 		}
 		
@@ -84,7 +85,7 @@ public class PlayerEvents implements Listener {
 	@EventHandler
 	public void respawn(PlayerRespawnEvent e) {
 		Player p = e.getPlayer();
-		if (!pl.isIngame(p)) {
+		if (!pl.isIngame(p) && !pl.getGame().isFinished()) {
 			p.sendMessage(ChatColor.RED + "Vous êtes mort !");
 			p.sendMessage(ChatColor.GREEN + "Vous êtes désormais spectateur.");
 			pl.getSpectatorManager().addPlayer(p);
