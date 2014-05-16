@@ -2,6 +2,7 @@ package net.zyuiop.openUHC;
 
 import java.util.HashMap;
 
+import net.zyuiop.openUHC.events.UHCGameEnded;
 import net.zyuiop.openUHC.teams.UHTeam;
 import net.zyuiop.openUHC.timers.Countdown;
 
@@ -124,6 +125,7 @@ public class Game {
 				for (String wcmd : pl.getConfig().getStringList("commands.winner")) {
 					pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), wcmd.replace("{PLAYER}", winner));
 				}
+				Bukkit.getServer().getPluginManager().callEvent(new UHCGameEnded(winner));
 			}
 			else {
 				for(String wcmd : pl.getConfig().getStringList("commands.winner")) {
@@ -131,9 +133,11 @@ public class Game {
 						pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), wcmd.replace("{PLAYER}", player.getName()));
 					}
 				}
+				Bukkit.getServer().getPluginManager().callEvent(new UHCGameEnded(pl.teams.getTeam(winner)));
 			}
 			for (String fcmd : pl.getConfig().getStringList("commands.final")) {
 				pl.getServer().getScheduler().runTaskLater(pl, new RunCommandTask(pl, fcmd), pl.getConfig().getLong("delay_before_final") * 20);
+				
 			}
 			pl.c.stop();
 		}
