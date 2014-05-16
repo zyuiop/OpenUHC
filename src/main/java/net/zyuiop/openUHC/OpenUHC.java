@@ -58,6 +58,7 @@ public class OpenUHC extends JavaPlugin {
 	public void onEnable() {
 		sbmanager = new ScoreboardManager(this);
 		spectatorManager = new SpectatorManager(this);
+		getCommand("tp").setExecutor(new CommandTeleport(this));
 		getCommand("teams").setExecutor(new CommandTeams(this));
 		getCommand("players").setExecutor(new CommandPlayers(this));
 		getCommand("gamestart").setExecutor(new CommandGamestart(this));
