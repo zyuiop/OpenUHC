@@ -62,7 +62,19 @@ public class Game {
 		else {
 			for (UHTeam t : pl.teams.getTeamsList()) {
 				Location l = pl.getRandLoc();
-				w.getChunkAt(l).load(true);
+				int x = l.getChunk().getX()-Bukkit.getViewDistance();
+				int toX = x + (Bukkit.getViewDistance() * 2);
+				int toZ = x + (Bukkit.getViewDistance() * 2);
+				
+				while (x < toX) {
+					int z = l.getChunk().getZ()-Bukkit.getViewDistance();
+					while (z < toZ) {
+						pl.getWorld().loadChunk(x,z);
+						z++;
+					}
+					x++;
+				}
+				
 				for (Player p : t.getPlayers()) {
 					posTp.put(p, l);
 				}
@@ -72,6 +84,7 @@ public class Game {
 		for (Player pl : posTp.keySet()) {
 			pl.setGameMode(GameMode.SURVIVAL);
 			pl.getInventory().clear();
+			pl.closeInventory();
 			pl.setLevel(0);
 			pl.setExp(0);
 			pl.setHealth(20);
