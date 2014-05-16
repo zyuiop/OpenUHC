@@ -394,7 +394,7 @@ public class OpenUHC extends JavaPlugin {
 	}
 	
 	public void startChrono() {
-		c = new ChronoThread(this, this.getConfig().getInt("damage-disable")+this.getConfig().getInt("pvp-disable"));
+		c = new ChronoThread(this, this.getConfig().getInt("damage-disable"));
 		c.start();
 	}
 	
