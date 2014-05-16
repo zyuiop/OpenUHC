@@ -5,6 +5,11 @@ import net.zyuiop.openUHC.teams.UHTeam;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+/**
+ * Event fired when the games end
+ * @author zyuiop
+ *
+ */
 public class UHCGameEnded extends Event {
 
 	private Object winner;
@@ -25,6 +30,10 @@ public class UHCGameEnded extends Event {
 		return null;
 	}
 	
+	/**
+	 * Return the winner object
+	 * @return winner, can be an UHTeam or a String which is the name of the player
+	 */
 	public Object getWinner() {
 		return winner;
 	}
