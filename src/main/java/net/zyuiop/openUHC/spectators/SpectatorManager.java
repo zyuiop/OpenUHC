@@ -47,6 +47,9 @@ public class SpectatorManager {
 			if (!isSpectator(player)) {
 				player.hidePlayer(p);
 			}
+			else {
+				p.showPlayer(player);
+			}
 		}
 	}
 	

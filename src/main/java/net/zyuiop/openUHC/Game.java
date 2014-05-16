@@ -73,10 +73,15 @@ public class Game {
 		for (Player pl : posTp.keySet()) {
 			pl.setGameMode(GameMode.SURVIVAL);
 			pl.getInventory().clear();
+			pl.setLevel(0);
+			pl.setExp(0);
 			pl.setHealth(20);
 			pl.setFoodLevel(20);
 			pl.setFlying(false);
 			pl.teleport(posTp.get(pl));
+			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+				pl.showPlayer(p);
+			}
 		}
 		
 		// gen tp chunks
