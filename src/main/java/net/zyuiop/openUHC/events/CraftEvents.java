@@ -56,7 +56,7 @@ public class CraftEvents implements Listener {
 			} else if (e.getCurrentItem().getType() != null) {
 				p.closeInventory();
 				SkullMeta meta = (SkullMeta) e.getCurrentItem().getItemMeta();
-				if (pl.isIngame((Player) Bukkit.getOfflinePlayer(meta.getOwner()))) {
+				if (pl.isIngame(meta.getOwner())) {
 					Player dest = Bukkit.getPlayer(meta.getOwner());
 					if (dest == null) {
 						p.sendMessage(ChatColor.RED+"Le joueur n'est pas connecté.");
