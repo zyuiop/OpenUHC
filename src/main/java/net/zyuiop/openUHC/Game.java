@@ -118,9 +118,7 @@ public class Game {
 			for (String fcmd : pl.getConfig().getStringList("commands.final")) {
 				pl.getServer().getScheduler().runTaskLater(pl, new RunCommandTask(pl, fcmd), pl.getConfig().getLong("delay_before_final") * 20);
 			}
-			if (pl.c != null) {
-				pl.c.stop();
-			}
+			pl.c.stop();
 		}
 	}
 	

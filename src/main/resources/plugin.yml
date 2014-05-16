@@ -5,29 +5,33 @@ authors: [zyuiop, Gnomino]
 commands:
     teams:
         description: Teams management command
-        usage: /teams <add|delete|list> [teamname]
+        usage: /<command> <add|delete|list> [teamname]
         permission: uhpl.gameadmin
         permission-message: Missing permission
     players:
         description: Players management commands
-        usage: /players <add|delete> [nomteam] [nomjoueur]
+        usage: /<command> <add|delete> [nomteam] [nomjoueur]
         permission: uhpl.gameadmin
         permission-message: Missing permission
     gamestart:
         description: Startup the game
-        usage: /gamestart
+        usage: /<command>
         permission: uhpl.gameadmin
         permission-message: Missing permission
     shrink:
         description: Reduce the size of the map by <size>
-        usage: /shrink <size>
+        usage: /<command> <size>
         permission: uhpl.gameadmin
         permission-message: Missing permission
     limits:
         description: Shows mao limits
-        usage: /limites
+        usage: /<command>
         permission: uhpl.joueur
         permission-message: Permission manquante
+    tp:
+       description: Teleport to another player
+       usage: /<command>
+       aliases: [teleport]
 permissions:
     uhpl.gameadmin:
         default: op
