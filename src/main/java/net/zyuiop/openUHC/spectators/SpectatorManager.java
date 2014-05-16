@@ -5,6 +5,8 @@ import java.util.List;
 
 import net.zyuiop.openUHC.OpenUHC;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
@@ -54,18 +56,26 @@ public class SpectatorManager {
 	}
 	
 	public void playersInventory(Player destination) {
-		Inventory inv = this.pl.getServer().createInventory(destination, 54, "- Joueurs -");
+		Inventory inv = this.pl.getServer().createInventory(destination, Bukkit.getServer().getMaxPlayers()+1, "- Joueurs -");
 		Integer slot = 0;
 		ItemStack is = null;
 		for (Player p : pl.getPlayers()) {
 			ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
 	        SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
 	        skullMeta.setOwner(p.getName());
-	        skullMeta.setDisplayName(p.getName());
+	        if (pl.getGame().isSolo())
+	        	skullMeta.setDisplayName(p.getName());
+	        else
+	        	skullMeta.setDisplayName(pl.getTeam(p).getColorizedName());
 	        skull.setItemMeta(skullMeta);
 	        inv.addItem(skull);
 			slot++;
 		}
+		ItemStack close = new ItemStack(Material.IRON_DOOR, 1);
+		ItemMeta meta = close.getItemMeta();
+		meta.setDisplayName(ChatColor.RED+"Fermer");
+		close.setItemMeta(meta);
+		inv.setItem(inv.getSize(), close);
 		destination.openInventory(inv);
 	}
 }
