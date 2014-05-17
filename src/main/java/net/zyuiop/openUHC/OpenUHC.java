@@ -260,7 +260,7 @@ public class OpenUHC extends JavaPlugin {
 	 * Delete a player from the game
 	 * @param n The name of the player
 	 */
-	public void deletePlayer(Player n) {
+	public void deletePlayer(String n) {
 		
 		if (game.getStarted() && joueurs.contains(n)) {
 			joueurs.remove(n);
@@ -272,9 +272,9 @@ public class OpenUHC extends JavaPlugin {
 		UHTeam remove = null;
 		
 		for (UHTeam t : teams.getTeamsList()) {
-			if (t.isContained(n.getName()))
+			if (t.isContained(n))
 			{
-				t.deletePlayer(n.getName());
+				t.deletePlayer(n);
 				if (t.getPlayers().size() == 0)
 					remove = t;
 			}

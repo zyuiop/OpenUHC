@@ -72,7 +72,7 @@ public class PlayerEvents implements Listener {
 	@EventHandler
 	public void playerDeath(PlayerDeathEvent death) {
 			Player p = (Player) death.getEntity();
-			pl.deletePlayer(p);
+			pl.deletePlayer(p.getName());
 			if (!pl.getConfig().getBoolean("allow_spectators"))
 				p.kickPlayer(pl.localize("kick_dead"));
 				
