@@ -102,6 +102,10 @@ not_a_spectator: "&cVous n'êtes pas spectateur !"
 player_not_online: "&cLe joueur n'est pas sur le serveur"
 player_not_ingame: "&cLe joueur n'est pas dans la partie"
 
+compass_item_name: "&6Téléportation aux joueurs"
+compass_close: "&cFermer"
+compass_inv_name: "Joueurs en jeu"
+
 #############################################
 ## Compass
 #############################################

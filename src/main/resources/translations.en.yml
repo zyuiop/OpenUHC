@@ -101,6 +101,10 @@ not_a_spectator: "&cYou're not spectator"
 player_not_online: "&cThe player isn't connected on the server"
 player_not_ingame: "&cThe player isn't in the game"
 
+compass_item_name: "&6Téléportation to players"
+compass_close: "&cClose"
+compass_inv_name: "Ingame players"
+
 #############################################
 ## Compass
 #############################################

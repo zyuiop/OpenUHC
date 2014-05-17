@@ -40,7 +40,7 @@ public class SpectatorManager {
 		p.getInventory().clear();
 		ItemStack playersItem = new ItemStack(Material.COMPASS, 1);
 		ItemMeta meta = playersItem.getItemMeta();
-		meta.setDisplayName(ChatColor.GOLD+"Téléportation aux joueurs");
+		meta.setDisplayName(pl.localize("compass_item_name"));
 		playersItem.setItemMeta(meta);
 		p.getInventory().setItemInHand(playersItem);
 		for (Player player : pl.getServer().getOnlinePlayers()) {
@@ -63,7 +63,7 @@ public class SpectatorManager {
 	}
 	
 	public void playersInventory(Player destination) {
-		Inventory inv = this.pl.getServer().createInventory(destination, UHUtils.getClosestChestSize(Bukkit.getServer().getMaxPlayers()+1), pl.getConfig().getString("players_inventory_name", "Joueurs en jeu"));
+		Inventory inv = this.pl.getServer().createInventory(destination, UHUtils.getClosestChestSize(Bukkit.getServer().getMaxPlayers()+1), pl.localize("compass_inv_name"));
 		Integer slot = 0;
 		ItemStack is = null;
 		for (Player p : pl.getPlayers()) {
@@ -82,7 +82,7 @@ public class SpectatorManager {
 		}
 		ItemStack close = new ItemStack(Material.IRON_DOOR, 1);
 		ItemMeta meta = close.getItemMeta();
-		meta.setDisplayName(ChatColor.RED+"Fermer");
+		meta.setDisplayName(pl.localize("compass_close"));
 		close.setItemMeta(meta);
 		inv.setItem(inv.getSize()-1, close);
 		destination.openInventory(inv);
