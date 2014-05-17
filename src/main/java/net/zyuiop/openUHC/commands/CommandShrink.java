@@ -22,7 +22,7 @@ public class CommandShrink implements CommandExecutor {
 		try {
 			size = Integer.parseInt(args[0]);
 		} catch (Exception e) {
-			sender.sendMessage(ChatColor.RED+"La taille n'est pas valide.");
+			sender.sendMessage(pl.localize("size_not_valid"));
 			return true;
 		}
 		pl.retrecirCount(size);

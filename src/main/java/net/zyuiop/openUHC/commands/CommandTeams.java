@@ -22,28 +22,28 @@ public class CommandTeams implements CommandExecutor {
 		}
 		if (args[0].equalsIgnoreCase("add") && args.length == 2) {
 			if (pl.getGame().canJoin() == false) {
-				sender.sendMessage(ChatColor.RED+"La partie est dèjà en cours.");
+				sender.sendMessage(pl.localize("game_already_started"));
 				return true;
 			}
 			if (!pl.teamManager().registerTeam(args[1]))
-				sender.sendMessage(ChatColor.RED+"Cette équipe existe déjà.");
+				sender.sendMessage(pl.localize("team_already_exist"));
 			else
-				sender.sendMessage(ChatColor.GREEN+"L'équipe a bien été créée.");
+				sender.sendMessage(pl.localize("team_created"));
 			return true;
 		} else if (args[0].equalsIgnoreCase("delete") && args.length == 2) {
 			if (pl.getGame().canJoin() == false) {
-				sender.sendMessage(ChatColor.RED+"La partie est dèjà en cours.");
+				sender.sendMessage(pl.localize("game_already_started"));
 				return true;
 			}
 			if (!pl.teamManager().deleteTeam(args[1]))
-				sender.sendMessage(ChatColor.RED+"L'équipe n'a pas pu être supprimée, elle n'existe probablement pas.");
+				sender.sendMessage(pl.localize("team_not_exist"));
 			else
-				sender.sendMessage(ChatColor.GREEN+"L'équipe a bien été suppriméée.");
+				sender.sendMessage(pl.localize("team_deleted"));
 			return true;
 		} else if (args[0].equalsIgnoreCase("list")) {
 			if (args.length == 2) {
 				if (!pl.teamManager().teamExists(args[1]))
-					sender.sendMessage(ChatColor.RED+"L'équipe n'existe pas.");
+					sender.sendMessage(pl.localize("team_not_exist"));
 				
 				String joueurs = "";
 				boolean f = true;
@@ -54,10 +54,10 @@ public class CommandTeams implements CommandExecutor {
 					} else
 						joueurs+=ChatColor.WHITE+", "+ChatColor.AQUA+j.getDisplayName();
 				}
-				sender.sendMessage(ChatColor.GOLD+"Voici les joueurs de l'équipe "+pl.teamManager().getTeam(args[1]).getColorizedName()+ChatColor.GOLD+" : "+joueurs);
+				sender.sendMessage(pl.localize("team_players_message").replace("{TEAM}", pl.teamManager().getTeam(args[1]).getColorizedName()+ChatColor.GOLD)+" : "+joueurs);
 				return true;
 			} else {
-				sender.sendMessage(ChatColor.GOLD+"Voici les équipes :");
+				sender.sendMessage(pl.localize("teams_listing_message"));
 				for (UHTeam t : pl.teamManager().getTeamsList()) {
 					String joueurs = "";
 					boolean f = true;
@@ -68,7 +68,7 @@ public class CommandTeams implements CommandExecutor {
 						} else
 							joueurs+=ChatColor.WHITE+", "+ChatColor.AQUA+j.getDisplayName();
 					}
-					sender.sendMessage(ChatColor.GOLD+"- "+t.getColorizedName()+ChatColor.WHITE+", contenant les joueurs suivants : "+joueurs);
+					sender.sendMessage(ChatColor.GOLD+"- "+t.getColorizedName()+ChatColor.WHITE+", "+pl.localize("teams_listing_players")+" : "+joueurs);
 				}
 				return true;
 			}

@@ -114,4 +114,26 @@ not_in_team: "&cLe joueur n'est pas membre de l'équipe."
 # The player has successfully been deleted from the team
 deleted_from_team: "&aLe joueur a été supprimé de l'équipe"
 
+######### /shrink ############
+size_not_valid: "&cLa taille n'est pas valide"
+
+######### /teams #############
+
+team_not_exist: "&cCette équipe n'existe pas."
+
+### /teams add
+team_already_exist: "&cCette équipe existe déjà."
+team_created: "&aL'équipe a bien été créée.
+
+
+### /teams list
+teams_listing_message: "&6Voici les équipes :"
+# which contains the following players
+teams_listing_players: "contenant les joueurs suivants"
+
+### /teams list <team>
+team_players_message: "&6Voici les joueurs de l'équipe {TEAM} :"
+
+### Delete
+team_deleted: "&aL'équipe a bien été supprimée.
 
