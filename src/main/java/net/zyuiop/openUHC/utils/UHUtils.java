@@ -10,25 +10,26 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class UHUtils {
-	public static void showProgress(double done, double work) {
+	public static int showProgress(double done, double work) {
 		if ((done/work) == 0.1)
-			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 10%");
+			return 10;
 		if ((done/work) == 0.2)
-			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 20%");
+			return 20;
 		if ((done/work) == 0.3)
-			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 30%");
+			return 30;
 		if ((done/work) == 0.4)
-			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 40%");
+			return 40;
 		if ((done/work) == 0.5)
-			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 50%");
+			return 50;
 		if ((done/work) == 0.6)
-			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 60%");
+			return 60;
 		if ((done/work) == 0.7)
-			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 70%");
+			return 70;
 		if ((done/work) == 0.8)
-			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 80%");
+			return 80;
 		if ((done/work) == 0.9)
-			Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs : 90%");
+			return 90;
+		return 0;
 	}
 	
 

@@ -49,6 +49,7 @@ preparing_game: "&7Préparation du jeu..."
 generating_walls: "&bGénération des murs : {PERCENT}%"
 generation_ended: "&aGénération des murs : terminée !"
 game_begin: "&2Début du jeu"
+team_stumped: "&4L'équipe {TEAM}&4 a été éliminée !"
 
 #############################################
 ## Limits

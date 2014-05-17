@@ -166,7 +166,7 @@ public class OpenUHC extends JavaPlugin {
 	 * Protected method, called automatically when you shrink the map or when you start the game.
 	 */
 	protected void generateWalls() {
-		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs...");
+		Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", "0%"));
 		World w = getWorld();
 		double work = (mapSize*4)*255;
 		double done = 0;
@@ -180,9 +180,12 @@ public class OpenUHC extends JavaPlugin {
 				
 				y++;
 				done++;
-				UHUtils.showProgress(done,work);
+				int res = 0;
+				res = UHUtils.showProgress(done,work);
+				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+"%"));
 				done++;
-				UHUtils.showProgress(done,work);
+				res = UHUtils.showProgress(done,work);
+				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+"%"));
 			}
 			x++;
 		}
@@ -196,13 +199,16 @@ public class OpenUHC extends JavaPlugin {
 				
 				y++;
 				done++;
-				UHUtils.showProgress(done,work);
+				int res = 0;
+				res = UHUtils.showProgress(done,work);
+				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+"%"));
 				done++;
-				UHUtils.showProgress(done,work);
+				res = UHUtils.showProgress(done,work);
+				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+"%"));
 			}
 			z++;
 		}
-		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des murs terminée !");
+		Bukkit.broadcastMessage(this.localize("generation_ended"));
 
 	}
 	
@@ -256,7 +262,7 @@ public class OpenUHC extends JavaPlugin {
 			}
 		}
 		if (remove != null) {
-			Bukkit.broadcastMessage(ChatColor.GOLD+"L'équipe "+remove.getColorizedName()+ChatColor.GOLD+" a été éliminée.");
+			Bukkit.broadcastMessage(this.localize("team_stumped").replace("{TEAM}", remove.getColorizedName()));
 			teams.deleteTeam(remove.getName());
 		}
 	}

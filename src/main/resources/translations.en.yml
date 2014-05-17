@@ -49,6 +49,7 @@ preparing_game: "&7Preparing game..."
 generating_walls: "&bGenerating walls : {PERCENT}%"
 generation_ended: "&aWalls have been generated"
 game_begin: "&2Game started !"
+team_stumped: "&4Team {TEAM}&4 was stumped !"
 
 #############################################
 ## Limits
