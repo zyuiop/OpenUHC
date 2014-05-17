@@ -93,12 +93,12 @@ public class ScoreboardManager implements org.bukkit.scoreboard.ScoreboardManage
 					c=0;
 			}
 		}
-
+		phase = plugin.localize("damage_disabled_tag");
 		refresh();
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			p.setScoreboard(sb);
 		}
-		phase = plugin.localize("damage_disabled_tag");
+		
 	}
 
 	public Objective getRight() {
