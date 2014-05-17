@@ -78,6 +78,13 @@ seconds: "secondes"
 team_joined: "&6Vous avez rejoint l'équipe {TEAM}"
 
 #############################################
+## Spectator
+#############################################
+
+# You are not a spectator
+not_a_spectator: "&cVous n'êtes pas spectateur !"
+
+#############################################
 ## Commands
 #############################################
 
@@ -89,3 +96,19 @@ not_enough_players: "&cIl n'y a pas assez de joueurs !"
 
 ######### Limits ############
 limits_message: "&6Les limites de la map sont : {LIMITS}"
+
+######### /players ##########
+
+### Add in team
+# This player is already added in a team
+already_in_team: "&cCe joueur est déjà membre d'une équipe."
+# The player has successfully been added in the team
+added_in_team: "&aLe joueur a été ajouté dans l'équipe"
+
+### Delete from team
+# The player is not in the targeted team
+not_in_team: "&cLe joueur n'est pas membre de l'équipe."
+# The player has successfully been deleted from the team
+deleted_from_team: "&aLe joueur a été supprimé de l'équipe"
+
+
