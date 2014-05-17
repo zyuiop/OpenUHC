@@ -25,7 +25,7 @@ public class ScoreboardManager implements org.bukkit.scoreboard.ScoreboardManage
 	}
 	
 	
-	public String phase = "Invincibilité";
+	public String phase = plugin.localize("damage_disabled_tag");
 	public int hours = 0;
 	public int minutes = 0;
 	public int seconds = 0;
@@ -53,19 +53,19 @@ public class ScoreboardManager implements org.bukkit.scoreboard.ScoreboardManage
 		right.getScore(Bukkit.getOfflinePlayer(((hours > 0) ? hours+"h " : "")+((minutes > 0) ? minutes+"m " : "")+seconds+"s")).setScore(4);
 		right.getScore(Bukkit.getOfflinePlayer(" ")).setScore(3);
 		if (plugin.getGame().solo == false)
-			right.getScore(Bukkit.getOfflinePlayer("Equipes : "+ChatColor.AQUA+plugin.teams.size())).setScore(2);
-		right.getScore(Bukkit.getOfflinePlayer("Joueurs : "+ChatColor.AQUA+plugin.joueurs.size())).setScore(1);
+			right.getScore(Bukkit.getOfflinePlayer(plugin.localize("teams_number_tag")+" : "+ChatColor.AQUA+plugin.teams.size())).setScore(2);
+		right.getScore(Bukkit.getOfflinePlayer(plugin.localize("players_number_tag")+" : "+ChatColor.AQUA+plugin.joueurs.size())).setScore(1);
 		
 		if (plugin.getGame().solo == false && plugin.teams.size() == 1)
 		{
-			Bukkit.getServer().broadcastMessage(ChatColor.GOLD+"L'équipe "+plugin.teams.getTeamsList().get(0).getColorizedName()+ChatColor.GOLD+" a gagné la partie !");
+			Bukkit.getServer().broadcastMessage(plugin.localize("team_won_game").replace("{TEAM}", plugin.teams.getTeamsList().get(0).getColorizedName()));
 			plugin.game.finish(plugin.teams.getTeamsList().get(0).getName());
 		} else if (plugin.getGame().solo == true && plugin.joueurs.size() == 1) {
-			Bukkit.getServer().broadcastMessage(ChatColor.GOLD+"Le joueur "+plugin.joueurs.get(0).getDisplayName() +" a gagné la partie !");
+			Bukkit.getServer().broadcastMessage(plugin.localize("player_won_game").replace("{PLAYER}", plugin.joueurs.get(0).getDisplayName()));
 			plugin.game.finish(plugin.joueurs.get(0).getDisplayName());
 		}
 		else if (plugin.getGame().solo && plugin.joueurs.size() == 0) {
-			Bukkit.getServer().broadcastMessage(ChatColor.GOLD + "Égalité, personne ne gagne !");
+			Bukkit.getServer().broadcastMessage(plugin.localize("no_one_won_game"));
 			plugin.getGame().finish("");
 		}
 	}
@@ -81,9 +81,9 @@ public class ScoreboardManager implements org.bukkit.scoreboard.ScoreboardManage
 					plugin.teams.getTeam(t).setColor(UHUtils.getCol(c));
 					try {
 						pl.setDisplayName(UHUtils.getCol(c)+pl.getName());
-				        pl.sendMessage("Vous avez rejoint l'équipe "+UHUtils.getCol(c)+t);
+				        pl.sendMessage(plugin.localize("team_joined").replace("{TEAM}", UHUtils.getCol(c)+t));
 					} catch(Exception e) {
-						
+						e.printStackTrace();
 					}
 					plugin.joueurs.add(pl);
 				}
