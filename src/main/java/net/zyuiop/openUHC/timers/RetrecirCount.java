@@ -33,31 +33,31 @@ public class RetrecirCount extends BukkitRunnable {
             // What you want to schedule goes here
             if (counter > 0) { 
             	
-            	String evnamechat = "Rétrecissement de la map";
+            	String msg = plugin.localize("shrink_timer_message");
             	String time = null;
                 switch (counter) {
                 case 120:
-                	time = "dans 2 minutes";
+                	time = 2 + " " + plugin.localize("minutes");
                 	break;
                 case 90:
-                	time = "dans 1 minute 30";
+                	time = "1 " + plugin.localize("minutes") + " 30 " + plugin.localize("seconds");
                 	break;
                 case 60:
-                	time = " dans 1 minute";
+                	time = "1 " + plugin.localize("minutes");
                 	break;
                 case 30:
-                	time = " dans 30 secondes";
+                	time = "30 " + plugin.localize("seconds");
                 	break;
                 case 10:
-                	time = " dans 10 secondes";
+                	time = "10 " + plugin.localize("seconds");
                 	break;
                 case 5:
-                	time = " dans 5 secondes";
+                	time = "5 " + plugin.localize("seconds");
                 	break;
                 	
                 }
                 if (time != null) {
-                	Bukkit.broadcastMessage(ChatColor.GOLD+evnamechat+time+". Nouvelles limites : x("+nlimits.get(0)+","+nlimits.get(1)+") z("+nlimits.get(2)+","+nlimits.get(3)+")");
+                	Bukkit.broadcastMessage(msg.replace("{COORDINATES}", "x(" + nlimits.get(0)+","+nlimits.get(1)+") z("+nlimits.get(2)+","+nlimits.get(3)+"").replace("{TIME}", time));
                 	for (Player p : Bukkit.getOnlinePlayers()) {
                 		if (!plugin.isInLimits(p.getLocation().getBlockX(),p.getLocation().getBlockZ())) {
                 			p.sendMessage(ChatColor.RED+"Vous êtes EN DEHORS des prochaines limites !");
@@ -66,7 +66,7 @@ public class RetrecirCount extends BukkitRunnable {
                 }
                 counter--;
             } else {
-            	Bukkit.broadcastMessage(ChatColor.GOLD+"La map est en cours de rétrécissement. Nouvelles limites : x("+nlimits.get(0)+","+nlimits.get(1)+") z("+nlimits.get(2)+","+nlimits.get(3)+")");
+            	Bukkit.broadcastMessage(plugin.localize("shrink").replace("{COORDINATES}", "x("+nlimits.get(0)+","+nlimits.get(1)+") z("+nlimits.get(2)+","+nlimits.get(3)+")"));
                 plugin.reduceSize(nlimits);
                 this.cancel();
             }

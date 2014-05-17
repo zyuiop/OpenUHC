@@ -35,22 +35,23 @@ import org.bukkit.scheduler.BukkitRunnable;
             	plugin.getSbManager().formatTime(counter);
             	plugin.getSbManager().refresh();
             	
+            	String countdownMsg = plugin.localize("damage_disabled_timer");
                 switch (counter) {
                 case 120:
-                	Bukkit.broadcastMessage(evnamechat+" dans 2 minutes");
+                	Bukkit.broadcastMessage(countdownMsg + "2 " + plugin.localize("minutes"));
                 	break;
                 case 60:
-                	Bukkit.broadcastMessage(evnamechat+" dans 1 minute");
+                	Bukkit.broadcastMessage(countdownMsg  +"1 " + plugin.localize("minutes"));
                 	break;
                 case 30:
-                	Bukkit.broadcastMessage(evnamechat+" dans 30 secondes");
+                	Bukkit.broadcastMessage(countdownMsg+ "30 " + plugin.localize("seconds"));
                 	break;
                 case 10:
-                	Bukkit.broadcastMessage(evnamechat+" dans 10 secondes");
+                	Bukkit.broadcastMessage(countdownMsg+"10 " + plugin.localize("seconds"));
                 	break;
                 default:
                 	if (counter <= 5)
-                		Bukkit.broadcastMessage(evnamechat+" dans "+counter+" seconde"+((counter > 1) ? "s" : ""));
+                		Bukkit.broadcastMessage(countdownMsg + counter + " " + plugin.localize("seconds"));
                 	
                 }
                 
@@ -58,10 +59,9 @@ import org.bukkit.scheduler.BukkitRunnable;
             } else {
             	plugin.getSbManager().formatTime(0);
             	plugin.getSbManager().refresh();
-            	Bukkit.broadcastMessage(ChatColor.GOLD+"Fin de la période d'invincibilité !");
+            	Bukkit.broadcastMessage(plugin.localize("damage_enable_message"));
             	plugin.getGame().enableDegats();
             	plugin.getGame().runGame();
-            	
                 this.cancel();
             }
         }

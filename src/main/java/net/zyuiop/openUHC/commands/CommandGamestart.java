@@ -20,7 +20,7 @@ public class CommandGamestart implements CommandExecutor {
 			return true;
 		}
 		if(pl.getServer().getOnlinePlayers().length < 2) {
-			sender.sendMessage(pl.localize("not_nough_players"));
+			sender.sendMessage(pl.localize("not_enough_players"));
 			return true;
 		}
 		pl.getGame().start();
