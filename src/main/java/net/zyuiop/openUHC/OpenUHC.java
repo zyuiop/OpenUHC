@@ -61,6 +61,9 @@ public class OpenUHC extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		this.language = getConfig().getString("language", "en");
+		loadTranslations();
+		
 		sbmanager = new ScoreboardManager(this);
 		spectatorManager = new SpectatorManager(this);
 		getCommand("tp").setExecutor(new CommandTeleport(this));
@@ -86,8 +89,7 @@ public class OpenUHC extends JavaPlugin {
 	        }
 		}
 		setCustomCrafts();
-		this.language = getConfig().getString("language", "en");
-		loadTranslations();
+		
 	}
 	
 	
