@@ -3,6 +3,9 @@ package net.zyuiop.openUHC;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.UUID;
 
 import net.zyuiop.openUHC.commands.CommandGamestart;
 import net.zyuiop.openUHC.commands.CommandLimits;
@@ -46,13 +49,12 @@ public class OpenUHC extends JavaPlugin {
 	protected SpectatorManager spectatorManager = null;
 	protected Game game = new Game(this);
 	protected ScoreboardManager sbmanager;
-	
 	protected ArrayList<Integer> limits = new ArrayList<Integer>();
 	public static Integer XLIMITN = 0;
 	public static Integer XLIMITP = 1;
 	public static Integer ZLIMITN = 2;
 	public static Integer ZLIMITP = 3;
-	
+	public HashMap<UUID, Date> logout_times = new HashMap<UUID, Date>();
 
 	public ChronoThread c = null;
 	

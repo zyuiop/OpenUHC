@@ -1,5 +1,7 @@
 package net.zyuiop.openUHC.listeners;
 
+import java.util.Date;
+
 import net.zyuiop.openUHC.OpenUHC;
 
 import org.bukkit.ChatColor;
@@ -17,6 +19,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -28,6 +31,14 @@ public class PlayerEvents implements Listener {
 	
 	@EventHandler
 	public void joinEvent(PlayerLoginEvent e) {
+		if (pl.logout_times.containsKey(e.getPlayer().getUniqueId())) {
+			int max_minutes = pl.getConfig().getInt("logout_time", 15);
+			long difference = new Date().getTime() - pl.logout_times.get(e.getPlayer().getUniqueId()).getTime();
+			if (difference >= max_minutes * 60 * 1000) {
+				pl.deletePlayer(e.getPlayer().getName());
+				e.disallow(Result.KICK_OTHER, pl.localize("kick_logout_too_long"));
+			}
+		}
 		if (!pl.getGame().canJoin() && !e.getPlayer().hasPermission("uhpl.join") && !pl.isIngame(e.getPlayer())) {
 			if(pl.getConfig().getBoolean("allow_spectators")) {
 				pl.getSpectatorManager().addPlayer(e.getPlayer());
@@ -52,8 +63,12 @@ public class PlayerEvents implements Listener {
 				e.getPlayer().sendMessage(pl.localize("out_of_limits"));
 			}
 		}
+		
 	}
-	
+	@EventHandler
+	public void onQuit(PlayerQuitEvent e) {
+		pl.logout_times.put(e.getPlayer().getUniqueId(), new Date());
+	}
 	@EventHandler
 	public void onMove(PlayerMoveEvent e) {
 		Location l = e.getTo();

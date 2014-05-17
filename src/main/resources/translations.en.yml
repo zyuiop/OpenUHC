@@ -88,6 +88,7 @@ team_joined: "&6You have joined the team {TEAM}"
 #############################################
 kick_game_finished: "Game finished !"
 kick_dead: "&cYou are dead"
+kick_logout_too_long: "You've been logged out for too long !"
 #############################################
 ## Spectator messages
 #############################################

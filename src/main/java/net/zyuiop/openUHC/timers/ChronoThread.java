@@ -5,18 +5,20 @@ import net.zyuiop.openUHC.OpenUHC;
 public class ChronoThread extends Thread {
   private OpenUHC pl;
   private long time;
- 
+  private boolean cont = true;
   public ChronoThread(OpenUHC openUHC, long time) {
 	  	this.time = time;
 	  	this.pl = openUHC;
   }
-  
+  public void end() {
+	  cont = false;
+  }
   public ChronoThread(OpenUHC openUHC) {
 	    this(openUHC, 0);
   }
   @SuppressWarnings("static-access")
 public void run() {
-    while (true) {
+    while (cont) {
     	try {
 			this.sleep(1000);
 			time++;

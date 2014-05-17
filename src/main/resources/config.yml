@@ -4,7 +4,7 @@
 
 map-size: 1000
 # Distance entre 2 murs opposés 
-
+logout_time: 15 # Logout time allowed, in minutes ( 0 to deny )
 damage-disable: 60
 
 daylight-cycle: true
