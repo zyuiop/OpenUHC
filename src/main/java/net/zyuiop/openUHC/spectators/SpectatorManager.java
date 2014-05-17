@@ -71,7 +71,7 @@ public class SpectatorManager {
 	        if (pl.getGame().isSolo())
 	        	skullMeta.setDisplayName(p.getName());
 	        else
-	        	skullMeta.setDisplayName(pl.getTeam(p).getColorizedName());
+	        	skullMeta.setDisplayName(pl.getTeam(p).getColor()+p.getName());
 	        skull.setItemMeta(skullMeta);
 	        inv.addItem(skull);
 			slot++;

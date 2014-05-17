@@ -52,6 +52,7 @@ public class Game {
 		pl.generateWalls();
 		World w = pl.getWorld();
 		HashMap<Player, Location> posTp = new HashMap<Player, Location>();
+		Bukkit.broadcastMessage(pl.localize("generating_chunks"));
 		if (this.solo) {
 			for (Player p : pl.joueurs) {
 				Location l = pl.getRandLoc();
@@ -69,6 +70,7 @@ public class Game {
 				}
 			}
 		}
+		Bukkit.broadcastMessage(pl.localize("chunks_ended"));
 		for (Player pl : posTp.keySet()) {
 			pl.setGameMode(GameMode.SURVIVAL);
 			pl.getInventory().clear();

@@ -328,7 +328,7 @@ public class OpenUHC extends JavaPlugin {
 		for (Player p : joueurs) {
 			if (p != null) {
 				if (!isInLimits(p.getLocation().getBlockX(), p.getLocation().getBlockZ()))
-					p.teleport(getRandLoc());
+					p.teleport(getSafeRandLoc());
 			}
 		}
 		generateWalls();
@@ -422,15 +422,30 @@ public class OpenUHC extends JavaPlugin {
 	
 	public Location getRandLoc() {
 		World w = getWorld();
-		while (true) {
-			int tpx = UHUtils.randomInt(limits.get(XLIMITN),limits.get(XLIMITP));
-			int tpz = UHUtils.randomInt(limits.get(ZLIMITN),limits.get(ZLIMITP));
-			int tpy = 250;
-			while (w.getBlockAt(tpx, tpy, tpz).getType().equals(Material.AIR))
-				tpy--;
-			if (!w.getBlockAt(tpx, tpy, tpz).isLiquid())
-				return new Location(w, tpx, tpy+3, tpz);
-		}
+	
+		int tpx = UHUtils.randomInt(limits.get(XLIMITN),limits.get(XLIMITP));
+		int tpz = UHUtils.randomInt(limits.get(ZLIMITN),limits.get(ZLIMITP));
+		int tpy = 250;
+		while (w.getBlockAt(tpx, tpy, tpz).getType().equals(Material.AIR))
+			tpy--;
+		if (!w.getBlockAt(tpx, tpy, tpz).isLiquid())
+			return new Location(w, tpx, 250, tpz);
+		else
+			return getRandLoc();
+	}
+	
+	public Location getSafeRandLoc() {
+		World w = getWorld();
+	
+		int tpx = UHUtils.randomInt(limits.get(XLIMITN),limits.get(XLIMITP));
+		int tpz = UHUtils.randomInt(limits.get(ZLIMITN),limits.get(ZLIMITP));
+		int tpy = 250;
+		while (w.getBlockAt(tpx, tpy, tpz).getType().equals(Material.AIR))
+			tpy--;
+		if (!w.getBlockAt(tpx, tpy, tpz).isLiquid())
+			return new Location(w, tpx, tpy+3, tpz);
+		else
+			return getSafeRandLoc();
 	}
 	
 	public void startChrono() {

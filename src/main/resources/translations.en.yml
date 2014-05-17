@@ -48,6 +48,8 @@ game_over_team_won: "&aGame won by team {TEAM}"
 preparing_game: "&7Preparing game..."
 generating_walls: "&bGenerating walls : {PERCENT}%"
 generation_ended: "&aWalls have been generated"
+generating_chunks: "&bGenerating chunks..."
+chunks_ended: "&aChunks generated !"
 game_begin: "&2Game started !"
 team_stumped: "&4Team {TEAM}&4 was stumped !"
 

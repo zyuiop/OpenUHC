@@ -49,7 +49,7 @@ public class PlayerEvents implements Listener {
 			e.getPlayer().sendMessage(ChatColor.GOLD+"Re !");
 			Location l = e.getPlayer().getLocation();
 			if (!pl.isInLimits(l.getBlockX(), l.getBlockZ())) {
-				e.getPlayer().teleport(pl.getRandLoc());
+				e.getPlayer().teleport(pl.getSafeRandLoc());
 				e.getPlayer().sendMessage(pl.localize("out_of_limits"));
 			}
 		}
@@ -62,7 +62,7 @@ public class PlayerEvents implements Listener {
 			if (!pl.isInLimits(l.getBlockX(), l.getBlockZ())) {
 				Location p = e.getFrom();
 				if (!pl.isInLimits(p.getBlockX(), p.getBlockZ())) {
-					e.getPlayer().teleport(pl.getRandLoc());
+					e.getPlayer().teleport(pl.getSafeRandLoc());
 					return;
 				}
 				e.setCancelled(true);
