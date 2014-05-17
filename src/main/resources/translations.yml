@@ -68,3 +68,11 @@ seconds: "secondes"
 # {TEAM} is the colorized team name
 team_joined: "&6Vous avez rejoint l'équipe {TEAM}"
 
+#############################################
+## Kick messages
+#############################################
+kick_game_finished: "La partie est finie !"
+#############################################
+## Spectator messages
+#############################################
+join_as_spectator: "&cVous rejoignez le serveur en tant que spectateur."
