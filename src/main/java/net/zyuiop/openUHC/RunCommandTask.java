@@ -1,15 +1,14 @@
 package net.zyuiop.openUHC;
 
+import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class RunCommandTask extends BukkitRunnable {
-	private final OpenUHC pl;
 	private final String cmd;
-	public RunCommandTask(OpenUHC openUHC, String cmd) {
-		this.pl = openUHC;
+	public RunCommandTask(String cmd) {
 		this.cmd = cmd;
 	}
 	public void run() {
-		pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), cmd);
+		Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), cmd);
 	}
 }
