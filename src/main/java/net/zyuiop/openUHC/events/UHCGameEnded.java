@@ -1,5 +1,6 @@
 package net.zyuiop.openUHC.events;
 
+import net.zyuiop.openUHC.Game;
 import net.zyuiop.openUHC.teams.UHTeam;
 
 import org.bukkit.event.Event;
@@ -23,11 +24,15 @@ public class UHCGameEnded extends Event {
 		this.winner = winner;
 		this.team = true;
 	}
+	
 	private static final HandlerList handlers = new HandlerList();
 	@Override
 	public HandlerList getHandlers() {
 		return handlers;
 	}
+	public static HandlerList getHandlerList() {
+        return handlers;
+    }
 	
 	/**
 	 * Return the winner object
