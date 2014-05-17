@@ -48,6 +48,18 @@ generation_ended: "&aGénération des murs : terminée !"
 game_begin: "&2Début du jeu"
 
 #############################################
+## Limits
+#############################################
+
+#Called regularly before shrinking
+shrink_timer_message: "&6Rétrecissement de la map dans {TIME}. Coordonnées : {COORDINATES}"
+shrink: "&6Rétrecissement de la map. Coordonnées : {COORDINATES}"
+
+# If you are out of the new limits before shrinking
+out_of_new_limits: "&cVous êtes hors des nouvelles limites !"
+out_of_limits: "&cVous êtes hors limites !"
+
+#############################################
 ## Time translation
 #############################################
 
@@ -65,3 +77,15 @@ seconds: "secondes"
 # {TEAM} is the colorized team name
 team_joined: "&6Vous avez rejoint l'équipe {TEAM}"
 
+#############################################
+## Commands
+#############################################
+
+#If the game is already started
+game_already_started: "&cLa partie est dèjà lancée"
+
+######### Gamestart ############
+not_enough_players: "&cIl n'y a pas assez de joueurs !"
+
+######### Limits ############
+limits_message: "&6Les limites de la map sont : {LIMITS}"
