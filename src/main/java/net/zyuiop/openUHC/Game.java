@@ -123,10 +123,6 @@ public class Game {
 				}
 				Bukkit.getServer().getPluginManager().callEvent(new UHCGameEnded(pl.teams.getTeam(winner)));
 			}
-			for (String fcmd : pl.getConfig().getStringList("commands.final")) {
-				pl.getServer().getScheduler().runTaskLater(pl, new RunCommandTask(fcmd), pl.getConfig().getLong("delay_before_final") * 20);
-				
-			}
 			pl.c.stop();
 		}
 	}
