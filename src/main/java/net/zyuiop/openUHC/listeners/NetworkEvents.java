@@ -15,7 +15,7 @@ public class NetworkEvents implements Listener {
 	@EventHandler 
 	public void onPing(ServerListPingEvent e) {
 		if (pl.getGame().canJoin()) {
-			e.setMotd(pl.localize(pl.localize("game_waiting_motd")));
+			e.setMotd(pl.localize("game_waiting_motd"));
 		} else if (pl.getGame().isFinished()) {
 			if (pl.getGame().getWinner() == "") {
 				e.setMotd(pl.localize("game_over_equality"));
