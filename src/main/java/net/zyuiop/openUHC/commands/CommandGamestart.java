@@ -16,11 +16,11 @@ public class CommandGamestart implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (pl.getGame().canJoin() == false) {
-			sender.sendMessage(ChatColor.RED+"La partie est dèjà en cours.");
+			sender.sendMessage(pl.localize("game_already_started"));
 			return true;
 		}
 		if(pl.getServer().getOnlinePlayers().length < 2) {
-			sender.sendMessage(ChatColor.RED + "Il doit y avoir au moins 2 joueurs !");
+			sender.sendMessage(pl.localize("not_nough_players"));
 			return true;
 		}
 		pl.getGame().start();

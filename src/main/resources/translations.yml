@@ -51,6 +51,18 @@ generation_ended: "&aGénération des murs : terminée !"
 game_begin: "&2Début du jeu"
 
 #############################################
+## Limits
+#############################################
+
+#Called regularly before shrinking
+shrink_timer_message: "&6Rétrecissement de la map dans {TIME}. Coordonnées : {COORDINATES}"
+shrink: "&6Rétrecissement de la map. Coordonnées : {COORDINATES}"
+
+# If you are out of the new limits before shrinking
+out_of_new_limits: "&cVous êtes hors des nouvelles limites !"
+out_of_limits: "&cVous êtes hors limites !"
+
+#############################################
 ## Time translation
 #############################################
 
@@ -69,6 +81,7 @@ seconds: "secondes"
 team_joined: "&6Vous avez rejoint l'équipe {TEAM}"
 
 #############################################
+<<<<<<< HEAD
 ## Kick messages
 #############################################
 kick_game_finished: "La partie est finie !"
@@ -76,3 +89,61 @@ kick_game_finished: "La partie est finie !"
 ## Spectator messages
 #############################################
 join_as_spectator: "&cVous rejoignez le serveur en tant que spectateur."
+=======
+## Spectator
+#############################################
+
+# You are not a spectator
+not_a_spectator: "&cVous n'êtes pas spectateur !"
+
+#############################################
+## Commands
+#############################################
+
+#If the game is already started
+game_already_started: "&cLa partie est dèjà lancée"
+
+######### Gamestart ############
+not_enough_players: "&cIl n'y a pas assez de joueurs !"
+
+######### Limits ############
+limits_message: "&6Les limites de la map sont : {LIMITS}"
+
+######### /players ##########
+
+### Add in team
+# This player is already added in a team
+already_in_team: "&cCe joueur est déjà membre d'une équipe."
+# The player has successfully been added in the team
+added_in_team: "&aLe joueur a été ajouté dans l'équipe"
+
+### Delete from team
+# The player is not in the targeted team
+not_in_team: "&cLe joueur n'est pas membre de l'équipe."
+# The player has successfully been deleted from the team
+deleted_from_team: "&aLe joueur a été supprimé de l'équipe"
+
+######### /shrink ############
+size_not_valid: "&cLa taille n'est pas valide"
+
+######### /teams #############
+
+team_not_exist: "&cCette équipe n'existe pas."
+
+### /teams add
+team_already_exist: "&cCette équipe existe déjà."
+team_created: "&aL'équipe a bien été créée.
+
+
+### /teams list
+teams_listing_message: "&6Voici les équipes :"
+# which contains the following players
+teams_listing_players: "contenant les joueurs suivants"
+
+### /teams list <team>
+team_players_message: "&6Voici les joueurs de l'équipe {TEAM} :"
+
+### Delete
+team_deleted: "&aL'équipe a bien été supprimée.
+
+>>>>>>> f22d3c7b18743a2d1a755b9a704c1d112c1c9f17

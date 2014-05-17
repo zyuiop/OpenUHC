@@ -25,27 +25,27 @@ public class CommandPlayers implements CommandExecutor {
 			if (!pl.isIngame(p))
 				pl.getSpectatorManager().playersInventory((Player) sender);
 			else
-				sender.sendMessage(ChatColor.RED + "You're not a spectator !");
+				sender.sendMessage(pl.localize("not_a_spectator"));
 			return true;
 		}
 		
 		if (pl.getGame().canJoin() == false) {
-			sender.sendMessage(ChatColor.RED+"La partie est dèjà en cours.");
+			sender.sendMessage(pl.localize("game_already_started"));
 			return true;
 		}
 		
 		if (args[0].equalsIgnoreCase("add") && args.length == 3) {
 			if (!pl.addPlayer(args[1], pl.getServer().getPlayer(args[2])))
-				sender.sendMessage(ChatColor.RED+"Le joueur n'a pas été ajouté : il est déjà ajouté a une équipe ou la team n'existe pas.");
+				sender.sendMessage(pl.localize("already_in_team"));
 			else
-				sender.sendMessage(ChatColor.GREEN+"Le joueur a bien été ajouté.");
+				sender.sendMessage(pl.localize("added_in_team"));
 			return true;
 		}
 		if (args[0].equalsIgnoreCase("delete") && args.length == 3) {
 			if (!pl.delFromTeam(pl.getServer().getPlayer(args[2]), args[1]))
-				sender.sendMessage(ChatColor.RED+"Le joueur n'a pas été supprimé de l'équipe car il n'en fait pas partie");
+				sender.sendMessage(pl.localize("not_in_team"));
 			else
-				sender.sendMessage(ChatColor.GREEN+"Le joueur a bien été supprimé de l'équipe.");
+				sender.sendMessage(pl.localize("deleted_from_team"));
 			return true;
 		}
 		return false;
