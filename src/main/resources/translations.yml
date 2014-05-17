@@ -81,7 +81,6 @@ seconds: "secondes"
 team_joined: "&6Vous avez rejoint l'équipe {TEAM}"
 
 #############################################
-<<<<<<< HEAD
 ## Kick messages
 #############################################
 kick_game_finished: "La partie est finie !"
@@ -89,7 +88,8 @@ kick_game_finished: "La partie est finie !"
 ## Spectator messages
 #############################################
 join_as_spectator: "&cVous rejoignez le serveur en tant que spectateur."
-=======
+
+#############################################
 ## Spectator
 #############################################
 
@@ -145,3 +145,4 @@ team_players_message: "&6Voici les joueurs de l'équipe {TEAM} :"
 
 ### Delete
 team_deleted: "&aL'équipe a bien été supprimée.
+
