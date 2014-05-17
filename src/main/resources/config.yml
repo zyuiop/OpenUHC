@@ -39,4 +39,4 @@ compass:
   enabled: true
   harder: false #harder recipe and harder use
   
-language: fr_FR
+language: fr
