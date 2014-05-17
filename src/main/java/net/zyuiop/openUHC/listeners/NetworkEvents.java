@@ -1,6 +1,5 @@
 package net.zyuiop.openUHC.listeners;
 
-import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
@@ -16,15 +15,18 @@ public class NetworkEvents implements Listener {
 	@EventHandler 
 	public void onPing(ServerListPingEvent e) {
 		if (pl.getGame().canJoin()) {
-			e.setMotd(ChatColor.GREEN+"En attente de joueurs.");
+			e.setMotd(pl.localize("game_waiting_motd"));
 		} else if (pl.getGame().isFinished()) {
-			if (pl.getGame().isSolo()) {
-				e.setMotd(ChatColor.GREEN+"Partie gagnée par "+ChatColor.AQUA+pl.getGame().getWinner());
+			if (pl.getGame().getWinner() == "") {
+				e.setMotd(pl.localize("game_over_equality"));
+			}
+			else if (pl.getGame().isSolo()) {
+				e.setMotd(pl.localize("game_over_player_won").replace("{PLAYER}", pl.getGame().getWinner()));
 			} else {
-				e.setMotd(ChatColor.GREEN+"Partie gagnée par l'équipe "+pl.teamManager().getTeam(pl.getGame().getWinner()).getColorizedName());
+				e.setMotd(pl.localize("game_over_team_won").replace("{TEAM}", pl.teamManager().getTeam(pl.getGame().getWinner()).getColorizedName()));
 			}
 		} else {
-			e.setMotd(ChatColor.RED+"Partie en cours");
+			e.setMotd(pl.localize("game_in_progress_motd"));
 		}
 	}
 	
