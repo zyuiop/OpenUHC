@@ -416,9 +416,10 @@ public class OpenUHC extends JavaPlugin {
 	 * @return the translation you can use.
 	 */
 	private FileConfiguration translationsFile = null;
+	private File configFile = null;
 	public void loadTranslations(boolean force) {
 		if (translationsFile == null || force) {
-			File configFile = new File(getDataFolder(), "translations.yml");
+			configFile = new File(getDataFolder(), "translations.yml");
 			if (!configFile.exists()) {
 				saveResource("translations.yml", false);
 			}
@@ -435,8 +436,17 @@ public class OpenUHC extends JavaPlugin {
 		loadTranslations(false);
 	}
 	
+    public void saveDefaultConfig() {
+        if (configFile == null) {
+        	configFile = new File(getDataFolder(), "translations.yml");
+        }
+        if (!configFile.exists()) {            
+             this.saveResource("translations.yml", false);
+         }
+    }
+	
 	public String localize(String key) {
-		loadTranslations();
+		loadTranslations(true);
 		String tran = translationsFile.getString(key, ChatColor.RED+"Failed to find translation for "+key);
 		if (tran.equals(ChatColor.RED+"Failed to find translation for "+key))
 			this.getLogger().warning("An error occured : impossible to find translation for "+key+" in translations.yml file !");
