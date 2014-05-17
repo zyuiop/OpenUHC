@@ -144,5 +144,5 @@ teams_listing_players: "contenant les joueurs suivants"
 team_players_message: "&6Voici les joueurs de l'équipe {TEAM} :"
 
 ### Delete
-team_deleted: "&aL'équipe a bien été supprimée.
+team_deleted: "&aL'équipe a bien été supprimée."
 
