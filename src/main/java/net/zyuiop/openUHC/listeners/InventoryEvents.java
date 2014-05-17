@@ -49,7 +49,8 @@ public class InventoryEvents implements Listener {
 	
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
-		if (e.getInventory().getName() == pl.localize("compass_inv_name")) {
+		
+		if (e.getInventory().getName().equals(pl.localize("compass_inv_name"))) {
 			if (e.getWhoClicked() instanceof Player) {
 				Player p = (Player) e.getWhoClicked();
 				if (pl.getSpectatorManager().isSpectator(p)) {

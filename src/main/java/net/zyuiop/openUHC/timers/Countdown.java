@@ -49,7 +49,7 @@ import org.bukkit.scheduler.BukkitRunnable;
                 	break;
                 default:
                 	if (counter <= 5)
-                		Bukkit.broadcastMessage(countdownMsg.replace("{TIME}", counter + plugin.localize("seconds")));
+                		Bukkit.broadcastMessage(countdownMsg.replace("{TIME}", counter + " " +plugin.localize("seconds")));
                 	
                 }
                 

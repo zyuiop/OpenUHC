@@ -203,10 +203,10 @@ public class OpenUHC extends JavaPlugin {
 				done++;
 				int res = 0;
 				res = UHUtils.showProgress(done,work);
-				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+"%"));
+				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+""));
 				done++;
 				res = UHUtils.showProgress(done,work);
-				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+"%"));
+				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+""));
 			}
 			z++;
 		}
