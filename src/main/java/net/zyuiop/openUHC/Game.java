@@ -8,11 +8,9 @@ import net.zyuiop.openUHC.teams.UHTeam;
 import net.zyuiop.openUHC.timers.Countdown;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public class Game {
@@ -43,21 +41,21 @@ public class Game {
 		else {	
 			this.solo = true;
 			for (Player p : Bukkit.getOnlinePlayers()) {
-				pl.joueurs.add(p);
+				pl.joueurs.add(p.getName());
 			}
 		}
 		pl.sbmanager.init();
 		pl.mapSize = pl.getConfig().getInt("map-size");
 		pl.setLimits();
 		pl.generateWalls();
-		World w = pl.getWorld();
 		HashMap<Player, Location> posTp = new HashMap<Player, Location>();
 		Bukkit.broadcastMessage(pl.localize("generating_chunks"));
 		if (this.solo) {
-			for (Player p : pl.joueurs) {
+			for (String p : pl.joueurs) {
 				Location l = pl.getRandLoc();
 				pl.generateChunk(l.getChunk());
-				posTp.put(p, l);
+				Player play = (Player) Bukkit.getOfflinePlayer(p);
+				posTp.put(play, l);
 			}
 		}
 		else {
@@ -65,8 +63,9 @@ public class Game {
 				Location l = pl.getRandLoc();
 				pl.generateChunk(l.getChunk());
 				
-				for (Player p : t.getPlayers()) {
-					posTp.put(p, l);
+				for (String p : t.getPlayers()) {
+					Player play = (Player) Bukkit.getOfflinePlayer(p);
+					posTp.put(play, l);
 				}
 			}
 		}
@@ -118,8 +117,8 @@ public class Game {
 			}
 			else {
 				for(String wcmd : pl.getConfig().getStringList("commands.winner")) {
-					for (Player player : pl.teams.getTeam(winner).getPlayers()) {
-						pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), wcmd.replace("{PLAYER}", player.getName()));
+					for (String player : pl.teams.getTeam(winner).getPlayers()) {
+						pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), wcmd.replace("{PLAYER}", player));
 					}
 				}
 				Bukkit.getServer().getPluginManager().callEvent(new UHCGameEnded(pl.teams.getTeam(winner)));

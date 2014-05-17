@@ -3,7 +3,6 @@ package net.zyuiop.openUHC.timers;
 import net.zyuiop.openUHC.OpenUHC;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
      
     public class Countdown extends BukkitRunnable {
@@ -12,11 +11,9 @@ import org.bukkit.scheduler.BukkitRunnable;
      
         private int counter;
         
-        private String callback;
      
         public Countdown(OpenUHC openUHC, int counter) {
             this.plugin = openUHC;
-            this.callback = callback;
             if (counter < 1) {
                 throw new IllegalArgumentException("counter must be greater than 1");
             } else {

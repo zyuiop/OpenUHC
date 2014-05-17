@@ -30,7 +30,6 @@ public class ScoreboardManager implements org.bukkit.scoreboard.ScoreboardManage
 	public int minutes = 0;
 	public int seconds = 0;
 	
-	@SuppressWarnings("deprecation")
 	public void refresh() {
 		Objective obj = null;
 		try {
@@ -61,8 +60,8 @@ public class ScoreboardManager implements org.bukkit.scoreboard.ScoreboardManage
 			Bukkit.getServer().broadcastMessage(plugin.localize("team_won_game").replace("{TEAM}", plugin.teams.getTeamsList().get(0).getColorizedName()));
 			plugin.game.finish(plugin.teams.getTeamsList().get(0).getName());
 		} else if (plugin.getGame().solo == true && plugin.joueurs.size() == 1) {
-			Bukkit.getServer().broadcastMessage(plugin.localize("player_won_game").replace("{PLAYER}", plugin.joueurs.get(0).getDisplayName()));
-			plugin.game.finish(plugin.joueurs.get(0).getDisplayName());
+			Bukkit.getServer().broadcastMessage(plugin.localize("player_won_game").replace("{PLAYER}", plugin.joueurs.get(0)));
+			plugin.game.finish(plugin.joueurs.get(0));
 		}
 		else if (plugin.getGame().solo && plugin.joueurs.size() == 0) {
 			Bukkit.getServer().broadcastMessage(plugin.localize("no_one_won_game"));
@@ -76,16 +75,17 @@ public class ScoreboardManager implements org.bukkit.scoreboard.ScoreboardManage
 			int c = 0;
 			for (String t : plugin.teams.getTeamsMap().keySet()) {
 				Team te = sb.registerNewTeam(t);
-				for (Player pl : plugin.teams.getTeam(t).getPlayers()) {
-					te.addPlayer(Bukkit.getOfflinePlayer(pl.getName()));
+				for (String pl : plugin.teams.getTeam(t).getPlayers()) {
+					te.addPlayer(Bukkit.getOfflinePlayer(pl));
 					plugin.teams.getTeam(t).setColor(UHUtils.getCol(c));
+					Player play = (Player) Bukkit.getOfflinePlayer(pl);
 					try {
-						pl.setDisplayName(UHUtils.getCol(c)+pl.getName());
-				        pl.sendMessage(plugin.localize("team_joined").replace("{TEAM}", UHUtils.getCol(c)+t));
+						play.setDisplayName(UHUtils.getCol(c)+play.getName());
+				        play.sendMessage(plugin.localize("team_joined").replace("{TEAM}", UHUtils.getCol(c)+t));
 					} catch(Exception e) {
 						e.printStackTrace();
 					}
-					plugin.joueurs.add(pl);
+					plugin.joueurs.add(play.getName());
 				}
 				te.setPrefix(UHUtils.getCol(c)+"");
 				c++;

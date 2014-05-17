@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import net.zyuiop.openUHC.OpenUHC;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

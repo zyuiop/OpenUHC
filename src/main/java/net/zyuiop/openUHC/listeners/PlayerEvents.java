@@ -3,7 +3,6 @@ package net.zyuiop.openUHC.listeners;
 import net.zyuiop.openUHC.OpenUHC;
 
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,8 +14,8 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
@@ -136,7 +135,7 @@ public class PlayerEvents implements Listener {
 					Double calc = p.getLocation().distance(pl2.getLocation());
 					if (calc > 1 && calc < distance) {
 							distance = calc;
-							if (pl2 != p && pl.getTeam(pl2) != pl.getTeam(p)) nearest = pl2.getPlayer();
+							if (pl2 != p && pl.getTeam(pl2.getName()) != pl.getTeam(p.getName())) nearest = pl2.getPlayer();
 					}
 				} catch (Exception e) {}
 			}

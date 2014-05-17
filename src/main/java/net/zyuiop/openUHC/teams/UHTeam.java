@@ -3,22 +3,21 @@ package net.zyuiop.openUHC.teams;
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 
 public class UHTeam {
-	private ArrayList<Player> players;
+	private ArrayList<String> players;
 	private ChatColor color = null;
 	private String name = null;
 	
 	public UHTeam(String name, ChatColor color) {
 		this.color = color;
 		this.name = name;
-		this.players = new ArrayList<Player>();
+		this.players = new ArrayList<String>();
 	}
 	
 	public UHTeam(String name) {
 		this.name = name;
-		this.players = new ArrayList<Player>();
+		this.players = new ArrayList<String>();
 	}
 	
 	public void setColor(ChatColor color) {
@@ -39,11 +38,11 @@ public class UHTeam {
 		return getColor()+getName();
 	}
 	
-	public void addPlayer(Player p) {
+	public void addPlayer(String p) {
 		this.players.add(p);
 	}
 	
-	public boolean deletePlayer(Player p) {
+	public boolean deletePlayer(String p) {
 		if (isContained(p)) {
 			this.players.remove(p);
 			return true;
@@ -51,13 +50,11 @@ public class UHTeam {
 		return false;
 	}
 	
-	public boolean isContained(Player player) {
-		for (Player p : players)
-			if (p.getName().equals(player.getName())) return true;
-		return false;
+	public boolean isContained(String player) {
+		return this.players.contains(player);
 	}
 	
-	public ArrayList<Player> getPlayers() {
+	public ArrayList<String> getPlayers() {
 		return players;
 	}
 }
