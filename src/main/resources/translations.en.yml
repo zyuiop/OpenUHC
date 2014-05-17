@@ -1,75 +1,75 @@
 # OpenUHC translations file
 # You can use color tags
+# ENGLISH VERSION
 
 # Shown when a player wins the game
 # {PLAYER} is replaced by player name
-player_won_game: "&6Le joueur &b{PLAYER}&6 a gagné la partie !"
+player_won_game: "&6The player &b{PLAYER}&6 has won the game !"
 
 # Shown when a team wins the game
 # {TEAM} is replaced by colorized team name
-team_won_game: "&6L'équipe {TEAM}&6 a gagné la partie !"
+team_won_game: "&6The team {TEAM}&6 has won the game !"
 
-# Shown when a game finish with equality
-no_one_won_game: "&6Egalité ! Personne ne gagne !"
+# Shown when a game finish with draw
+no_one_won_game: "&6Draw ! No one wins !"
 
 #############################################
 ## Scoreboards related
 #############################################
 
 # Used in the top of the scoreboard, for the countdown
-damage_disabled_tag: "Invincibilité"
+damage_disabled_tag: "Invincibility "
 
 # Called regularly to inform when damages will be enabled
 # {TIME} is time left
-damage_disabled_timer: "&6Fin d'invincibilité dans {TIME}"
+damage_disabled_timer: "&6End of invincibility in {TIME}"
 
 # Message shown when damages are enabled
-damage_enable_message: "&6Fin de l'invincibilité !"
+damage_enable_message: "&6Damages are now enabled !"
 
-teams_number_tag: "Equipes"
-players_number_tag: "Joueurs"
+teams_number_tag: "Teams"
+players_number_tag: "Players"
 
 #############################################
 ## Servers list motd
 #############################################
 # The server motd which is displayed in the servers list changes automatically
 
-game_waiting_motd: "&aEn attente de joueurs."
-game_in_progress_motd: "&cPartie en cours"
-game_over_equality: "&bÉgalité !"
-game_over_player_won: "&aPartie gagnée par {PLAYER}"
-game_over_team_won: "&aPartie gagnée par l'équipe {TEAM}"
-# Others messages are set at the top of this file (player_won_game and team_won_game)
+game_waiting_motd: "&aWaiting for players..."
+game_in_progress_motd: "&cGame in progress"
+game_over_equality: "&bDraw !"
+game_over_player_won: "&aGame won by {PLAYER}"
+game_over_team_won: "&aGame won by team {TEAM}"
 
 #############################################
 ## Game
 #############################################
 
-preparing_game: "&7Préparation du jeu..."
-generating_walls: "&bGénération des murs : {PERCENT}%"
-generation_ended: "&aGénération des murs : terminée !"
-game_begin: "&2Début du jeu"
+preparing_game: "&7Preparing game..."
+generating_walls: "&bGenerating walls : {PERCENT}%"
+generation_ended: "&aWalls have been generated"
+game_begin: "&2Game started !"
 
 #############################################
 ## Limits
 #############################################
 
 #Called regularly before shrinking
-shrink_timer_message: "&6Rétrecissement de la map dans {TIME}. Coordonnées : {COORDINATES}"
-shrink: "&6Rétrecissement de la map. Coordonnées : {COORDINATES}"
+shrink_timer_message: "&6Shrinking map in {TIME}. New limits : {COORDINATES}"
+shrink: "&6Shrinking map. New limits : {COORDINATES}"
 
 # If you are out of the new limits before shrinking
-out_of_new_limits: "&cVous êtes hors des nouvelles limites !"
-out_of_limits: "&cVous êtes hors limites !"
+out_of_new_limits: "&cYou are not into the new limits !"
+out_of_limits: "&cYou are not into the limits !"
 
 #############################################
 ## Time translation
 #############################################
 
 # Equivalent of times
-hours: "heures"
+hours: "hours"
 minutes: "minutes"
-seconds: "secondes"
+seconds: "seconds"
 
 
 #############################################
@@ -78,74 +78,74 @@ seconds: "secondes"
 
 # Shown when a player joins a team :
 # {TEAM} is the colorized team name
-team_joined: "&6Vous avez rejoint l'équipe {TEAM}"
+team_joined: "&6You have joined the team {TEAM}"
 
 #############################################
 ## Kick messages
 #############################################
-kick_game_finished: "La partie est finie !"
+kick_game_finished: "Game finished !"
 #############################################
 ## Spectator messages
 #############################################
-join_as_spectator: "&cVous rejoignez le serveur en tant que spectateur."
+join_as_spectator: "&cYou join the game as a spectator."
 
 #############################################
 ## Spectator
 #############################################
 
 # You are not a spectator
-not_a_spectator: "&cVous n'êtes pas spectateur !"
+not_a_spectator: "&cYou're not spectator"
 
 #############################################
 ## Commands
 #############################################
 
 #If the game is already started
-game_already_started: "&cLa partie est dèjà lancée"
+game_already_started: "&cThe game is already started"
 
 ######### Gamestart ############
-not_enough_players: "&cIl n'y a pas assez de joueurs !"
+not_enough_players: "&cThere is not enough players !"
 
 ######### Limits ############
-limits_message: "&6Les limites de la map sont : {LIMITS}"
+limits_message: "&6World limits are : {LIMITS}"
 
 ######### /players ##########
 
 ### Add in team
 # This player is already added in a team
-already_in_team: "&cCe joueur est déjà membre d'une équipe."
+already_in_team: "&cThis player is already in a team."
 # The player has successfully been added in the team
-added_in_team: "&aLe joueur a été ajouté dans l'équipe"
+added_in_team: "&aThe player was successfully added in the target team"
 
 ### Delete from team
 # The player is not in the targeted team
-not_in_team: "&cLe joueur n'est pas membre de l'équipe."
+not_in_team: "&cThis player is not in the targeted team."
 # The player has successfully been deleted from the team
-deleted_from_team: "&aLe joueur a été supprimé de l'équipe"
+deleted_from_team: "&aTHe player was removed from the team"
 
 ######### /shrink ############
-size_not_valid: "&cLa taille n'est pas valide"
+size_not_valid: "&cSize is not valid !"
 
 ######### /teams #############
 
-team_not_exist: "&cCette équipe n'existe pas."
+team_not_exist: "&cThis team doesn't exist."
 
 ### /teams add
-team_already_exist: "&cCette équipe existe déjà."
-team_created: "&aL'équipe a bien été créée."
+team_already_exist: "&cThis team already exist."
+team_created: "&aThe team was successfully created."
 
 
 ### /teams list
-teams_listing_message: "&6Voici les équipes :"
+teams_listing_message: "&6Here are the teams :"
 # which contains the following players
-teams_listing_players: "contenant les joueurs suivants"
+teams_listing_players: "which contains the following players"
 
 ### /teams list <team>
-team_players_message: "&6Voici les joueurs de l'équipe {TEAM} :"
+team_players_message: "&6Players in team {TEAM} :"
 
 ### Delete
-team_deleted: "&aL'équipe a bien été supprimée."
+team_deleted: "&aThe team was removed"
 
 ######### /tp #############
-player_not_found: "&cLe joueur n'a pas été trouvé"
+player_not_found: "&cThe player wasn't found."
 

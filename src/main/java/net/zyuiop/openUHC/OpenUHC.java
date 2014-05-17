@@ -86,7 +86,7 @@ public class OpenUHC extends JavaPlugin {
 	        }
 		}
 		setCustomCrafts();
-		this.language = getConfig().getString("language", "fr");
+		this.language = getConfig().getString("language", "en");
 		loadTranslations();
 	}
 	
@@ -428,13 +428,13 @@ public class OpenUHC extends JavaPlugin {
 					Bukkit.getLogger().info("Language was not found, trying to get it from the plugin file...");
 					saveResource("translations."+language+".yml", false);
 				} catch (IllegalArgumentException e) {
-					if (language.equals("fr"))
+					if (language.equals("en"))
 					{	translationsFile = null;
-						Bukkit.getLogger().severe("An error occured : impossible to find fr language !"+e.getMessage());
+						Bukkit.getLogger().severe("An error occured : impossible to find en language !"+e.getMessage());
 					} else {
 						Bukkit.getLogger().warning("An error occured : impossible to find "+language+" language !"+e.getMessage());
-						Bukkit.getLogger().info("fr_FR language will be used in replacement.");
-						language = "fr";
+						Bukkit.getLogger().info("en language will be used in replacement.");
+						language = "en";
 						loadTranslations(true);
 					}
 				}
