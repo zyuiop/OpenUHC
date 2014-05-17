@@ -25,7 +25,7 @@ public class ScoreboardManager implements org.bukkit.scoreboard.ScoreboardManage
 	}
 	
 	
-	public String phase = plugin.localize("damage_disabled_tag");
+	public String phase;
 	public int hours = 0;
 	public int minutes = 0;
 	public int seconds = 0;
@@ -98,6 +98,7 @@ public class ScoreboardManager implements org.bukkit.scoreboard.ScoreboardManage
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			p.setScoreboard(sb);
 		}
+		phase = plugin.localize("damage_disabled_tag");
 	}
 
 	public Objective getRight() {
