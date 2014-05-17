@@ -35,7 +35,7 @@ public class PlayerEvents implements Listener {
 				e.getPlayer().sendMessage(pl.localize("join_as_spectator"));
 				return;
 			}
-			e.disallow(Result.KICK_OTHER, "Le jeu est déjà lancé.");
+			e.disallow(Result.KICK_OTHER, pl.localize("game_already_started"));
 			return;
 		}
 		
@@ -50,7 +50,7 @@ public class PlayerEvents implements Listener {
 			Location l = e.getPlayer().getLocation();
 			if (!pl.isInLimits(l.getBlockX(), l.getBlockZ())) {
 				e.getPlayer().teleport(pl.getRandLoc());
-				e.getPlayer().sendMessage(ChatColor.DARK_RED+"Vous êtes HORS LIMITES.");
+				e.getPlayer().sendMessage(pl.localize("out_of_limits"));
 			}
 		}
 	}
