@@ -443,7 +443,7 @@ public class OpenUHC extends JavaPlugin {
 		while (w.getBlockAt(tpx, tpy, tpz).getType().equals(Material.AIR))
 			tpy--;
 		if (!w.getBlockAt(tpx, tpy, tpz).isLiquid())
-			return new Location(w, tpx, tpy+3, tpz);
+			return new Location(w, tpx+0.5, tpy+2, tpz+0.5);
 		else
 			return getSafeRandLoc();
 	}
