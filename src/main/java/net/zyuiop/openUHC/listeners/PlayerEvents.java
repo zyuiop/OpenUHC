@@ -29,9 +29,6 @@ public class PlayerEvents implements Listener {
 	
 	@EventHandler
 	public void joinEvent(PlayerLoginEvent e) {
-		if (!pl.getGame().isFinished() && !e.getPlayer().hasPermission("uhpl.join")) {
-			e.disallow(Result.KICK_OTHER, pl.localize("kick_game_finished"));
-		}
 		if (!pl.getGame().canJoin() && !e.getPlayer().hasPermission("uhpl.join") && !pl.isIngame(e.getPlayer())) {
 			if(pl.getConfig().getBoolean("allow_spectators")) {
 				pl.getSpectatorManager().addPlayer(e.getPlayer());
