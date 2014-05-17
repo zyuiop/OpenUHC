@@ -75,7 +75,7 @@ public class PlayerEvents implements Listener {
 			Player p = (Player) death.getEntity();
 			pl.deletePlayer(p);
 			if (!pl.getConfig().getBoolean("allow_spectators"))
-				p.kickPlayer("Vous êtes mort !");
+				p.kickPlayer(pl.localize("kick_dead"));
 				
 		
 	}
@@ -83,8 +83,8 @@ public class PlayerEvents implements Listener {
 	public void respawn(PlayerRespawnEvent e) {
 		Player p = e.getPlayer();
 		if (!pl.isIngame(p) && !pl.getGame().isFinished()) {
-			p.sendMessage(ChatColor.RED + "Vous êtes mort !");
-			p.sendMessage(ChatColor.GREEN + "Vous êtes désormais spectateur.");
+			p.sendMessage(pl.localize("kick_dead"));
+			p.sendMessage(pl.localize("respawn_as_spectator"));
 			pl.getSpectatorManager().addPlayer(p);
 		}
 	}
@@ -126,7 +126,7 @@ public class PlayerEvents implements Listener {
 				}
 			}
 			if (!foundItem) {
-				p.sendMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Vous n'avez pas de "+item);
+				p.sendMessage(pl.localize("missing_item").replace("{ITEM}", item));
 				return;
 			}
 			Player nearest = null;
@@ -141,10 +141,10 @@ public class PlayerEvents implements Listener {
 				} catch (Exception e) {}
 			}
 			if (nearest == null) {
-				p.sendMessage(ChatColor.RED+""+ChatColor.ITALIC+"Aucune joueur trouvé");
+				p.sendMessage(pl.localize("no_player"));
 				return;
 			}
-				p.sendMessage(ChatColor.GREEN+"La boussole pointe sur le joueur le plus proche.");
+				p.sendMessage(pl.localize("point_at_player"));
 				p.setCompassTarget(nearest.getLocation());
 		}
 	}

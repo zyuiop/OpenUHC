@@ -85,10 +85,12 @@ team_joined: "&6You have joined the team {TEAM}"
 ## Kick messages
 #############################################
 kick_game_finished: "Game finished !"
+kick_dead: "&cYou are dead"
 #############################################
 ## Spectator messages
 #############################################
 join_as_spectator: "&cYou join the game as a spectator."
+respawn_as_spectator: "&cYou are now a spectator."
 
 #############################################
 ## Spectator
@@ -96,6 +98,17 @@ join_as_spectator: "&cYou join the game as a spectator."
 
 # You are not a spectator
 not_a_spectator: "&cYou're not spectator"
+player_not_online: "&cThe player isn't connected on the server"
+player_not_ingame: "&cThe player isn't in the game"
+
+#############################################
+## Compass
+#############################################
+
+missing_item: "&cYou don't have any {ITEM}"
+no_player: "&cNo player found."
+point_at_player: "&aThe compass is now pointing at the closest player."
+
 
 #############################################
 ## Commands

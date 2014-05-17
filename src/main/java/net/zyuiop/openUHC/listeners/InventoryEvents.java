@@ -41,7 +41,8 @@ public class InventoryEvents implements Listener {
 					ev.setCancelled(true);
 			}
 		} catch (Exception e) {
-			Bukkit.getLogger().warning(ChatColor.RED+"Une erreur s'est produite durant l'analyse du craft");
+			Bukkit.getLogger().warning(ChatColor.RED+"An error occured when trying to analyse craft.");
+			((Player) ev.getWhoClicked()).sendMessage(ChatColor.DARK_RED+"Fatal error : cannot analyse craft. "+ChatColor.AQUA+e.getLocalizedMessage());
 			e.printStackTrace();
 		}
 	}
@@ -61,12 +62,12 @@ public class InventoryEvents implements Listener {
 						if (pl.isIngame(meta.getOwner())) {
 							Player dest = Bukkit.getPlayer(meta.getOwner());
 							if (dest == null) {
-								p.sendMessage(ChatColor.RED+"Le joueur n'est pas connecté.");
+								p.sendMessage(pl.localize("player_not_online"));
 							} else {
 								p.teleport(dest);
 							}
 						} else {
-							p.sendMessage(ChatColor.RED+"Le joueur n'est plus en jeu.");
+							p.sendMessage(pl.localize("player_not_ingame"));
 						}
 					}
 				}
