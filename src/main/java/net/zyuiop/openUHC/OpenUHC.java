@@ -25,6 +25,7 @@ import net.zyuiop.openUHC.utils.UHUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -240,6 +241,25 @@ public class OpenUHC extends JavaPlugin {
 		return Bukkit.getWorld(this.getConfig().getString("world","world"));
 	}
 
+	/**
+	 * This method generates a chunk
+	 * @param Chunk to generate
+	 */
+	public void generateChunk(Chunk c) {
+		int x = c.getX()-Bukkit.getViewDistance();
+		int toX = x + (Bukkit.getViewDistance() * 2);
+		int toZ = x + (Bukkit.getViewDistance() * 2);
+		
+		while (x < toX) {
+			int z = c.getZ()-Bukkit.getViewDistance();
+			while (z < toZ) {
+				getWorld().loadChunk(x,z);
+				z++;
+			}
+			x++;
+		}
+	}
+	
 	/***
 	 * Delete a player from the game
 	 * @param n The name of the player
