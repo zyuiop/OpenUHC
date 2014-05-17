@@ -16,12 +16,12 @@ public class CommandTeleport implements CommandExecutor {
 	}
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.RED + "You must be a player !");
+			sender.sendMessage(ChatColor.RED + "You aren't a player !");
 			return true;
 		}
 		Player p = (Player) sender;
 		if (!pl.getSpectatorManager().isSpectator(p) && !p.hasPermission("uhpl.cheat.teleport")) {
-			sender.sendMessage(ChatColor.RED + "You must be a spectator");
+			sender.sendMessage(pl.localize("not_a_spectator"));
 			return true;
 		}
 		if (args.length >= 1) {

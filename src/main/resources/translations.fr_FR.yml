@@ -146,3 +146,6 @@ team_players_message: "&6Voici les joueurs de l'équipe {TEAM} :"
 ### Delete
 team_deleted: "&aL'équipe a bien été supprimée."
 
+######### /tp #############
+player_not_found: "&cLe joueur n'a pas été trouvé"
+

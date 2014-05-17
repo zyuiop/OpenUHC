@@ -86,6 +86,7 @@ public class OpenUHC extends JavaPlugin {
 	        }
 		}
 		setCustomCrafts();
+		this.language = getConfig().getString("language", "fr_FR");
 		loadTranslations();
 	}
 	
@@ -418,11 +419,24 @@ public class OpenUHC extends JavaPlugin {
 	 */
 	private FileConfiguration translationsFile = null;
 	private File configFile = null;
+	public String language = null;
 	public void loadTranslations(boolean force) {
 		if (translationsFile == null || force) {
-			configFile = new File(getDataFolder(), "translations.yml");
+			configFile = new File(getDataFolder(), "translations."+language+".yml");
 			if (!configFile.exists()) {
-				saveResource("translations.yml", false);
+				try {
+					saveResource("translations."+language+".yml", false);
+				} catch (IllegalArgumentException e) {
+					if (language.equals("fr_FR"))
+					{	translationsFile = null;
+						Bukkit.getLogger().severe("An error occured : impossible to find fr_FR language !"+e.getMessage());
+					} else {
+						Bukkit.getLogger().warning("An error occured : impossible to find "+language+" language !"+e.getMessage());
+						Bukkit.getLogger().info("fr_FR language will  be used in replacement.");
+						language = "fr_FR";
+						loadTranslations(true);
+					}
+				}
 			}
 		 	translationsFile = YamlConfiguration.loadConfiguration(configFile);
 		 }
@@ -437,14 +451,6 @@ public class OpenUHC extends JavaPlugin {
 		loadTranslations(false);
 	}
 	
-    public void saveDefaultConfig() {
-        if (configFile == null) {
-        	configFile = new File(getDataFolder(), "translations.yml");
-        }
-        if (!configFile.exists()) {            
-             this.saveResource("translations.yml", false);
-         }
-    }
 	
 	public String localize(String key) {
 		String tran = translationsFile.getString(key);
