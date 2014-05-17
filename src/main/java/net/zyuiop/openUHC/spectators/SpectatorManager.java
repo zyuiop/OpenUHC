@@ -22,10 +22,6 @@ public class SpectatorManager {
 	protected final OpenUHC pl;
 	protected List<Player> spectators = new ArrayList<Player>();
 	
-	/**
-	 * 
-	 * @param pl OpenUHC plugin
-	 */
 	public SpectatorManager(OpenUHC pl) {
 		this.pl = pl;
 	}
