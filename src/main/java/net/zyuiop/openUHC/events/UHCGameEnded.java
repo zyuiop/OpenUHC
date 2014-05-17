@@ -23,11 +23,10 @@ public class UHCGameEnded extends Event {
 		this.winner = winner;
 		this.team = true;
 	}
-	
+	private static final HandlerList handlers = new HandlerList();
 	@Override
 	public HandlerList getHandlers() {
-		// TODO Auto-generated method stub
-		return null;
+		return handlers;
 	}
 	
 	/**
