@@ -36,6 +36,9 @@ players_number_tag: "Joueurs"
 
 game_waiting_motd: "&aEn attente de joueurs."
 game_in_progress_motd: "&cPartie en cours"
+game_over_equality: "&bÉgalité !"
+game_over_player_won: "&aPartie gagnée par {PLAYER}"
+game_over_team_won: "&aPartie gagnée par l'équipe {TEAM}"
 # Others messages are set at the top of this file (player_won_game and team_won_game)
 
 #############################################
