@@ -32,7 +32,6 @@ public class Game {
 	 * Use this method to start the game. This method shall only be used ONCE.
 	 */
 	public void start() {
-		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Préparation du jeu...");
 		pl.getWorld().setGameRuleValue("doDaylightCycle", pl.getConfig().getString("daylight-cycle", "true"));
 		pl.getWorld().setGameRuleValue("naturalRegeneration", "false");
 		pl.getWorld().setTime(pl.getConfig().getLong("begin-time", 6000L));
@@ -100,7 +99,7 @@ public class Game {
 		
 		// start
 		gameStarted = true;
-		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Début du jeu !");
+		Bukkit.broadcastMessage(pl.localize("game_begin"));
 		new Countdown(pl, pl.getConfig().getInt("damage-disable", 60)).runTaskTimer(pl, 0, 20);
 		Bukkit.getServer().getPluginManager().callEvent(new UHCGameStartEvent(this));
 	}

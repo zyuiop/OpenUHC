@@ -28,9 +28,7 @@ import org.bukkit.scheduler.BukkitRunnable;
         public void run() {
             // What you want to schedule goes here
             if (counter > 0) { 
-            	String evname = "Invincibilité";
-            	String evnamechat = ChatColor.GOLD+"Fin d'invincibilité";
-            	
+            	String evname = plugin.localize("damage_disabled_tag");
             	plugin.getSbManager().setPhase(evname);
             	plugin.getSbManager().formatTime(counter);
             	plugin.getSbManager().refresh();
@@ -38,20 +36,20 @@ import org.bukkit.scheduler.BukkitRunnable;
             	String countdownMsg = plugin.localize("damage_disabled_timer");
                 switch (counter) {
                 case 120:
-                	Bukkit.broadcastMessage(countdownMsg + "2 " + plugin.localize("minutes"));
+                	Bukkit.broadcastMessage(countdownMsg.replace("{TIME}", "2 " + plugin.localize("minutes")));
                 	break;
                 case 60:
-                	Bukkit.broadcastMessage(countdownMsg  +"1 " + plugin.localize("minutes"));
+                	Bukkit.broadcastMessage(countdownMsg.replace("{TIME}", "1 " + plugin.localize("minutes")));
                 	break;
                 case 30:
-                	Bukkit.broadcastMessage(countdownMsg+ "30 " + plugin.localize("seconds"));
+                	Bukkit.broadcastMessage(countdownMsg.replace("{TIME}", "30 " + plugin.localize("seconds")));
                 	break;
                 case 10:
-                	Bukkit.broadcastMessage(countdownMsg+"10 " + plugin.localize("seconds"));
+                	Bukkit.broadcastMessage(countdownMsg.replace("{TIME}", "10 " + plugin.localize("seconds")));
                 	break;
                 default:
                 	if (counter <= 5)
-                		Bukkit.broadcastMessage(countdownMsg + counter + " " + plugin.localize("seconds"));
+                		Bukkit.broadcastMessage(countdownMsg.replace("{TIME}", counter + plugin.localize("seconds")));
                 	
                 }
                 

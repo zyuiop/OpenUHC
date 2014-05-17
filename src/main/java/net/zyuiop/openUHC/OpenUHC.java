@@ -168,7 +168,7 @@ public class OpenUHC extends JavaPlugin {
 	 * Protected method, called automatically when you shrink the map or when you start the game.
 	 */
 	protected void generateWalls() {
-		Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", "0%"));
+		Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", "0"));
 		World w = getWorld();
 		double work = (mapSize*4)*255;
 		double done = 0;
@@ -184,10 +184,10 @@ public class OpenUHC extends JavaPlugin {
 				done++;
 				int res = 0;
 				res = UHUtils.showProgress(done,work);
-				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+"%"));
+				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+""));
 				done++;
 				res = UHUtils.showProgress(done,work);
-				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+"%"));
+				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+""));
 			}
 			x++;
 		}
@@ -321,6 +321,12 @@ public class OpenUHC extends JavaPlugin {
 	 * @return true if (x,z) is in limits, false else
 	 */
 	public boolean isInLimits(int x, int z) {
+		if (x > limits.get(XLIMITN) && x < limits.get(XLIMITP) && z > limits.get(ZLIMITN) && z < limits.get(ZLIMITP))
+			return true;
+		return false;
+	}
+	
+	public boolean isInLimits(int x, int z, ArrayList<Integer> limits) {
 		if (x > limits.get(XLIMITN) && x < limits.get(XLIMITP) && z > limits.get(ZLIMITN) && z < limits.get(ZLIMITP))
 			return true;
 		return false;

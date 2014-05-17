@@ -22,7 +22,7 @@ public class CommandLimits implements CommandExecutor {
 			return true;
 		}
 		ArrayList<Integer> nlimits = pl.getLimits();
-		sender.sendMessage(pl.localize("limits_messages".replace("{LIMITS}", "x("+nlimits.get(0)+","+nlimits.get(1)+") z("+nlimits.get(2)+","+nlimits.get(3)+")")));
+		sender.sendMessage(pl.localize("limits_message".replace("{LIMITS}", "x("+nlimits.get(0)+","+nlimits.get(1)+") z("+nlimits.get(2)+","+nlimits.get(3)+")")));
 		
 		return true;
 	}
