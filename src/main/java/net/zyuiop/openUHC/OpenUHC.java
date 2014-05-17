@@ -418,7 +418,11 @@ public class OpenUHC extends JavaPlugin {
 	private FileConfiguration translationsFile = null;
 	public void loadTranslations(boolean force) {
 		if (translationsFile == null || force) {
-		 	translationsFile = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "translations.yml"));
+			File configFile = new File(getDataFolder(), "translations.yml");
+			if (!configFile.exists()) {
+				saveResource("translations.yml", false);
+			}
+		 	translationsFile = YamlConfiguration.loadConfiguration(configFile);
 		 }
 		 InputStream defConfigStream = this.getResource("translations.yml");
 		 if (defConfigStream != null) {
