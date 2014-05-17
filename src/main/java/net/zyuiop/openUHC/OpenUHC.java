@@ -436,7 +436,7 @@ public class OpenUHC extends JavaPlugin {
 		String tran = translationsFile.getString(key, ChatColor.RED+"Failed to find translation for "+key);
 		if (tran.equals(ChatColor.RED+"Failed to find translation for "+key))
 			this.getLogger().warning("An error occured : impossible to find translation for "+key+" in translations.yml file !");
-		tran.replaceAll("(?i)&([a-f0-9])", "\u00A7$1"); //Colors
+		tran = ChatColor.translateAlternateColorCodes('&', tran); //Colors
 		return tran;
 	}
 }
