@@ -1,5 +1,7 @@
 package net.zyuiop.openUHC;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import net.zyuiop.openUHC.commands.CommandGamestart;
@@ -27,6 +29,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -406,5 +410,34 @@ public class OpenUHC extends JavaPlugin {
 		return this.joueurs;
 	}
 	
+	
+	/**
+	 * Get the correct translation for the key
+	 * @return the translation you can use.
+	 */
+	private FileConfiguration translationsFile = null;
+	public void loadTranslations(boolean force) {
+		if (translationsFile == null || force) {
+		 	translationsFile = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "translations.yml"));
+		 }
+		 InputStream defConfigStream = this.getResource("translations.yml");
+		 if (defConfigStream != null) {
+		        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+		        translationsFile.setDefaults(defConfig);
+		 }
+	}
+	
+	public void loadTranslations() {
+		loadTranslations(false);
+	}
+	
+	public String localize(String key) {
+		loadTranslations();
+		String tran = translationsFile.getString(key, ChatColor.RED+"Failed to find translation for "+key);
+		if (tran.equals(ChatColor.RED+"Failed to find translation for "+key))
+			this.getLogger().warning("An error occured : impossible to find translation for "+key+" in translations.yml file !");
+		tran.replaceAll("(?i)&([a-f0-9])", "\u00A7$1"); //Colors
+		return tran;
+	}
 }
 

@@ -1,0 +1,67 @@
+# OpenUHC translations file
+# You can use color tags
+
+# Shown when a player wins the game
+# {PLAYER} is replaced by player name
+player_won_game: "&6Le joueur &b{PLAYER}&6 a gagné la partie !"
+
+# Shown when a team wins the game
+# {TEAM} is replaced by colorized team name
+team_won_game: "&6L'équipe {TEAM}&6 a gagné la partie !"
+
+# Shown when a game finish with equality
+no_one_won_game: "&6Egalité ! Personne ne gagne !"
+
+#############################################
+## Scoreboards related
+#############################################
+
+# Used in the top of the scoreboard, for the countdown
+damage_disabled_tag: "Invincibilité"
+
+# Called regularly to inform when damages will be enabled
+# {TIME} is time left
+damage_disabled_timer: "&6Fin d'invincibilité dans {TIME}"
+
+# Message shown when damages are enabled
+damage_enable_message: "&6Fin de l'invincibilité !"
+
+teams_number_tag: "Equipes"
+players_number_tag: "Joueurs"
+
+#############################################
+## Servers list motd
+#############################################
+# The server motd which is displayed in the servers list changes automatically
+
+game_waiting_motd: "&aEn attente de joueurs."
+game_in_progress_motd: "&cPartie en cours"
+# Others messages are set at the top of this file (player_won_game and team_won_game)
+
+#############################################
+## Game
+#############################################
+
+preparing_game: "&7Préparation du jeu..."
+generating_walls: "&bGénération des murs : {PERCENT}%"
+generation_ended: "&aGénération des murs : terminée !"
+game_begin: "&2Début du jeu"
+
+#############################################
+## Time translation
+#############################################
+
+# Equivalent of times
+hours: "heures"
+minutes: "minutes"
+seconds: "secondes"
+
+
+#############################################
+## Teams related
+#############################################
+
+# Shown when a player joins a team :
+# {TEAM} is the colorized team name
+team_joined: "&6Vous avez rejoint l'équipe {TEAM}"
+

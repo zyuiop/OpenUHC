@@ -52,7 +52,6 @@ public class Game {
 		pl.setLimits();
 		pl.generateWalls();
 		World w = pl.getWorld();
-		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des chunks de spawn... ");
 		HashMap<Player, Location> posTp = new HashMap<Player, Location>();
 		if (this.solo) {
 			for (Player p : pl.joueurs) {
@@ -82,7 +81,6 @@ public class Game {
 				}
 			}
 		}
-		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Génération des chunks de spawn terminée.");
 		for (Player pl : posTp.keySet()) {
 			pl.setGameMode(GameMode.SURVIVAL);
 			pl.getInventory().clear();
