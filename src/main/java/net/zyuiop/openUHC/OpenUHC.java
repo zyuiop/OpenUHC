@@ -86,6 +86,7 @@ public class OpenUHC extends JavaPlugin {
 	        }
 		}
 		setCustomCrafts();
+		loadTranslations();
 	}
 	
 	
@@ -446,11 +447,13 @@ public class OpenUHC extends JavaPlugin {
     }
 	
 	public String localize(String key) {
-		loadTranslations(true);
-		String tran = translationsFile.getString(key, ChatColor.RED+"Failed to find translation for "+key);
-		if (tran.equals(ChatColor.RED+"Failed to find translation for "+key))
+		String tran = translationsFile.getString(key);
+		if (tran == null) {
 			this.getLogger().warning("An error occured : impossible to find translation for "+key+" in translations.yml file !");
-		tran = ChatColor.translateAlternateColorCodes('&', tran); //Colors
+			tran = ChatColor.DARK_RED+"Fatal error : Failed to get translation for key "+ChatColor.AQUA+key;
+		}
+		else 
+			tran = ChatColor.translateAlternateColorCodes('&', tran); //Colors
 		return tran;
 	}
 }
