@@ -7,7 +7,6 @@ import net.zyuiop.openUHC.OpenUHC;
 import net.zyuiop.openUHC.utils.UHUtils;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
@@ -16,7 +15,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.material.Skull;
 
 public class SpectatorManager {
 	protected final OpenUHC pl;
@@ -61,17 +59,16 @@ public class SpectatorManager {
 	public void playersInventory(Player destination) {
 		Inventory inv = this.pl.getServer().createInventory(destination, UHUtils.getClosestChestSize(Bukkit.getServer().getMaxPlayers()+1), pl.localize("compass_inv_name"));
 		Integer slot = 0;
-		ItemStack is = null;
-		for (Player p : pl.getPlayers()) {
-			if (p == destination)
+		for (String p : pl.getPlayers()) {
+			if (p == destination.getName())
 				continue;
 			ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
 	        SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
-	        skullMeta.setOwner(p.getName());
+	        skullMeta.setOwner(p);
 	        if (pl.getGame().isSolo())
-	        	skullMeta.setDisplayName(p.getName());
+	        	skullMeta.setDisplayName(p);
 	        else
-	        	skullMeta.setDisplayName(pl.getTeam(p).getColorizedName());
+	        	skullMeta.setDisplayName(pl.getTeam(p).getColor()+p);
 	        skull.setItemMeta(skullMeta);
 	        inv.addItem(skull);
 			slot++;

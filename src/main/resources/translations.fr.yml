@@ -48,6 +48,8 @@ game_over_team_won: "&aPartie gagnée par l'équipe {TEAM}"
 preparing_game: "&7Préparation du jeu..."
 generating_walls: "&bGénération des murs : {PERCENT}%"
 generation_ended: "&aGénération des murs : terminée !"
+generating_chunks: "&bGeneration des chunks..."
+chunks_ended: "&aChunks générés !"
 game_begin: "&2Début du jeu"
 team_stumped: "&4L'équipe {TEAM}&4 a été éliminée !"
 

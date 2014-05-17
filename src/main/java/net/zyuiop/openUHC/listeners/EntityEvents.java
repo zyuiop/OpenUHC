@@ -35,7 +35,7 @@ public class EntityEvents implements Listener {
 			if (e instanceof EntityDamageByEntityEvent)
 			{
 				EntityDamageByEntityEvent ev = (EntityDamageByEntityEvent) e;
-				if (ev.getDamager() instanceof Player && ev.getEntity() instanceof Player && !pl.getGame().canPvP())
+				if (ev.getDamager() instanceof Player && ev.getEntity() instanceof Player && !pl.getGame().canTakeDamage())
 					ev.setCancelled(true);
 				else if(ev.getDamager() instanceof Player) {
 					Player damager = (Player) ev.getDamager();

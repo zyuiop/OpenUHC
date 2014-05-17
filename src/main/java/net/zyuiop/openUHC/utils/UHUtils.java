@@ -1,13 +1,9 @@
 package net.zyuiop.openUHC.utils;
 
-import java.io.File;
-import java.io.InputStream;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 public class UHUtils {
 	public static int showProgress(double done, double work) {

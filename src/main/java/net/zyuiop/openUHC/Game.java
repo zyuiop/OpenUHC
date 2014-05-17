@@ -8,11 +8,9 @@ import net.zyuiop.openUHC.teams.UHTeam;
 import net.zyuiop.openUHC.timers.Countdown;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public class Game {
@@ -32,7 +30,6 @@ public class Game {
 	 * Use this method to start the game. This method shall only be used ONCE.
 	 */
 	public void start() {
-		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Préparation du jeu...");
 		pl.getWorld().setGameRuleValue("doDaylightCycle", pl.getConfig().getString("daylight-cycle", "true"));
 		pl.getWorld().setGameRuleValue("naturalRegeneration", "false");
 		pl.getWorld().setTime(pl.getConfig().getLong("begin-time", 6000L));
@@ -44,43 +41,35 @@ public class Game {
 		else {	
 			this.solo = true;
 			for (Player p : Bukkit.getOnlinePlayers()) {
-				pl.joueurs.add(p);
+				pl.joueurs.add(p.getName());
 			}
 		}
 		pl.sbmanager.init();
 		pl.mapSize = pl.getConfig().getInt("map-size");
 		pl.setLimits();
 		pl.generateWalls();
-		World w = pl.getWorld();
 		HashMap<Player, Location> posTp = new HashMap<Player, Location>();
+		Bukkit.broadcastMessage(pl.localize("generating_chunks"));
 		if (this.solo) {
-			for (Player p : pl.joueurs) {
+			for (String p : pl.joueurs) {
 				Location l = pl.getRandLoc();
-				posTp.put(p, l);
-				w.getChunkAt(l).load(true);
+				pl.generateChunk(l.getChunk());
+				Player play = (Player) Bukkit.getOfflinePlayer(p);
+				posTp.put(play, l);
 			}
 		}
 		else {
 			for (UHTeam t : pl.teams.getTeamsList()) {
 				Location l = pl.getRandLoc();
-				int x = l.getChunk().getX()-Bukkit.getViewDistance();
-				int toX = x + (Bukkit.getViewDistance() * 2);
-				int toZ = x + (Bukkit.getViewDistance() * 2);
+				pl.generateChunk(l.getChunk());
 				
-				while (x < toX) {
-					int z = l.getChunk().getZ()-Bukkit.getViewDistance();
-					while (z < toZ) {
-						pl.getWorld().loadChunk(x,z);
-						z++;
-					}
-					x++;
-				}
-				
-				for (Player p : t.getPlayers()) {
-					posTp.put(p, l);
+				for (String p : t.getPlayers()) {
+					Player play = (Player) Bukkit.getOfflinePlayer(p);
+					posTp.put(play, l);
 				}
 			}
 		}
+		Bukkit.broadcastMessage(pl.localize("chunks_ended"));
 		for (Player pl : posTp.keySet()) {
 			pl.setGameMode(GameMode.SURVIVAL);
 			pl.getInventory().clear();
@@ -100,7 +89,7 @@ public class Game {
 		
 		// start
 		gameStarted = true;
-		Bukkit.broadcastMessage(ChatColor.GRAY+""+ChatColor.ITALIC+"Début du jeu !");
+		Bukkit.broadcastMessage(pl.localize("game_begin"));
 		new Countdown(pl, pl.getConfig().getInt("damage-disable", 60)).runTaskTimer(pl, 0, 20);
 		Bukkit.getServer().getPluginManager().callEvent(new UHCGameStartEvent(this));
 	}
@@ -128,8 +117,8 @@ public class Game {
 			}
 			else {
 				for(String wcmd : pl.getConfig().getStringList("commands.winner")) {
-					for (Player player : pl.teams.getTeam(winner).getPlayers()) {
-						pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), wcmd.replace("{PLAYER}", player.getName()));
+					for (String player : pl.teams.getTeam(winner).getPlayers()) {
+						pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), wcmd.replace("{PLAYER}", player));
 					}
 				}
 				Bukkit.getServer().getPluginManager().callEvent(new UHCGameEnded(pl.teams.getTeam(winner)));

@@ -11,8 +11,8 @@ import net.zyuiop.openUHC.commands.CommandShrink;
 import net.zyuiop.openUHC.commands.CommandTeams;
 import net.zyuiop.openUHC.commands.CommandTeleport;
 import net.zyuiop.openUHC.listeners.BlockEvents;
-import net.zyuiop.openUHC.listeners.InventoryEvents;
 import net.zyuiop.openUHC.listeners.EntityEvents;
+import net.zyuiop.openUHC.listeners.InventoryEvents;
 import net.zyuiop.openUHC.listeners.MiscEvents;
 import net.zyuiop.openUHC.listeners.NetworkEvents;
 import net.zyuiop.openUHC.listeners.PlayerEvents;
@@ -25,15 +25,14 @@ import net.zyuiop.openUHC.utils.UHUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -43,7 +42,7 @@ public class OpenUHC extends JavaPlugin {
 	
 	
 	protected UHTeamManager teams = new UHTeamManager();
-	protected ArrayList<Player> joueurs = new ArrayList<Player>(); // Répertorie joueurs online
+	protected ArrayList<String> joueurs = new ArrayList<String>(); // Répertorie joueurs online
 	protected SpectatorManager spectatorManager = null;
 	protected Game game = new Game(this);
 	protected ScoreboardManager sbmanager;
@@ -168,7 +167,7 @@ public class OpenUHC extends JavaPlugin {
 	 * Protected method, called automatically when you shrink the map or when you start the game.
 	 */
 	protected void generateWalls() {
-		Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", "0%"));
+		Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", "0"));
 		World w = getWorld();
 		double work = (mapSize*4)*255;
 		double done = 0;
@@ -184,10 +183,10 @@ public class OpenUHC extends JavaPlugin {
 				done++;
 				int res = 0;
 				res = UHUtils.showProgress(done,work);
-				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+"%"));
+				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+""));
 				done++;
 				res = UHUtils.showProgress(done,work);
-				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+"%"));
+				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+""));
 			}
 			x++;
 		}
@@ -203,10 +202,10 @@ public class OpenUHC extends JavaPlugin {
 				done++;
 				int res = 0;
 				res = UHUtils.showProgress(done,work);
-				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+"%"));
+				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+""));
 				done++;
 				res = UHUtils.showProgress(done,work);
-				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+"%"));
+				if (res != 0) Bukkit.broadcastMessage(this.localize("generating_walls").replace("{PERCENT}", res+""));
 			}
 			z++;
 		}
@@ -227,9 +226,7 @@ public class OpenUHC extends JavaPlugin {
 	 * @return true if the player is in game
 	 */
 	public boolean isIngame(String player) {
-		for (Player joueur : joueurs) 
-			if (joueur.getName().equals(player)) return true;
-		return false;
+		return this.joueurs.contains(player);
 	}
 
 	/***
@@ -240,11 +237,30 @@ public class OpenUHC extends JavaPlugin {
 		return Bukkit.getWorld(this.getConfig().getString("world","world"));
 	}
 
+	/**
+	 * This method generates a chunk
+	 * @param Chunk to generate
+	 */
+	public void generateChunk(Chunk c) {
+		int x = c.getX()-Bukkit.getViewDistance();
+		int toX = x + (Bukkit.getViewDistance() * 2);
+		int toZ = x + (Bukkit.getViewDistance() * 2);
+		
+		while (x < toX) {
+			int z = c.getZ()-Bukkit.getViewDistance();
+			while (z < toZ) {
+				getWorld().loadChunk(x,z);
+				z++;
+			}
+			x++;
+		}
+	}
+	
 	/***
 	 * Delete a player from the game
 	 * @param n The name of the player
 	 */
-	public void deletePlayer(Player n) {
+	public void deletePlayer(String n) {
 		
 		if (game.getStarted() && joueurs.contains(n)) {
 			joueurs.remove(n);
@@ -274,7 +290,7 @@ public class OpenUHC extends JavaPlugin {
 	 * @param player The nickname of the target player
 	 * @return the team of the player, represented by an UHTeam object
 	 */
-	public UHTeam getTeam(Player player) {
+	public UHTeam getTeam(String player) {
 		for (UHTeam t : teams.getTeamsList()) {
 			if (t.isContained(player))
 			{
@@ -293,9 +309,9 @@ public class OpenUHC extends JavaPlugin {
 	public boolean delFromTeam(Player player, String team) {
 		if (teams.getTeam(team) == null)
 			return false;
-		if (!teams.getTeam(team).isContained(player))
+		if (!teams.getTeam(team).isContained(player.getName()))
 			return false;
-		teams.getTeam(team).deletePlayer(player);
+		teams.getTeam(team).deletePlayer(player.getName());
 		return true;
 	}
 	
@@ -305,10 +321,11 @@ public class OpenUHC extends JavaPlugin {
 	 */
 	public void reduceSize(ArrayList<Integer> l) {
 		setLimits(l);
-		for (Player p : joueurs) {
+		for (String pname : joueurs) {
+			Player p = Bukkit.getPlayer(pname);
 			if (p != null) {
 				if (!isInLimits(p.getLocation().getBlockX(), p.getLocation().getBlockZ()))
-					p.teleport(getRandLoc());
+					p.teleport(getSafeRandLoc());
 			}
 		}
 		generateWalls();
@@ -321,6 +338,12 @@ public class OpenUHC extends JavaPlugin {
 	 * @return true if (x,z) is in limits, false else
 	 */
 	public boolean isInLimits(int x, int z) {
+		if (x > limits.get(XLIMITN) && x < limits.get(XLIMITP) && z > limits.get(ZLIMITN) && z < limits.get(ZLIMITP))
+			return true;
+		return false;
+	}
+	
+	public boolean isInLimits(int x, int z, ArrayList<Integer> limits) {
 		if (x > limits.get(XLIMITN) && x < limits.get(XLIMITP) && z > limits.get(ZLIMITN) && z < limits.get(ZLIMITP))
 			return true;
 		return false;
@@ -370,13 +393,13 @@ public class OpenUHC extends JavaPlugin {
 	
 	
 	public boolean addPlayer(String teamName, Player player) {
-		if (getTeam(player) != null)
+		if (getTeam(player.getName()) != null)
 			return false;
 		
 		if (!teams.teamExists(teamName))
 			return false;
 		
-		teams.getTeam(teamName).addPlayer(player);
+		teams.getTeam(teamName).addPlayer(player.getName());
 		return true;
 	}
 	
@@ -396,15 +419,30 @@ public class OpenUHC extends JavaPlugin {
 	
 	public Location getRandLoc() {
 		World w = getWorld();
-		while (true) {
-			int tpx = UHUtils.randomInt(limits.get(XLIMITN),limits.get(XLIMITP));
-			int tpz = UHUtils.randomInt(limits.get(ZLIMITN),limits.get(ZLIMITP));
-			int tpy = 250;
-			while (w.getBlockAt(tpx, tpy, tpz).getType().equals(Material.AIR))
-				tpy--;
-			if (!w.getBlockAt(tpx, tpy, tpz).isLiquid())
-				return new Location(w, tpx, tpy+3, tpz);
-		}
+	
+		int tpx = UHUtils.randomInt(limits.get(XLIMITN),limits.get(XLIMITP));
+		int tpz = UHUtils.randomInt(limits.get(ZLIMITN),limits.get(ZLIMITP));
+		int tpy = 250;
+		while (w.getBlockAt(tpx, tpy, tpz).getType().equals(Material.AIR))
+			tpy--;
+		if (!w.getBlockAt(tpx, tpy, tpz).isLiquid())
+			return new Location(w, tpx, 250, tpz);
+		else
+			return getRandLoc();
+	}
+	
+	public Location getSafeRandLoc() {
+		World w = getWorld();
+	
+		int tpx = UHUtils.randomInt(limits.get(XLIMITN),limits.get(XLIMITP));
+		int tpz = UHUtils.randomInt(limits.get(ZLIMITN),limits.get(ZLIMITP));
+		int tpy = 250;
+		while (w.getBlockAt(tpx, tpy, tpz).getType().equals(Material.AIR))
+			tpy--;
+		if (!w.getBlockAt(tpx, tpy, tpz).isLiquid())
+			return new Location(w, tpx+0.5, tpy+2, tpz+0.5);
+		else
+			return getSafeRandLoc();
 	}
 	
 	public void startChrono() {
@@ -416,7 +454,7 @@ public class OpenUHC extends JavaPlugin {
 	 * Get ingame players
 	 * @return a list of ingame players
 	 */
-	public ArrayList<Player> getPlayers() {
+	public ArrayList<String> getPlayers() {
 		return this.joueurs;
 	}
 	

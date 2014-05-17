@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import net.zyuiop.openUHC.OpenUHC;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
      
@@ -54,13 +53,25 @@ public class RetrecirCount extends BukkitRunnable {
                 case 5:
                 	time = "5 " + plugin.localize("seconds");
                 	break;
+                case 4:
+                	time = "4 " + plugin.localize("seconds");
+                	break;
+                case 3:
+                	time = "3 " + plugin.localize("seconds");
+                	break;
+                case 2:
+                	time = "2 " + plugin.localize("seconds");
+                	break;
+                case 1:
+                	time = "1 " + plugin.localize("seconds");
+                	break;
                 	
                 }
                 if (time != null) {
-                	Bukkit.broadcastMessage(msg.replace("{COORDINATES}", "x(" + nlimits.get(0)+","+nlimits.get(1)+") z("+nlimits.get(2)+","+nlimits.get(3)+"").replace("{TIME}", time));
+                	Bukkit.broadcastMessage(msg.replace("{COORDINATES}", "x(" + nlimits.get(0)+","+nlimits.get(1)+") z("+nlimits.get(2)+","+nlimits.get(3)+")").replace("{TIME}", time));
                 	for (Player p : Bukkit.getOnlinePlayers()) {
-                		if (!plugin.isInLimits(p.getLocation().getBlockX(),p.getLocation().getBlockZ())) {
-                			p.sendMessage(ChatColor.RED+"Vous êtes EN DEHORS des prochaines limites !");
+                		if (!plugin.isInLimits(p.getLocation().getBlockX(),p.getLocation().getBlockZ(), nlimits)) {
+                			p.sendMessage(plugin.localize("out_of_new_limits"));
                 		}
                 	}
                 }

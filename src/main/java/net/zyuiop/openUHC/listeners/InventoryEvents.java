@@ -1,8 +1,6 @@
 package net.zyuiop.openUHC.listeners;
 
 
-import java.util.Map;
-
 import net.zyuiop.openUHC.OpenUHC;
 
 import org.bukkit.Bukkit;
@@ -13,7 +11,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
@@ -49,7 +46,8 @@ public class InventoryEvents implements Listener {
 	
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
-		if (e.getInventory().getName() == pl.localize("compass_inv_name")) {
+		
+		if (e.getInventory().getName().equals(pl.localize("compass_inv_name"))) {
 			if (e.getWhoClicked() instanceof Player) {
 				Player p = (Player) e.getWhoClicked();
 				if (pl.getSpectatorManager().isSpectator(p)) {
