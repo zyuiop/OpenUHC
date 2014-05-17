@@ -511,5 +511,9 @@ public class OpenUHC extends JavaPlugin {
 			tran = ChatColor.translateAlternateColorCodes('&', tran); //Colors
 		return tran;
 	}
+	
+	public void onDisable() {
+		c.end();
+	}
 }
 
