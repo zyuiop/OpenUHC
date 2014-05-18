@@ -31,14 +31,7 @@ public class PlayerEvents implements Listener {
 	
 	@EventHandler
 	public void joinEvent(PlayerLoginEvent e) {
-		if (pl.logout_times.containsKey(e.getPlayer().getUniqueId()) && pl.getGame().getStarted()) {
-			int max_minutes = pl.getConfig().getInt("logout_time", 15);
-			long difference = new Date().getTime() - pl.logout_times.get(e.getPlayer().getUniqueId()).getTime();
-			if (difference >= max_minutes * 60 * 1000) {
-				pl.deletePlayer(e.getPlayer().getName());
-				e.disallow(Result.KICK_OTHER, pl.localize("kick_logout_too_long"));
-			}
-		}
+		
 		if (!pl.getGame().canJoin() && !e.getPlayer().hasPermission("uhpl.join") && !pl.isIngame(e.getPlayer())) {
 			if(pl.getConfig().getBoolean("allow_spectators")) {
 				pl.getSpectatorManager().addPlayer(e.getPlayer());
@@ -48,6 +41,15 @@ public class PlayerEvents implements Listener {
 			e.disallow(Result.KICK_OTHER, pl.localize("game_already_started"));
 			return;
 		}
+		if (pl.logout_times.containsKey(e.getPlayer().getUniqueId()) && pl.getGame().getStarted() && pl.isIngame(e.getPlayer())) {
+			int max_minutes = pl.getConfig().getInt("logout_time", 15);
+			long difference = new Date().getTime() - pl.logout_times.get(e.getPlayer().getUniqueId()).getTime();
+			if (difference >= max_minutes * 60 * 1000) {
+				pl.deletePlayer(e.getPlayer().getName());
+				e.disallow(Result.KICK_OTHER, pl.localize("kick_logout_too_long"));
+			} 
+		}
+		
 		
 			
 	}
