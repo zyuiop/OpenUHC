@@ -513,7 +513,7 @@ public class OpenUHC extends JavaPlugin {
 	}
 	
 	public void onDisable() {
-		c.end();
+		if (c != null) c.end();
 	}
 }
 

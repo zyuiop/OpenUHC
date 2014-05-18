@@ -31,7 +31,7 @@ public class PlayerEvents implements Listener {
 	
 	@EventHandler
 	public void joinEvent(PlayerLoginEvent e) {
-		if (pl.logout_times.containsKey(e.getPlayer().getUniqueId())) {
+		if (pl.logout_times.containsKey(e.getPlayer().getUniqueId()) && pl.getGame().getStarted()) {
 			int max_minutes = pl.getConfig().getInt("logout_time", 15);
 			long difference = new Date().getTime() - pl.logout_times.get(e.getPlayer().getUniqueId()).getTime();
 			if (difference >= max_minutes * 60 * 1000) {
@@ -67,7 +67,7 @@ public class PlayerEvents implements Listener {
 	}
 	@EventHandler
 	public void onQuit(PlayerQuitEvent e) {
-		pl.logout_times.put(e.getPlayer().getUniqueId(), new Date());
+		 if (pl.getGame().getStarted()) pl.logout_times.put(e.getPlayer().getUniqueId(), new Date());
 	}
 	@EventHandler
 	public void onMove(PlayerMoveEvent e) {
