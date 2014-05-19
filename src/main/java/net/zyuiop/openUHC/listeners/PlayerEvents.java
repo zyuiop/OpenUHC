@@ -3,7 +3,9 @@ package net.zyuiop.openUHC.listeners;
 import java.util.Date;
 
 import net.zyuiop.openUHC.OpenUHC;
+import net.zyuiop.openUHC.teams.UHTeam;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -70,6 +72,23 @@ public class PlayerEvents implements Listener {
 	@EventHandler
 	public void onQuit(PlayerQuitEvent e) {
 		 if (pl.getGame().getStarted()) pl.logout_times.put(e.getPlayer().getUniqueId(), new Date());
+		 Player p = e.getPlayer();
+		 if (pl.isIngame(p) && pl.getPlayers().size() == 2) {
+			 pl.deletePlayer(p.getName());
+		 } else if (pl.isIngame(p) && pl.teamManager().getTeamsList().size() == 2) {
+			 UHTeam playerTeam = pl.getTeam(p.getName());
+			 if (playerTeam != null) {
+				 // On vérifie si l'équipe est vide
+				 for (String joueur : playerTeam.getPlayers()) {
+					 if (Bukkit.getPlayer(joueur) != null && !joueur.equals(p.getName()))
+						return;
+				 }
+				 // Equipe vide : on déclare la victoire
+				 pl.localize("team_stumped").replace("{TEAM}", playerTeam.getColorizedName());
+				 pl.teamManager().deleteTeam(playerTeam.getName());
+				 pl.deletePlayer(p.getName());
+			 }
+		 }
 	}
 	@EventHandler
 	public void onMove(PlayerMoveEvent e) {
